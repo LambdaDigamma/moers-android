@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Mein Moers</string>
+
+    <string name="tab_dashboard">Dashboard</string>
+    <string name="tab_news">News</string>
+    <string name="tab_map">Map</string>
+    <string name="tab_events">Events</string>
+    <string name="tab_other">Other</string>
+
 </resources>
