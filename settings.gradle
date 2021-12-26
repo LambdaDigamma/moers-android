@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Mein Moers"
 include ':app'
+include ':newsfeature'

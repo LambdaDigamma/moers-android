@@ -1,0 +1,136 @@
+fastlane_require "dotenv"
+
+default_platform(:android)
+
+before_all do
+  Dotenv.load ".env.secret"
+end
+
+platform :android do
+
+  # ---- Signing ----- #
+
+  desc "Get signing report"
+  lane :signing_report do
+    UI.message "Retrieving signing report"
+    gradle(
+      task: 'signingReport'
+    )
+  end
+
+  desc "Test the env setup"
+  lane :testenv do
+    UI.message "Service Account Key File: #{ENV.key?('ANDROID_JSON_KEY_FILE') ? "✅" : "❌"}"
+    UI.message "Package Name: #{ENV.key?('ANDROID_PACKAGE_NAME') ? "✅" : "❌"}"
+    UI.message "Signing Keystore: #{ENV.key?('ANDROID_KEYSTORE_PATH') ? "✅" : "❌"}"
+    UI.message "Signing Keystore Password: #{ENV.key?('ANDROID_KEYSTORE_PASSWORD') ? "✅" : "❌"}"
+    UI.message "Signing Key Alias: #{ENV.key?('ANDROID_KEY_ALIAS') ? "✅" : "❌"}"
+    UI.message "Signing Key Password: #{ENV.key?('ANDROID_KEY_PASSWORD') ? "✅" : "❌"}"
+  end
+
+  # ---- Metadata & Version Handling ---- #
+
+  desc "Increment version code"
+  lane :increment_version_code do
+    gradle(
+      task: "incrementVersionCode"
+    )
+  end
+
+  desc "Increment version"
+  lane :increment_version do |options|
+    mode = options[:mode] || 'patch'
+
+    if ['patch', 'minor', 'major'].include? mode
+      UI.message "Incrementing Version: #{mode}"
+  
+      gradle(
+        task: "incrementVersion",
+        properties: {
+          "mode" => mode
+        }
+      )
+    else
+      UI.error("Unknown mode: #{mode}")
+    end
+
+  end
+  
+  desc "Download metadata from Google Play"
+  lane :load_metadata do
+    download_from_play_store
+  end
+
+  # ---- Testing ---- #
+
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  # ---- Screenshots ---- #
+
+  desc "Build debug and test APK for screenshots"
+  lane :build_for_screengrab do
+    gradle(
+      task: 'clean'
+    )
+    build_android_app(
+      task: 'assemble',
+      build_type: 'Debug'
+    )
+    build_android_app(
+      task: 'assemble',
+      build_type: 'AndroidTest'
+    )
+  end
+
+  desc "Take screenshots"
+  lane :screenshots do
+    build_for_screengrab()
+    screengrab(
+      launch_arguments: [
+        # "argument value"
+      ]
+    )
+  end
+
+  # ---- Deployment ---- #
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do |options|
+
+    # Ensure the branch is clean and current branch is main
+    # ensure_git_status_clean
+    # ensure_git_branch(branch: 'main')
+    
+    increment_version()
+    increment_version_code()
+
+    # version = UI.input("Enter the version number (x.y.z):")
+
+    UI.header "Deploying a new version to Google Play"
+
+    # version = options[:version]
+
+    gradle(
+      task: 'clean'
+    )
+    gradle(
+      task: "bundle",
+      build_type: "Release",
+      properties: {
+        "android.injected.signing.store.file" => ENV['ANDROID_KEYSTORE_PATH'],
+        "android.injected.signing.store.password" => ENV["ANDROID_KEYSTORE_PASSWORD"],
+        "android.injected.signing.key.alias" => ENV["ANDROID_KEY_ALIAS"],
+        "android.injected.signing.key.password" => ENV["ANDROID_KEY_PASSWORD"]
+      }
+    )
+
+    upload_to_play_store(
+      track: 'internal',
+      release_status: 'draft',
+    )
+  end
+  
+end
