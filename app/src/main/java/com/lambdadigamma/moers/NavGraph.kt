@@ -5,35 +5,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import com.lambdadigamma.moers.dashboard.DashboardScreen
 import com.lambdadigamma.moers.events.ui.EventsScreen
 import com.lambdadigamma.moers.explore.ExploreScreen
+import com.lambdadigamma.moers.onboarding.OnboardingAboutScreen
+import com.lambdadigamma.moers.onboarding.OnboardingUserTypeScreen
 import com.lambdadigamma.moers.onboarding.OnboardingWelcomeScreen
 import com.lambdadigamma.moers.search.SearchScreen
-
-object Destinations {
-    object Onboarding {
-        const val start = "start"
-    }
-
-    const val dashboard = "dashboard"
-    const val explore = "explore"
-    const val map = "map"
-    const val events = "events"
-    const val search = "search"
-    const val other = "other"
-}
 
 @Composable
 fun NavGraph(
     modifier: Modifier = Modifier,
     finishActivity: () -> Unit = {},
     navController: NavHostController = rememberNavController(),
-    startDestination: String = Destinations.dashboard,
+    startDestination: String = Destinations.Onboarding.graph,
     showOnboardingInitially: Boolean = true
 ) {
     // Onboarding could be read from shared preferences.
@@ -41,38 +32,42 @@ fun NavGraph(
         mutableStateOf(!showOnboardingInitially)
     }
 
-//    val actions = remember(navController) { MainActions(navController) }
+    val actions = remember(navController) { MainActions(navController) }
+    val onboardingActions = remember(navController) { OnboardingActions(navController) }
 
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(Destinations.Onboarding.start) {
-            BackHandler {
-                finishActivity()
-            }
-            OnboardingWelcomeScreen(
-                onboardingComplete = {
-                    onboardingComplete.value = true
+        navigation(Destinations.Onboarding.welcome, Destinations.Onboarding.graph) {
+            composable(Destinations.Onboarding.welcome) { backStackEntry: NavBackStackEntry ->
+                BackHandler {
+                    // Intercept back in Onboarding: make it finish the activity
+                    finishActivity()
                 }
-            )
-        }
-//        composable(MainDestinations.ONBOARDING_ROUTE) {
-//            // Intercept back in Onboarding: make it finish the activity
-//            BackHandler {
-//                finishActivity()
-//            }
-//
-//            Onboarding(
+                OnboardingWelcomeScreen(
+                    onNext = {
+                        onboardingActions.continueToPrivacy(backStackEntry)
+                    }
+                )
 //                onboardingComplete = {
-//                    // Set the flag so that onboarding is not shown next time.
 //                    onboardingComplete.value = true
 //                    actions.onboardingComplete()
 //                }
-//            )
-//        }
+            }
+            composable(Destinations.Onboarding.about) { backStackEntry: NavBackStackEntry ->
+                OnboardingAboutScreen(onContinue = {
+                    onboardingActions.continueToUserTypeSelection(backStackEntry)
+                })
+            }
+            composable(Destinations.Onboarding.userTypeSelection) {
+                OnboardingUserTypeScreen()
+            }
+        }
         composable(route = Destinations.dashboard) {
-            DashboardScreen()
+            DashboardScreen(onOpenSettings = {
+
+            })
         }
         composable(route = Destinations.explore) {
             ExploreScreen()

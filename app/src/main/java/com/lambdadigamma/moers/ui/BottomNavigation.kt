@@ -1,9 +1,9 @@
 package com.lambdadigamma.moers.ui
 
-import androidx.compose.material.BottomAppBar
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -21,9 +21,10 @@ fun BottomBar(navController: NavController, tabs: Array<AppTab>) {
     val routes = remember { AppTab.values().map { it.route } }
 
     if (currentRoute in routes) {
-        BottomAppBar {
+
+        NavigationBar {
             tabs.forEach { tab ->
-                BottomNavigationItem(
+                NavigationBarItem(
                     icon = { Icon(painterResource(tab.icon), contentDescription = null) },
                     label = {
                         Text(text = stringResource(id = tab.title))
@@ -39,8 +40,7 @@ fun BottomBar(navController: NavController, tabs: Array<AppTab>) {
                                 restoreState = true
                             }
                         }
-                    },
-                    alwaysShowLabel = false
+                    }
                 )
             }
         }

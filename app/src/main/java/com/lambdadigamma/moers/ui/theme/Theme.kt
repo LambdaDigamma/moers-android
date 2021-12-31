@@ -1,23 +1,25 @@
 package com.lambdadigamma.moers.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 
-private val DarkColorPalette = darkColors(
-    primary = black,
-    primaryVariant = black,
+private val DarkColorPalette = darkColorScheme(
+    background = black,
+    primary = yellow500,
+//    primaryVariant = yellow500,
     secondary = gray900,
-    onPrimary = white,
+    onPrimary = black,
+    onBackground = white
 )
 
-private val LightColorPalette = lightColors(
-    primary = white,
-    primaryVariant = gray100,
+private val LightColorPalette = lightColorScheme(
+    primary = black,
+//    primaryVariant = black,
     secondary = gray500,
-    onPrimary = black,
+    onPrimary = white,
 
     /* Other default colors to override
     background = Color.White,
@@ -38,9 +40,8 @@ fun MeinMoersTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composa
     }
 
     MaterialTheme(
-        colors = colors,
+        colorScheme = colors,
         typography = Typography,
-        shapes = Shapes,
         content = content
     )
 }
