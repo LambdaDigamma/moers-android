@@ -3,9 +3,18 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
     }
 }
+
+pluginManagement {
+    repositories {
+        google()
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
 rootProject.name = "Mein Moers"
-include ':app'
-include ':newsfeature'
+
+include(":app")
+include(":newsfeature")

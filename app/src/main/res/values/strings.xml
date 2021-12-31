@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Mein Moers</string>
+    <string name="navigation_dashboard">Dashboard</string>
+    <string name="navigation_explore">Explore</string>
+    <string name="navigation_map">Map</string>
+    <string name="navigation_events">Events</string>
+    <string name="navigation_search">Search</string>
+    <string name="navigation_other">Other</string>
 </resources>

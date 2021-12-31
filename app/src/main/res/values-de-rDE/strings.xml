@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Mein Moers</string>
+    <string name="navigation_dashboard">Übersicht</string>
+    <string name="navigation_explore">Erkunden</string>
+    <string name="navigation_map">Karte</string>
+    <string name="navigation_events">Veranstaltungen</string>
+    <string name="navigation_search">Suchen</string>
+    <string name="navigation_other">Sonstiges</string>
+</resources>
