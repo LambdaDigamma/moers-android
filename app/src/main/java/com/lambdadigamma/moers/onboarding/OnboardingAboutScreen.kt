@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.lambdadigamma.moers.R
+import com.lambdadigamma.moers.onboarding.ui.OnboardingHost
 
 @Composable
 fun OnboardingAboutScreen(onContinue: () -> Unit) {

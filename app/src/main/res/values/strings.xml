@@ -34,7 +34,18 @@
     <string name="feature_waste_schedule_text">The waste schedule informs you about the next pick-up dates.</string>
     <string name="feature_transit_title">Public transport</string>
     <string name="feature_transit_text">Get information about arrival and departure times of buses and trains.</string>
-    <string name="onboarding_user_type_activated_features">Activated features</string>
+    <string name="onboarding_user_type_activated_features">Your selection activates:</string>
     <string name="onboarding_user_type_features_footer">These features are enabled based on your selection. You can adjust the settings at any time.</string>
     <string name="onboarding_user_type_cta">Proceed with selection</string>
+    <string name="onboarding_location_title">Location</string>
+    <string name="onboarding_location_info_title">Your device has a gps capabilities</string>
+    <string name="onboarding_location_info_intro">The app can conscientiously use your current location to find places, affordable fuel stations or parking lots near you.</string>
+    <string name="onboarding_location_info_transparency">Transparency comes first, so you\'ll find a detailed list of how and what location information is used for.</string>
+    <string name="onboarding_location_no_location_disclaimer">The app works well regardless of your location permission. It\' s entirely up to you.</string>
+    <string name="location_reason_fuel_title">Fuel station prices</string>
+    <string name="location_reason_fuel_text">Get the next fuel prices in your area at a glance.</string>
+    <string name="location_reason_waste_schedule_title">Setup of the waste schedule</string>
+    <string name="location_reason_waste_schedule_text">Find your street quickly when setting up.</string>
+    <string name="onboarding_location_enable_cta">Activate gps</string>
+    <string name="onboarding_location_not_now_cta">Not now</string>
 </resources>

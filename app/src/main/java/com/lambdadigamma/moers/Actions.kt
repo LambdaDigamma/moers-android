@@ -35,6 +35,12 @@ class OnboardingActions(navController: NavHostController) {
         }
     }
 
+    val continueToLocation = { from: NavBackStackEntry ->
+        if (from.lifecycleIsResumed()) {
+            navController.navigate(Destinations.Onboarding.location)
+        }
+    }
+
 }
 
 /**

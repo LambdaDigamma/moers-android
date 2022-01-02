@@ -6,6 +6,7 @@ object Destinations {
         const val welcome = "onboarding/welcome"
         const val about = "onboarding/about"
         const val userTypeSelection = "onboarding/user-type"
+        const val location = "onboarding/location"
         const val rubbishStreet = "onboarding/rubbishStreet"
     }
 

@@ -4,7 +4,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -15,13 +14,13 @@ import com.lambdadigamma.moers.dashboard.DashboardScreen
 import com.lambdadigamma.moers.events.ui.EventsScreen
 import com.lambdadigamma.moers.explore.ExploreScreen
 import com.lambdadigamma.moers.onboarding.OnboardingAboutScreen
+import com.lambdadigamma.moers.onboarding.OnboardingLocationScreen
 import com.lambdadigamma.moers.onboarding.OnboardingUserTypeScreen
 import com.lambdadigamma.moers.onboarding.OnboardingWelcomeScreen
 import com.lambdadigamma.moers.search.SearchScreen
 
 @Composable
 fun NavGraph(
-    modifier: Modifier = Modifier,
     finishActivity: () -> Unit = {},
     navController: NavHostController = rememberNavController(),
     startDestination: String = Destinations.Onboarding.graph,
@@ -60,8 +59,13 @@ fun NavGraph(
                     onboardingActions.continueToUserTypeSelection(backStackEntry)
                 })
             }
-            composable(Destinations.Onboarding.userTypeSelection) {
-                OnboardingUserTypeScreen()
+            composable(Destinations.Onboarding.userTypeSelection) { backStackEntry: NavBackStackEntry ->
+                OnboardingUserTypeScreen(onContinue = {
+                    onboardingActions.continueToLocation(backStackEntry)
+                })
+            }
+            composable(Destinations.Onboarding.location) {
+                OnboardingLocationScreen()
             }
         }
         composable(route = Destinations.dashboard) {

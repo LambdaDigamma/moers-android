@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.lambdadigamma.moers.R
+import com.lambdadigamma.moers.onboarding.ui.OnboardingHost
 
 enum class UserType {
     CITIZEN,
@@ -29,7 +30,7 @@ enum class UserType {
 
 // Maybe later this could be become the hometown selection?
 @Composable
-fun OnboardingUserTypeScreen() {
+fun OnboardingUserTypeScreen(onContinue: () -> Unit) {
 
     val selectedUserType = remember { mutableStateOf(UserType.CITIZEN) }
 
@@ -139,7 +140,7 @@ fun OnboardingUserTypeScreen() {
         },
         bottomContent = {
             Button(
-                onClick = { },
+                onClick = onContinue,
                 modifier = Modifier.fillMaxWidth(),
                 contentPadding = PaddingValues(16.dp),
             ) {
@@ -156,7 +157,7 @@ fun OnboardingUserTypeScreen() {
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun FeatureRow(title: String, text: String, checked: Boolean = false) {
+fun FeatureRow(title: String, text: String, checked: Boolean = false, standalone: Boolean = false) {
 
     Row(
         modifier = Modifier
@@ -168,7 +169,7 @@ fun FeatureRow(title: String, text: String, checked: Boolean = false) {
             verticalArrangement = Arrangement.spacedBy(4.dp),
             modifier = Modifier
                 .weight(1f)
-                .alpha(if (checked) 1f else 0.3f)
+                .alpha(if (standalone) 1f else if (checked) 1f else 0.3f)
         ) {
             Text(
                 text = title,
@@ -180,7 +181,7 @@ fun FeatureRow(title: String, text: String, checked: Boolean = false) {
 
         Box(modifier = Modifier.size(24.dp)) {
 
-            if (checked) {
+            if (checked && !standalone) {
                 Box(
                     modifier = Modifier
                         .size(24.dp)
