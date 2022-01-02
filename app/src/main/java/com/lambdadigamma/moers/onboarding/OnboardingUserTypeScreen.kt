@@ -3,10 +3,8 @@ package com.lambdadigamma.moers.onboarding
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
@@ -23,7 +21,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.lambdadigamma.moers.R
-import com.lambdadigamma.moers.onboarding.ui.OnboardingTopBar
 
 enum class UserType {
     CITIZEN,
@@ -35,17 +32,10 @@ enum class UserType {
 fun OnboardingUserTypeScreen() {
 
     val selectedUserType = remember { mutableStateOf(UserType.CITIZEN) }
-    val scrollState = rememberScrollState()
 
-    Column {
-
-        OnboardingTopBar(text = stringResource(R.string.onboarding_user_type_title))
-
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .verticalScroll(scrollState)
-        ) {
+    OnboardingHost(
+        title = stringResource(R.string.onboarding_user_type_title),
+        content = {
             Column(
                 modifier = Modifier
                     .padding(16.dp)
@@ -78,8 +68,6 @@ fun OnboardingUserTypeScreen() {
                     }
                 }
 
-//                Spacer(modifier = Modifier.height(24.dp))
-
             }
 
             Column(
@@ -91,7 +79,7 @@ fun OnboardingUserTypeScreen() {
                     Column(modifier = Modifier.padding(16.dp)) {
 
                         Text(
-                            text = "Aktivierte Funktionen",
+                            text = stringResource(R.string.onboarding_user_type_activated_features),
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                             fontWeight = FontWeight.SemiBold,
                             style = MaterialTheme.typography.titleMedium
@@ -148,13 +136,8 @@ fun OnboardingUserTypeScreen() {
 
                 }
             }
-        }
-
-
-        Divider()
-
-        Column(modifier = Modifier.padding(16.dp)) {
-
+        },
+        bottomContent = {
             Button(
                 onClick = { },
                 modifier = Modifier.fillMaxWidth(),
@@ -166,10 +149,8 @@ fun OnboardingUserTypeScreen() {
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
-
         }
-
-    }
+    )
 
 }
 

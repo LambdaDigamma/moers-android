@@ -13,6 +13,8 @@
     <string name="onboarding_privacy_terms">AGBs</string>
     <string name="onboarding_privacy_privacy">Datenschutz</string>
     <string name="onboarding_privacy_card_info">Weitere Informationen zu den Allgemeinen Geschäftsbedingungen und Datenschutzbestimmungen findest du hier.</string>
+    <string name="onboarding_privacy_consent">Durch Fortfahren stimmst Du den AGBs zu und nimmst die Datenschutzerklärung zur Kenntnis.</string>
+    <string name="onboarding_about_title">Über diese App</string>
     <string name="onboarding_about_cta">Mach mit</string>
     <string name="onboarding_about_contribute_title">Mitarbeit</string>
     <string name="onboarding_about_terms_title">Nervig, aber notwendig</string>
@@ -32,6 +34,7 @@
     <string name="feature_waste_schedule_text">Der Abfallkalender zeigt Dir die nächsten Abholtermine an.</string>
     <string name="feature_transit_title">Nahverkehr</string>
     <string name="feature_transit_text">Erhalte Informationen über Ankunfts- und Abfahrtszeiten von Bussen und Zügen.</string>
-    <string name="onboarding_user_type_features_footer">Du kannst jederzeit Änderungen in den Einstellungen vornehmen.</string>
+    <string name="onboarding_user_type_activated_features">Aktivierte Funktionen</string>
+    <string name="onboarding_user_type_features_footer">Diese Funktionen werden durch Deine Auswahl eingeschaltet. Du kannst jederzeit Änderungen in den Einstellungen vornehmen.</string>
     <string name="onboarding_user_type_cta">Mit Auswahl fortfahren</string>
 </resources>

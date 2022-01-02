@@ -3,11 +3,8 @@ package com.lambdadigamma.moers.onboarding
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
-import androidx.compose.material.Divider
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -22,60 +19,32 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.lambdadigamma.moers.R
-import com.lambdadigamma.moers.onboarding.ui.OnboardingTopBar
 
 @Composable
 fun OnboardingAboutScreen(onContinue: () -> Unit) {
 
-    val scrollState = rememberScrollState()
-
-    Column(modifier = Modifier.verticalScroll(scrollState)) {
-
-        OnboardingTopBar(text = "Über diese App")
-
-//        Column {
-//            OnboardingSteps(modifier = Modifier.padding(16.dp))
-//            Divider()
-//        }
-
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(top = 16.dp, bottom = 16.dp),
-//                .fillMaxSize()
-//                .weight(1f),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-
-            OpenDataInfoCard()
-
-            ContributeInfoCard()
-
-//            Card(
-//                border = BorderStroke(1.dp, color = MaterialTheme.colorScheme.outline),
-//                backgroundColor = MaterialTheme.colorScheme.surface,
-//                shape = RoundedCornerShape(12.dp),
-//                modifier = Modifier.fillMaxWidth()
-//            ) {
-//
-//                Column(modifier = Modifier.padding(16.dp)) {
-//                    Text(
-//                        text = "Die App speichert Deine Einstellungen nur lokal auf dem Gerät.",
-//                        style = MaterialTheme.typography.bodyMedium
-//                    )
-//                }
-//
-//            }
-
-            TermsAndPrivacyInfoCard()
-
-        }
-
-        Column {
-            Divider()
+    OnboardingHost(
+        title = stringResource(R.string.onboarding_about_title),
+        content = {
             Column(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp, bottom = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+
+                OpenDataInfoCard()
+
+                ContributeInfoCard()
+
+                TermsAndPrivacyInfoCard()
+
+            }
+        },
+        bottomContent = {
+
+            Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Button(
@@ -92,15 +61,14 @@ fun OnboardingAboutScreen(onContinue: () -> Unit) {
                 }
 
                 Text(
-                    text = "Durch Fortfahren stimmst Du den AGBs zu und nimmst die Datenschutzerklärung zur Kenntnis.",
+                    text = stringResource(R.string.onboarding_privacy_consent),
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
         }
-
-    }
+    )
 
 }
 

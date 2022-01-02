@@ -13,6 +13,8 @@
     <string name="onboarding_privacy_terms">Terms</string>
     <string name="onboarding_privacy_privacy">Privacy</string>
     <string name="onboarding_privacy_card_info">For more information about the terms and conditions and privacy policy, please see here.</string>
+    <string name="onboarding_privacy_consent">By continuing, you agree to the terms and conditions and acknowledge the privacy policy.</string>
+    <string name="onboarding_about_title">About this app</string>
     <string name="onboarding_about_cta">Contribute</string>
     <string name="onboarding_about_contribute_title">How to contribute</string>
     <string name="onboarding_about_terms_title">Annoying but necessary</string>
@@ -32,6 +34,7 @@
     <string name="feature_waste_schedule_text">The waste schedule informs you about the next pick-up dates.</string>
     <string name="feature_transit_title">Public transport</string>
     <string name="feature_transit_text">Get information about arrival and departure times of buses and trains.</string>
-    <string name="onboarding_user_type_features_footer">You can adjust the settings at any time.</string>
+    <string name="onboarding_user_type_activated_features">Activated features</string>
+    <string name="onboarding_user_type_features_footer">These features are enabled based on your selection. You can adjust the settings at any time.</string>
     <string name="onboarding_user_type_cta">Proceed with selection</string>
 </resources>
