@@ -7,7 +7,9 @@ object Destinations {
         const val about = "onboarding/about"
         const val userTypeSelection = "onboarding/user-type"
         const val location = "onboarding/location"
+        const val notifications = "onboarding/notifications"
         const val rubbishStreet = "onboarding/rubbishStreet"
+        const val petrol = "onboarding/petrol"
     }
 
     const val dashboard = "dashboard"

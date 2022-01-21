@@ -13,10 +13,7 @@ import androidx.navigation.navigation
 import com.lambdadigamma.moers.dashboard.DashboardScreen
 import com.lambdadigamma.moers.events.ui.EventsScreen
 import com.lambdadigamma.moers.explore.ExploreScreen
-import com.lambdadigamma.moers.onboarding.OnboardingAboutScreen
-import com.lambdadigamma.moers.onboarding.OnboardingLocationScreen
-import com.lambdadigamma.moers.onboarding.OnboardingUserTypeScreen
-import com.lambdadigamma.moers.onboarding.OnboardingWelcomeScreen
+import com.lambdadigamma.moers.onboarding.*
 import com.lambdadigamma.moers.search.SearchScreen
 
 @Composable
@@ -65,7 +62,15 @@ fun NavGraph(
                 })
             }
             composable(Destinations.Onboarding.location) {
-                OnboardingLocationScreen()
+                OnboardingLocationScreen(onContinue = {
+                    onboardingActions.continueToPetrol(it)
+                })
+            }
+            composable(Destinations.Onboarding.notifications) {
+                OnboardingNotificationScreen()
+            }
+            composable(Destinations.Onboarding.petrol) {
+                OnboardingPetrolScreen()
             }
         }
         composable(route = Destinations.dashboard) {

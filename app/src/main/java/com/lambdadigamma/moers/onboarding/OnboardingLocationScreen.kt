@@ -21,7 +21,7 @@ import com.lambdadigamma.moers.ui.theme.LegacyMeinMoersTheme
 import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
 
 @Composable
-fun OnboardingLocationScreen() {
+fun OnboardingLocationScreen(onContinue: () -> Unit) {
 
     OnboardingHost(
         title = stringResource(R.string.onboarding_location_title),
@@ -120,7 +120,7 @@ fun OnboardingLocationScreen() {
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Button(
-                    onClick = { },
+                    onClick = onContinue,
                     modifier = Modifier.fillMaxWidth(),
                     contentPadding = PaddingValues(16.dp),
                 ) {
@@ -144,7 +144,7 @@ fun OnboardingLocationScreen() {
 fun OnboardingLocationPreview() {
     MeinMoersTheme {
         LegacyMeinMoersTheme {
-            OnboardingLocationScreen()
+            OnboardingLocationScreen(onContinue = {})
         }
     }
 }

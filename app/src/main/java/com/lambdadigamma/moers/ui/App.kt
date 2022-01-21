@@ -21,7 +21,7 @@ fun App(finishActivity: () -> Unit) {
                 NavGraph(
                     finishActivity = finishActivity,
                     navController = navController,
-                    startDestination = Destinations.Onboarding.graph
+                    startDestination = Destinations.dashboard
                 )
             }
         }

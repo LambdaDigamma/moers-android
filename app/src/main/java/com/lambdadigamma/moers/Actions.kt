@@ -41,6 +41,18 @@ class OnboardingActions(navController: NavHostController) {
         }
     }
 
+    val continueToNotifications = { from: NavBackStackEntry ->
+        if (from.lifecycleIsResumed()) {
+            navController.navigate(Destinations.Onboarding.notifications)
+        }
+    }
+
+    val continueToPetrol = { from: NavBackStackEntry ->
+        if (from.lifecycleIsResumed()) {
+            navController.navigate(Destinations.Onboarding.petrol)
+        }
+    }
+
 }
 
 /**
