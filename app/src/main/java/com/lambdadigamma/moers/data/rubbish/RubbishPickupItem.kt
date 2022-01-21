@@ -1,4 +1,4 @@
-package com.lambdadigamma.moers.rubbish
+package com.lambdadigamma.moers.data.rubbish
 
 //import androidx.room.Entity
 //import com.google.gson.annotations.SerializedName

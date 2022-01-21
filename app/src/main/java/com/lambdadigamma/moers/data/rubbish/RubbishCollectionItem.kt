@@ -1,5 +1,8 @@
-package com.lambdadigamma.moers.rubbish
+package com.lambdadigamma.moers.data.rubbish
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -10,9 +13,11 @@ fun parseDate(date: String, format: String): Date? {
 
 }
 
+@Entity(tableName = "rubbish_collection_items")
 data class RubbishCollectionItem(
-    val date: String,
-    val type: RubbishWasteType
+    @PrimaryKey(autoGenerate = true) val id: Long,
+    @ColumnInfo(name = "date") val date: String,
+    @ColumnInfo(name = "type") val type: RubbishWasteType
 ) {
 
     val parsedDate: Date

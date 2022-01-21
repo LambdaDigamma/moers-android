@@ -14,7 +14,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.lambdadigamma.moers.rubbish.*
+import com.lambdadigamma.moers.data.rubbish.*
 import java.util.*
 
 @Composable

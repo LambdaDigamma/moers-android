@@ -16,6 +16,11 @@ var gradleVersion = "7.0.4"
 extra["kotlinVersion"] = kotlinVersion
 extra["gradleVersion"] = gradleVersion
 extra["composeVersion"] = "1.0.5"
+extra["datastoreVersion"] = "1.0.0"
+extra["protobufVersion"] = "3.19.0"
+
+extra["roomVersion"] = "2.4.1"
+extra["gsonVersion"] = "2.8.6"
 
 /**
  * The buildscript block is where you configure the repositories and
@@ -40,6 +45,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
 
     /**

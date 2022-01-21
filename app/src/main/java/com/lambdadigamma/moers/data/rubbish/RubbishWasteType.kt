@@ -1,8 +1,7 @@
-package com.lambdadigamma.moers.rubbish
+package com.lambdadigamma.moers.data.rubbish
 
 import androidx.compose.ui.graphics.Color
-
-//import com.google.gson.annotations.SerializedName
+import com.google.gson.annotations.SerializedName
 
 const val RUBBISH_WASTE_TYPE_KEY = "WASTE_TYPE"
 
@@ -29,19 +28,19 @@ fun localizedRubbishWasteType(type: RubbishWasteType): String {
 }
 
 enum class RubbishWasteType(val value: String) {
-    //    @SerializedName("residual")
+    @SerializedName("residual")
     RESIDUAL("residual"),
 
-    //    @SerializedName("organic")
+    @SerializedName("organic")
     ORGANIC("organic"),
 
-    //    @SerializedName("paper")
+    @SerializedName("paper")
     PAPER("paper"),
 
-    //    @SerializedName("plastic")
+    @SerializedName("plastic")
     PLASTIC("plastic"),
 
-    //    @SerializedName("cuttings")
+    @SerializedName("cuttings")
     CUTTINGS("cuttings")
 }
 

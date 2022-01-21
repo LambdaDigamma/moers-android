@@ -1,8 +1,14 @@
+import com.google.protobuf.gradle.generateProtoTasks
+import com.google.protobuf.gradle.plugins
+import com.google.protobuf.gradle.protobuf
+import com.google.protobuf.gradle.protoc
 import org.jetbrains.kotlin.util.capitalizeDecapitalize.toLowerCaseAsciiOnly
+
 
 plugins {
     id("com.android.application")
     kotlin("android")
+    id("com.google.protobuf") version "0.8.18"
 }
 
 /**
@@ -11,10 +17,15 @@ plugins {
 val minSdkVersion: Int by rootProject.extra
 val targetSdkVersion: Int by rootProject.extra
 val sdkVersion: Int by rootProject.extra
-val composeVersion: String by rootProject.extra
 
 val appVersion: String by rootProject.extra
 val appVersionCode: Int by rootProject.extra
+
+val composeVersion: String by rootProject.extra
+val roomVersion: String by rootProject.extra
+val datastoreVersion: String by rootProject.extra
+val protobufVersion: String by rootProject.extra
+val gsonVersion: String by rootProject.extra
 
 android {
     compileSdk = sdkVersion
@@ -76,6 +87,38 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
     debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
 
+    // Gson
+    implementation("com.google.code.gson:gson:$gsonVersion")
+
+    // Protobuf
+    implementation("com.google.protobuf:protobuf-javalite:$protobufVersion")
+
+    // Datastore
+    implementation("androidx.datastore:datastore:$datastoreVersion")
+    implementation("androidx.datastore:datastore-preferences:$datastoreVersion")
+
+    // Room Database
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    implementation("androidx.room:room-paging:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    testImplementation("androidx.room:room-testing:$roomVersion")
+
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:${protobufVersion}"
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.plugins {
+                create("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }
 
 tasks.create("incrementVersion") {

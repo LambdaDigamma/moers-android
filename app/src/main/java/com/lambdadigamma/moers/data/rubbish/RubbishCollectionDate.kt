@@ -1,4 +1,4 @@
-package com.lambdadigamma.moers.rubbish
+package com.lambdadigamma.moers.data.rubbish
 
 data class RubbishCollectionDate(
     val id: Int,
