@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun OnboardingHost(
     title: String,
+    shouldScroll: Boolean = true,
     content: @Composable () -> Unit,
     bottomContent: @Composable () -> Unit
 ) {
@@ -25,9 +26,11 @@ fun OnboardingHost(
         OnboardingTopBar(text = title)
 
         Column(
-            modifier = Modifier
-                .weight(1f)
-                .verticalScroll(scrollState)
+            modifier = if (shouldScroll) {
+                Modifier
+                    .weight(1f)
+                    .verticalScroll(scrollState)
+            } else Modifier.weight(1.0f)
         ) {
             content()
         }

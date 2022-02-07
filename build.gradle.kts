@@ -15,9 +15,13 @@ var gradleVersion = "7.0.4"
 
 extra["kotlinVersion"] = kotlinVersion
 extra["gradleVersion"] = gradleVersion
+extra["hiltVersion"] = "2.38.1"
 extra["composeVersion"] = "1.0.5"
 extra["datastoreVersion"] = "1.0.0"
 extra["protobufVersion"] = "3.19.0"
+extra["retrofitVersion"] = "2.9.0"
+extra["autofillVersion"] = "1.1.0"
+extra["gmsVersion"] = "19.0.1"
 
 extra["roomVersion"] = "2.4.1"
 extra["gsonVersion"] = "2.8.6"
@@ -56,6 +60,8 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:7.0.4")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.38.1")
+
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

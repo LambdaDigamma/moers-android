@@ -18,7 +18,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.lambdadigamma.moers.R
 import com.lambdadigamma.moers.data.rubbish.RubbishRepository
+import com.lambdadigamma.moers.data.rubbish.source.DefaultRubbishApiService
+import com.lambdadigamma.moers.data.rubbish.source.RubbishRemoteDataSource
 import com.lambdadigamma.moers.ui.TopBar
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
@@ -27,7 +30,11 @@ fun DashboardScreen(onOpenSettings: () -> Unit) {
     val context = LocalContext.current
 
     val rubbishRepository = RubbishRepository(
-        context = context
+        context = context,
+        remoteDataSource = RubbishRemoteDataSource(
+            rubbishApi = DefaultRubbishApiService.getRubbishService(),
+            ioDispatcher = Dispatchers.IO
+        )
     )
 
     val scope = rememberCoroutineScope()

@@ -5,8 +5,15 @@ option java_multiple_files = true;
 
 message RubbishSettings {
 
-  optional bool remindersEnabled = 2;
-  optional RubbishCollectionStreet rubbish_collection_street = 3;
+  optional RubbishCollectionStreet rubbish_collection_street = 2;
+
+  bool remindersEnabled = 5;
+  optional RubbishReminderTime reminderTime = 6;
+
+  message RubbishReminderTime {
+    uint32 hours = 1;
+    uint32 minutes = 2;
+  }
 
   message RubbishCollectionStreet {
 

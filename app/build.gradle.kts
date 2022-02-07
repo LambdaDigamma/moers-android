@@ -8,7 +8,9 @@ import org.jetbrains.kotlin.util.capitalizeDecapitalize.toLowerCaseAsciiOnly
 plugins {
     id("com.android.application")
     kotlin("android")
+    kotlin("kapt")
     id("com.google.protobuf") version "0.8.18"
+    id("dagger.hilt.android.plugin")
 }
 
 /**
@@ -21,11 +23,15 @@ val sdkVersion: Int by rootProject.extra
 val appVersion: String by rootProject.extra
 val appVersionCode: Int by rootProject.extra
 
+val hiltVersion: String by rootProject.extra
 val composeVersion: String by rootProject.extra
 val roomVersion: String by rootProject.extra
 val datastoreVersion: String by rootProject.extra
 val protobufVersion: String by rootProject.extra
 val gsonVersion: String by rootProject.extra
+val retrofitVersion: String by rootProject.extra
+val autofillVersion: String by rootProject.extra
+val gmsVersion: String by rootProject.extra
 
 android {
     compileSdk = sdkVersion
@@ -87,8 +93,19 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
     debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
 
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
+
+    // Google Play Services
+    implementation("com.google.android.gms:play-services-location:$gmsVersion")
+
     // Gson
     implementation("com.google.code.gson:gson:$gsonVersion")
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+    implementation("com.squareup.retrofit2:retrofit-mock:$retrofitVersion")
 
     // Protobuf
     implementation("com.google.protobuf:protobuf-javalite:$protobufVersion")
@@ -103,6 +120,9 @@ dependencies {
     implementation("androidx.room:room-paging:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     testImplementation("androidx.room:room-testing:$roomVersion")
+
+    // Autofill
+    implementation("androidx.autofill:autofill:$autofillVersion")
 
 }
 
@@ -119,6 +139,10 @@ protobuf {
             }
         }
     }
+}
+
+kapt {
+    correctErrorTypes = true
 }
 
 tasks.create("incrementVersion") {
