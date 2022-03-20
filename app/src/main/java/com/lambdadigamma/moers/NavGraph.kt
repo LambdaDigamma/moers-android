@@ -1,6 +1,7 @@
 package com.lambdadigamma.moers
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,6 +17,7 @@ import com.lambdadigamma.moers.explore.ExploreScreen
 import com.lambdadigamma.moers.onboarding.*
 import com.lambdadigamma.moers.search.SearchScreen
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavGraph(
     finishActivity: () -> Unit = {},

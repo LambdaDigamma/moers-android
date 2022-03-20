@@ -1,10 +1,7 @@
 package com.lambdadigamma.moers.onboarding
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,6 +18,7 @@ import com.lambdadigamma.moers.ui.theme.LegacyMeinMoersTheme
 import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
 
 @Composable
+@ExperimentalMaterial3Api
 fun OnboardingPetrolScreen() {
 
     val currentPetrolType = remember {
@@ -50,7 +48,7 @@ fun OnboardingPetrolScreen() {
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalAlignment = Alignment.Start
                 ) {
-                    
+
                     Text(
                         text = "Wähle einen Kraftstofftyp",
                         textAlign = TextAlign.Left,
@@ -116,6 +114,7 @@ fun OnboardingPetrolScreen() {
 
 @Preview
 @Composable
+@ExperimentalMaterial3Api
 fun OnboardingPetrolPreview() {
     MeinMoersTheme {
         LegacyMeinMoersTheme {

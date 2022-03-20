@@ -30,6 +30,7 @@ enum class UserType {
 
 // Maybe later this could be become the hometown selection?
 @Composable
+@ExperimentalMaterial3Api
 fun OnboardingUserTypeScreen(onContinue: () -> Unit) {
 
     val selectedUserType = remember { mutableStateOf(UserType.CITIZEN) }

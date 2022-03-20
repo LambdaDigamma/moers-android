@@ -14,7 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.lambdadigamma.moers.ui.theme.LegacyMeinMoersTheme
+import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
 
 enum class OnboardingStepState {
     NOT_COMPLETE,
@@ -25,14 +28,16 @@ enum class OnboardingStepState {
 data class OnboardingStep(val title: String, val state: OnboardingStepState)
 
 @Composable
-fun OnboardingSteps(modifier: Modifier = Modifier) {
-
-    val steps = arrayOf(
-        OnboardingStep("Privacy", OnboardingStepState.IN_PROGRESS),
-        OnboardingStep("Rubbish", OnboardingStepState.NOT_COMPLETE),
+fun OnboardingSteps(
+    modifier: Modifier = Modifier,
+    steps: Array<OnboardingStep> = arrayOf(
+        OnboardingStep("Privacy", OnboardingStepState.COMPLETE),
+        OnboardingStep("Rubbish", OnboardingStepState.IN_PROGRESS),
         OnboardingStep("Petrol", OnboardingStepState.NOT_COMPLETE),
         OnboardingStep("Finish", OnboardingStepState.NOT_COMPLETE),
     )
+) {
+
     val color = MaterialTheme.colorScheme.primary
     val circleSize = 24.dp
     val checkSize = 16.dp
@@ -114,4 +119,14 @@ fun OnboardingSteps(modifier: Modifier = Modifier) {
 
     }
 
+}
+
+@Preview
+@Composable
+fun OnboardingStepsPreview() {
+    LegacyMeinMoersTheme {
+        MeinMoersTheme {
+            OnboardingSteps(modifier = Modifier.padding(16.dp))
+        }
+    }
 }
