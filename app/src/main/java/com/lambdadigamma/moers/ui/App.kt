@@ -17,11 +17,17 @@ fun App(finishActivity: () -> Unit) {
         MeinMoersTheme {
             val tabs = remember { AppTab.values() }
             val navController = rememberNavController()
+
             Scaffold(bottomBar = { BottomBar(navController = navController, tabs) }) {
                 NavGraph(
                     finishActivity = finishActivity,
                     navController = navController,
                     startDestination = Destinations.Onboarding.graph
+//                    if (onboardingComplete.value) {
+//                        Destinations.dashboard
+//                    } else {
+//                        Destinations.Onboarding.graph
+//                    }
                 )
             }
         }

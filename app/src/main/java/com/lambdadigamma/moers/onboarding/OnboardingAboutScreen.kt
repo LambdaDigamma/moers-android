@@ -3,12 +3,7 @@ package com.lambdadigamma.moers.onboarding
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -18,11 +13,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.lambdadigamma.moers.Global
 import com.lambdadigamma.moers.R
 import com.lambdadigamma.moers.onboarding.ui.OnboardingHost
 
 @Composable
-fun OnboardingAboutScreen(onContinue: () -> Unit) {
+fun OnboardingAboutScreen(
+    onContinue: () -> Unit,
+    viewModel: OnboardingViewModel,
+) {
 
     OnboardingHost(
         title = stringResource(R.string.onboarding_about_title),
@@ -73,13 +72,12 @@ fun OnboardingAboutScreen(onContinue: () -> Unit) {
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OpenDataInfoCard() {
 
-    Card(
-        shape = RoundedCornerShape(12.dp),
-        elevation = 2.dp
-    ) {
+    ElevatedCard {
+
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -117,13 +115,12 @@ fun OpenDataInfoCard() {
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContributeInfoCard() {
 
-    Card(
-        shape = RoundedCornerShape(12.dp),
-        elevation = 2.dp
-    ) {
+    ElevatedCard {
+
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -165,13 +162,11 @@ fun ContributeInfoCard() {
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TermsAndPrivacyInfoCard() {
 
-    Card(
-        backgroundColor = MaterialTheme.colorScheme.surfaceVariant,
-        shape = RoundedCornerShape(12.dp)
-    ) {
+    ElevatedCard(containerColor = MaterialTheme.colorScheme.surfaceVariant) {
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -195,13 +190,13 @@ fun TermsAndPrivacyInfoCard() {
                 val termsIntent = remember {
                     Intent(
                         Intent.ACTION_VIEW,
-                        Uri.parse("https://moers.app/legal/tac")
+                        Uri.parse(Global.termsUrl)
                     )
                 }
                 val privacyIntent = remember {
                     Intent(
                         Intent.ACTION_VIEW,
-                        Uri.parse("https://moers.app/legal/privacy")
+                        Uri.parse(Global.privacyUrl)
                     )
                 }
 

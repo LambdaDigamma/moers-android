@@ -3,8 +3,8 @@ package com.lambdadigamma.moers
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -22,22 +22,28 @@ import com.lambdadigamma.moers.search.SearchScreen
 fun NavGraph(
     finishActivity: () -> Unit = {},
     navController: NavHostController = rememberNavController(),
-    startDestination: String = Destinations.Onboarding.graph,
-    showOnboardingInitially: Boolean = true
+    startDestination: String = Destinations.Onboarding.graph
 ) {
-    // Onboarding could be read from shared preferences.
-    val onboardingComplete = remember(showOnboardingInitially) {
-        mutableStateOf(!showOnboardingInitially)
-    }
-
     val actions = remember(navController) { MainActions(navController) }
     val onboardingActions = remember(navController) { OnboardingActions(navController) }
+    val onboardingViewModel: OnboardingViewModel = hiltViewModel()
+
+//    val onboardingViewModel = hiltViewModel<OnboardingViewModel>()
+//    val onboardingComplete = onboardingViewModel.isOnboardingComplete
+//
+//        .collectAsState(initial = true)
 
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
-        navigation(Destinations.Onboarding.welcome, Destinations.Onboarding.graph) {
+
+        // --- Onboarding ---
+
+        navigation(
+            Destinations.Onboarding.welcome,
+            Destinations.Onboarding.graph
+        ) {
             composable(Destinations.Onboarding.welcome) { backStackEntry: NavBackStackEntry ->
                 BackHandler {
                     // Intercept back in Onboarding: make it finish the activity
@@ -54,9 +60,12 @@ fun NavGraph(
 //                }
             }
             composable(Destinations.Onboarding.about) { backStackEntry: NavBackStackEntry ->
-                OnboardingAboutScreen(onContinue = {
-                    onboardingActions.continueToUserTypeSelection(backStackEntry)
-                })
+                OnboardingAboutScreen(
+                    viewModel = onboardingViewModel,
+                    onContinue = {
+                        onboardingActions.continueToUserTypeSelection(backStackEntry)
+                    }
+                )
             }
             composable(Destinations.Onboarding.userTypeSelection) { backStackEntry: NavBackStackEntry ->
                 OnboardingUserTypeScreen(onContinue = {
@@ -75,6 +84,9 @@ fun NavGraph(
                 OnboardingPetrolScreen()
             }
         }
+
+        // ------------------------------------------------------------
+
         composable(route = Destinations.dashboard) {
             DashboardScreen(onOpenSettings = {
 

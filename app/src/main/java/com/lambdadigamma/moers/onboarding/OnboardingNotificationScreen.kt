@@ -21,7 +21,7 @@ fun OnboardingNotificationScreen() {
     OnboardingHost(
         title = "Benachrichtigungen",
         content = {
-            
+
         },
         bottomContent = {
             Column(

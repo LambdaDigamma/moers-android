@@ -2,9 +2,6 @@ package com.lambdadigamma.moers.onboarding
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Divider
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,6 +17,7 @@ import com.lambdadigamma.moers.onboarding.ui.OnboardingHost
 import com.lambdadigamma.moers.ui.theme.LegacyMeinMoersTheme
 import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OnboardingLocationScreen(onContinue: () -> Unit) {
 
@@ -72,34 +70,35 @@ fun OnboardingLocationScreen(onContinue: () -> Unit) {
                         .fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Card(
-                        shape = RoundedCornerShape(12.dp),
-                        elevation = 2.dp
-                    ) {
 
-                        Column {
+                    ElevatedCard {
+                        Surface(tonalElevation = (-2).dp, shadowElevation = 2.dp) {
+                            Column {
 
-                            FeatureRow(
-                                title = stringResource(R.string.location_reason_fuel_title),
-                                text = stringResource(R.string.location_reason_fuel_text),
-                                standalone = true
-                            )
+                                FeatureRow(
+                                    title = stringResource(R.string.location_reason_fuel_title),
+                                    text = stringResource(R.string.location_reason_fuel_text),
+                                    standalone = true
+                                )
 
-                            Divider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f))
+                                Divider(
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.12f
+                                    )
+                                )
 
-                            FeatureRow(
-                                title = stringResource(R.string.location_reason_waste_schedule_title),
-                                text = stringResource(R.string.location_reason_waste_schedule_text),
-                                standalone = true
-                            )
+                                FeatureRow(
+                                    title = stringResource(R.string.location_reason_waste_schedule_title),
+                                    text = stringResource(R.string.location_reason_waste_schedule_text),
+                                    standalone = true
+                                )
 
+                            }
                         }
-
                     }
 
-                    Card(
+                    ElevatedCard(
                         modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp)
                     ) {
                         Surface(tonalElevation = 4.dp) {
                             Column(modifier = Modifier.padding(16.dp)) {
@@ -111,6 +110,7 @@ fun OnboardingLocationScreen(onContinue: () -> Unit) {
                             }
                         }
                     }
+
                 }
             }
         },

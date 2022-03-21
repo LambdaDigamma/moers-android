@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
 
 @Composable
 fun OnboardingTopBar(text: String) {
@@ -49,5 +50,7 @@ fun OnboardingTopBar(text: String) {
 @Composable
 @Preview
 fun OnboardingTopBarPreview() {
-    OnboardingTopBar("Onboarding")
+    MeinMoersTheme {
+        OnboardingTopBar("Über diese App")
+    }
 }

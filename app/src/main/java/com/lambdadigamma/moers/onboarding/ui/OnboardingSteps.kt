@@ -47,6 +47,7 @@ fun OnboardingSteps(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surface)
             .drawBehind {
                 val strokeWidth = borderWidth.value * density
                 val y = size.height
@@ -126,7 +127,9 @@ fun OnboardingSteps(
 fun OnboardingStepsPreview() {
     LegacyMeinMoersTheme {
         MeinMoersTheme {
-            OnboardingSteps(modifier = Modifier.padding(16.dp))
+            OnboardingSteps(
+                modifier = Modifier
+            )
         }
     }
 }

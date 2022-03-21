@@ -10,21 +10,21 @@ extra["targetSdkVersion"] = 31
 extra["appVersion"] = "0.0.1"
 extra["appVersionCode"] = 1
 
-var kotlinVersion = "1.5.31"
+var kotlinVersion = "1.6.10"
 var gradleVersion = "7.0.4"
 
 extra["kotlinVersion"] = kotlinVersion
 extra["gradleVersion"] = gradleVersion
-extra["hiltVersion"] = "2.40.5"
-extra["composeVersion"] = "1.0.5"
+extra["hiltVersion"] = "2.41"
+extra["composeVersion"] = "1.1.1"
 extra["datastoreVersion"] = "1.0.0"
 extra["protobufVersion"] = "3.19.0"
 extra["retrofitVersion"] = "2.9.0"
 extra["autofillVersion"] = "1.1.0"
 extra["gmsVersion"] = "19.0.1"
 
-extra["roomVersion"] = "2.4.1"
-extra["gsonVersion"] = "2.8.9"
+extra["roomVersion"] = "2.4.2"
+extra["gsonVersion"] = "2.9.0"
 
 /**
  * The buildscript block is where you configure the repositories and
@@ -35,7 +35,8 @@ extra["gsonVersion"] = "2.8.9"
  */
 buildscript {
 
-    val kotlinVersion: String by rootProject.extra
+    val kotlinVersion = "1.6.10" //: String by rootProject.extra
+    val hiltAndroid = "2.38.1"
     val gradleVersion: String by rootProject.extra
 
 
@@ -59,9 +60,8 @@ buildscript {
      */
     dependencies {
         classpath("com.android.tools.build:gradle:7.1.2")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.38.1")
-
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:${hiltAndroid}")
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
