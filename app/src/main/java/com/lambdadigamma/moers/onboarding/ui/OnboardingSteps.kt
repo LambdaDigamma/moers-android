@@ -22,19 +22,19 @@ import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
 enum class OnboardingStepState {
     NOT_COMPLETE,
     IN_PROGRESS,
-    COMPLETE
+    COMPLETE,
+    // SKIPPED
 }
 
-data class OnboardingStep(val title: String, val state: OnboardingStepState)
+//data class OnboardingStep(val title: String, val state: OnboardingStepState)
 
 @Composable
 fun OnboardingSteps(
     modifier: Modifier = Modifier,
-    steps: Array<OnboardingStep> = arrayOf(
-        OnboardingStep("Privacy", OnboardingStepState.COMPLETE),
-        OnboardingStep("Rubbish", OnboardingStepState.IN_PROGRESS),
-        OnboardingStep("Petrol", OnboardingStepState.NOT_COMPLETE),
-        OnboardingStep("Finish", OnboardingStepState.NOT_COMPLETE),
+    steps: List<OnboardingStepState> = listOf(
+        OnboardingStepState.COMPLETE,
+        OnboardingStepState.IN_PROGRESS,
+        OnboardingStepState.NOT_COMPLETE,
     )
 ) {
 
@@ -63,7 +63,7 @@ fun OnboardingSteps(
 
         for (step in steps) {
 
-            when (step.state) {
+            when (step) {
                 OnboardingStepState.NOT_COMPLETE -> {
                     Box(
                         modifier = Modifier

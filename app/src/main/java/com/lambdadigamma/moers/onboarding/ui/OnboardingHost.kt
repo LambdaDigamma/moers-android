@@ -11,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.lambdadigamma.moers.onboarding.OnboardingViewModel
 
 @Composable
 fun OnboardingHost(
@@ -20,11 +22,12 @@ fun OnboardingHost(
     bottomContent: @Composable () -> Unit
 ) {
 
+    val viewModel: OnboardingViewModel = hiltViewModel()
     val scrollState = rememberScrollState()
 
     Column(modifier = Modifier.fillMaxSize()) {
 
-        OnboardingTopBar(text = title)
+        OnboardingTopBar(viewModel.currentOnboardingStepState())
 
         Column(
             modifier = if (shouldScroll) {

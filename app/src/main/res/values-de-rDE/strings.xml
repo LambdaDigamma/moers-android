@@ -48,4 +48,5 @@
     <string name="location_reason_waste_schedule_text">Finde bei der Einrichtung schnell Deine Straße.</string>
     <string name="onboarding_location_enable_cta">GPS verwenden</string>
     <string name="onboarding_location_not_now_cta">Nicht jetzt</string>
+    <string name="onboarding_done_title">Einrichtung abgeschlossen</string>
 </resources>

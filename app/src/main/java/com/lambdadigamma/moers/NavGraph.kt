@@ -63,17 +63,20 @@ fun NavGraph(
                 OnboardingAboutScreen(
                     viewModel = onboardingViewModel,
                     onContinue = {
+                        onboardingViewModel.iterateNextStep()
                         onboardingActions.continueToUserTypeSelection(backStackEntry)
                     }
                 )
             }
             composable(Destinations.Onboarding.userTypeSelection) { backStackEntry: NavBackStackEntry ->
                 OnboardingUserTypeScreen(onContinue = {
+                    onboardingViewModel.iterateNextStep()
                     onboardingActions.continueToLocation(backStackEntry)
                 })
             }
             composable(Destinations.Onboarding.location) {
                 OnboardingLocationScreen(onContinue = {
+                    onboardingViewModel.iterateNextStep()
                     onboardingActions.continueToPetrol(it)
                 })
             }

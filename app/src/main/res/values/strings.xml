@@ -48,4 +48,5 @@
     <string name="location_reason_waste_schedule_text">Find your street quickly when setting up.</string>
     <string name="onboarding_location_enable_cta">Activate gps</string>
     <string name="onboarding_location_not_now_cta">Not now</string>
+    <string name="onboarding_done_title">Setup complete</string>
 </resources>

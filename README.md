@@ -1,5 +1,14 @@
 # Mein Moers
 
+### Technologies
+
+- Kotlin Flow
+- Kotlin Coroutines
+- Jetpack Compose
+- Hilt (for dependency injection)
+- Repository pattern
+-
+
 ## Onboarding
 
 * Welcome
