@@ -47,7 +47,6 @@ fun OnboardingRubbishStreetScreen() {
     viewModel.load()
 
     OnboardingHost(
-        title = "Abfallkalender einrichten",
         shouldScroll = false,
         content = {
 
@@ -145,26 +144,25 @@ fun OnboardingRubbishStreetScreen() {
 
             }
 
-        },
-        bottomContent = {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+        }
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Button(
+                onClick = { },
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(16.dp),
             ) {
-                Button(
-                    onClick = { },
-                    modifier = Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(16.dp),
-                ) {
-                    Text(
-                        text = "Weiter",
-                        fontWeight = FontWeight.Bold,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
+                Text(
+                    text = "Weiter",
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodyLarge
+                )
             }
         }
-    )
+    }
 
 }
 

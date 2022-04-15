@@ -22,7 +22,6 @@ import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
 fun OnboardingLocationScreen(onContinue: () -> Unit) {
 
     OnboardingHost(
-        title = stringResource(R.string.onboarding_location_title),
         content = {
             Column(
                 modifier = Modifier
@@ -113,29 +112,28 @@ fun OnboardingLocationScreen(onContinue: () -> Unit) {
 
                 }
             }
-        },
-        bottomContent = {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+        }
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Button(
+                onClick = onContinue,
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(16.dp),
             ) {
-                Button(
-                    onClick = onContinue,
-                    modifier = Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(16.dp),
-                ) {
-                    Text(
-                        text = stringResource(R.string.onboarding_location_enable_cta),
-                        fontWeight = FontWeight.Bold,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-                TextButton(onClick = { /*TODO*/ }) {
-                    Text(stringResource(R.string.onboarding_location_not_now_cta))
-                }
+                Text(
+                    text = stringResource(R.string.onboarding_location_enable_cta),
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+            TextButton(onClick = { /*TODO*/ }) {
+                Text(stringResource(R.string.onboarding_location_not_now_cta))
             }
         }
-    )
+    }
 
 }
 

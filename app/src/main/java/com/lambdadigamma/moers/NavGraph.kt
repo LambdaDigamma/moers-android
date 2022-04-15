@@ -1,6 +1,5 @@
 package com.lambdadigamma.moers
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -44,21 +43,23 @@ fun NavGraph(
             Destinations.Onboarding.welcome,
             Destinations.Onboarding.graph
         ) {
-            composable(Destinations.Onboarding.welcome) { backStackEntry: NavBackStackEntry ->
-                BackHandler {
-                    // Intercept back in Onboarding: make it finish the activity
-                    finishActivity()
-                }
-                OnboardingWelcomeScreen(
-                    onNext = {
-                        onboardingActions.continueToPrivacy(backStackEntry)
-                    }
-                )
-//                onboardingComplete = {
-//                    onboardingComplete.value = true
-//                    actions.onboardingComplete()
+
+
+//            composable(Destinations.Onboarding.welcome) { backStackEntry: NavBackStackEntry ->
+//                BackHandler {
+//                    // Intercept back in Onboarding: make it finish the activity
+//                    finishActivity()
 //                }
-            }
+//                OnboardingWelcomeScreen(
+//                    onNext = {
+//                        onboardingActions.continueToPrivacy(backStackEntry)
+//                    }
+//                )
+////                onboardingComplete = {
+////                    onboardingComplete.value = true
+////                    actions.onboardingComplete()
+////                }
+//            }
             composable(Destinations.Onboarding.about) { backStackEntry: NavBackStackEntry ->
                 OnboardingAboutScreen(
                     viewModel = onboardingViewModel,
@@ -84,7 +85,7 @@ fun NavGraph(
                 OnboardingNotificationScreen()
             }
             composable(Destinations.Onboarding.petrol) {
-                OnboardingPetrolScreen()
+                OnboardingPetrolScreen(onContinue = {})
             }
         }
 

@@ -19,12 +19,11 @@ import com.lambdadigamma.moers.onboarding.ui.OnboardingHost
 
 @Composable
 fun OnboardingAboutScreen(
-    onContinue: () -> Unit,
     viewModel: OnboardingViewModel,
+    onContinue: () -> Unit,
 ) {
 
     OnboardingHost(
-        title = stringResource(R.string.onboarding_about_title),
         content = {
             Column(
                 modifier = Modifier
@@ -41,34 +40,33 @@ fun OnboardingAboutScreen(
                 TermsAndPrivacyInfoCard()
 
             }
-        },
-        bottomContent = {
+        }
+    ) {
 
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+        Column(
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Button(
+                onClick = onContinue,
+                modifier = Modifier
+                    .fillMaxWidth(),
+                contentPadding = PaddingValues(16.dp),
             ) {
-                Button(
-                    onClick = onContinue,
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    contentPadding = PaddingValues(16.dp),
-                ) {
-                    Text(
-                        text = stringResource(R.string.onboarding_privacy_continue_button),
-                        fontWeight = FontWeight.Bold,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-
                 Text(
-                    text = stringResource(R.string.onboarding_privacy_consent),
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.bodyMedium
+                    text = stringResource(R.string.onboarding_privacy_continue_button),
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodyLarge
                 )
             }
+
+            Text(
+                text = stringResource(R.string.onboarding_privacy_consent),
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.bodyMedium
+            )
         }
-    )
+    }
 
 }
 

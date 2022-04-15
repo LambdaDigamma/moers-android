@@ -36,7 +36,6 @@ fun OnboardingUserTypeScreen(onContinue: () -> Unit) {
     val selectedUserType = remember { mutableStateOf(UserType.CITIZEN) }
 
     OnboardingHost(
-        title = stringResource(R.string.onboarding_user_type_title),
         content = {
             Column(
                 modifier = Modifier
@@ -138,21 +137,20 @@ fun OnboardingUserTypeScreen(onContinue: () -> Unit) {
 
                 }
             }
-        },
-        bottomContent = {
-            Button(
-                onClick = onContinue,
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(16.dp),
-            ) {
-                Text(
-                    text = stringResource(R.string.onboarding_user_type_cta),
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            }
         }
-    )
+    ) {
+        Button(
+            onClick = onContinue,
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(16.dp),
+        ) {
+            Text(
+                text = stringResource(R.string.onboarding_user_type_cta),
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
+    }
 
 }
 

@@ -19,31 +19,29 @@ import com.lambdadigamma.moers.onboarding.ui.OnboardingHost
 fun OnboardingNotificationScreen() {
 
     OnboardingHost(
-        title = "Benachrichtigungen",
         content = {
 
-        },
-        bottomContent = {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+        }
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Button(
+                onClick = { },
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(16.dp),
             ) {
-                Button(
-                    onClick = { },
-                    modifier = Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(16.dp),
-                ) {
-                    Text(
-                        text = "Benachrichtigungen erhalten",
-                        fontWeight = FontWeight.Bold,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-                TextButton(onClick = { /*TODO*/ }) {
-                    Text(text = "Not now")
-                }
+                Text(
+                    text = "Benachrichtigungen erhalten",
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+            TextButton(onClick = { /*TODO*/ }) {
+                Text(text = "Not now")
             }
         }
-    )
+    }
 
 }

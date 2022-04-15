@@ -7,8 +7,9 @@ import com.lambdadigamma.moers.R
 import com.lambdadigamma.moers.onboarding.ui.OnboardingStepState
 import com.lambdadigamma.moers.onboarding.ui.OnboardingTopBarUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.lang.Integer.max
 import javax.inject.Inject
 
 enum class OnboardingStep constructor(val value: Int) {
@@ -39,28 +40,16 @@ class OnboardingViewModel @Inject constructor(
 
     val isOnboardingComplete = onboardingRepository.isOnboarded
     val isCitizen = true
-    var currentOnboardingStep = OnboardingStep.ABOUT
 
-    fun iterateNextStep() {
-        if (currentOnboardingStep == OnboardingStep.DONE) {
-            return
-        }
-        OnboardingStep.values().indexOf(currentOnboardingStep).let {
-            currentOnboardingStep = OnboardingStep.values()[it + 1]
-        }
-    }
+    private var currentOnboardingStep = MutableStateFlow(OnboardingStep.ABOUT)
 
-    fun currentOnboardingStepState(): OnboardingTopBarUiState {
-
+    val currentOnboardingState = currentOnboardingStep.map {
         val steps = mutableListOf<OnboardingStepState>()
 
         // Adds completed steps to the list
         steps.addAll(
             generateSequence { OnboardingStepState.COMPLETE }.take(
-                max(
-                    0,
-                    currentOnboardingStep.value
-                )
+                it.value
             )
         )
 
@@ -69,13 +58,22 @@ class OnboardingViewModel @Inject constructor(
 
         // Adds remaining steps to the list
         steps.addAll(
-            generateSequence { OnboardingStepState.NOT_COMPLETE }.take(OnboardingStep.values().size - currentOnboardingStep.value - 1)
+            generateSequence { OnboardingStepState.NOT_COMPLETE }.take(OnboardingStep.values().size - (currentOnboardingStep.value.value + 1))
         )
 
-        return OnboardingTopBarUiState(
-            currentOnboardingStep.displayName(),
+        return@map OnboardingTopBarUiState(
+            currentOnboardingStep.value.displayName(),
             steps
         )
+    }
+
+    fun iterateNextStep() {
+        if (currentOnboardingStep.value == OnboardingStep.DONE) {
+            return
+        }
+        OnboardingStep.values().indexOf(currentOnboardingStep.value).let {
+            currentOnboardingStep.value = OnboardingStep.values()[it + 1]
+        }
     }
 
     fun setFinished() {

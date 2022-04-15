@@ -19,14 +19,15 @@ import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
 
 @Composable
 @ExperimentalMaterial3Api
-fun OnboardingPetrolScreen() {
+fun OnboardingPetrolScreen(
+    onContinue: () -> Unit
+) {
 
     val currentPetrolType = remember {
         mutableStateOf(PetrolType.DIESEL)
     }
 
     OnboardingHost(
-        title = "Kraftstoff",
         content = {
 
             Column(
@@ -89,26 +90,25 @@ fun OnboardingPetrolScreen() {
 
             }
 
-        },
-        bottomContent = {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+        }
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Button(
+                onClick = onContinue,
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(16.dp),
             ) {
-                Button(
-                    onClick = { },
-                    modifier = Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(16.dp),
-                ) {
-                    Text(
-                        text = "Weiter",
-                        fontWeight = FontWeight.Bold,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
+                Text(
+                    text = "Weiter",
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodyLarge
+                )
             }
         }
-    )
+    }
 
 }
 
@@ -118,7 +118,7 @@ fun OnboardingPetrolScreen() {
 fun OnboardingPetrolPreview() {
     MeinMoersTheme {
         LegacyMeinMoersTheme {
-            OnboardingPetrolScreen()
+            OnboardingPetrolScreen(onContinue = {})
         }
     }
 }

@@ -49,4 +49,7 @@
     <string name="onboarding_location_enable_cta">GPS verwenden</string>
     <string name="onboarding_location_not_now_cta">Nicht jetzt</string>
     <string name="onboarding_done_title">Einrichtung abgeschlossen</string>
+    <string name="onboarding_done_cta">Los geht\'s</string>
+    <string name="onboarding_done_headline">Geschafft!</string>
+    <string name="onboarding_done_text">Du hast die Einrichtung nun abgeschlossen.\nNun kannst Du die App erkunden.</string>
 </resources>

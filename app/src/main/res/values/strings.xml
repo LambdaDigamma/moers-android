@@ -49,4 +49,8 @@
     <string name="onboarding_location_enable_cta">Activate gps</string>
     <string name="onboarding_location_not_now_cta">Not now</string>
     <string name="onboarding_done_title">Setup complete</string>
+    <string name="onboarding_done_cta">Let\'s start</string>
+    <string name="onboarding_done_headline">Done!</string>
+    <string name="onboarding_done_text">You have now completed the setup.\nNow you can explore the app.</string>
+
 </resources>

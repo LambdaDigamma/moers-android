@@ -59,7 +59,7 @@ buildscript {
      * version 7.0.4 as a classpath dependency.
      */
     dependencies {
-        classpath("com.android.tools.build:gradle:7.1.2")
+        classpath("com.android.tools.build:gradle:7.1.3")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
         classpath("com.google.dagger:hilt-android-gradle-plugin:${hiltAndroid}")
 

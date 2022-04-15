@@ -1,6 +1,8 @@
 package com.lambdadigamma.moers
 
 object Destinations {
+
+
     object Onboarding {
         const val graph = "onboarding"
         const val welcome = "onboarding/welcome"
@@ -10,7 +12,10 @@ object Destinations {
         const val notifications = "onboarding/notifications"
         const val rubbishStreet = "onboarding/rubbishStreet"
         const val petrol = "onboarding/petrol"
+        const val done = "onboarding/done"
     }
+
+    const val graph = "main"
 
     const val dashboard = "dashboard"
     const val explore = "explore"
