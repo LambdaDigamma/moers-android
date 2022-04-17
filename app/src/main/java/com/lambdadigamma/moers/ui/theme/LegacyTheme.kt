@@ -19,14 +19,14 @@ fun LegacyMeinMoersTheme(
     content: @Composable() () -> Unit
 ) {
 
-    val legacyColors = if (darkTheme) {
-        LegacyDarkColorPalette
-    } else {
-        LegacyLightColorPalette
-    }
+//    val legacyColors = if (darkTheme) {
+//        LegacyDarkColorPalette
+//    } else {
+//        LegacyLightColorPalette
+//    }
 
     androidx.compose.material.MaterialTheme(
-        colors = legacyColors,
+//        colors = legacyColors,
 //        typography = Typography,
         content = content
     )

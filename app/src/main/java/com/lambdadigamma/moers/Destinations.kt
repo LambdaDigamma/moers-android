@@ -4,7 +4,7 @@ object Destinations {
 
 
     object Onboarding {
-        const val graph = "onboarding"
+        const val graph = "onboardingGraph"
         const val welcome = "onboarding/welcome"
         const val about = "onboarding/about"
         const val userTypeSelection = "onboarding/user-type"

@@ -35,11 +35,19 @@ private val LightColorPalette = lightColorScheme(
 
 @Composable
 fun MeinMoersTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
-    val colors = if (darkTheme) {
+    var colors = if (darkTheme) {
         DarkColorPalette
     } else {
         LightColorPalette
     }
+
+//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+//        colors = if (darkTheme) {
+//            dynamicDarkColorScheme(LocalContext.current)
+//        } else {
+//            dynamicLightColorScheme(LocalContext.current)
+//        }
+//    }
 
     MaterialTheme(
         colorScheme = colors,

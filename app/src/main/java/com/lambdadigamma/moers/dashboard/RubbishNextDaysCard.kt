@@ -2,8 +2,9 @@ package com.lambdadigamma.moers.dashboard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Card
 import androidx.compose.material.Divider
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,11 +18,11 @@ import androidx.compose.ui.unit.dp
 import com.lambdadigamma.moers.data.rubbish.*
 import java.util.*
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RubbishNextDays() {
 
     Card(
-        elevation = 4.dp,
         modifier = Modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 140.dp)
@@ -55,6 +56,42 @@ fun RubbishNextDays() {
         }
 
     }
+
+//    Card(
+//        elevation = 4.dp,
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .defaultMinSize(minHeight = 140.dp)
+//    ) {
+//
+//        Row(
+//            modifier = Modifier
+//                .padding(16.dp)
+//                .fillMaxWidth(),
+//            horizontalArrangement = Arrangement.spacedBy(16.dp)
+//        ) {
+//            DayCard(
+//                title = "Morgen", arrayOf(
+//                    RubbishPickupItem(Date(), RubbishWasteType.RESIDUAL),
+//                    RubbishPickupItem(Date(), RubbishWasteType.PAPER)
+//                ),
+//                modifier = Modifier.weight(1f)
+//            )
+//            DayCard(
+//                title = "24.12.", arrayOf(
+//                    RubbishPickupItem(Date(), RubbishWasteType.ORGANIC)
+//                ),
+//                modifier = Modifier.weight(1f)
+//            )
+//            DayCard(
+//                title = "25.12.", arrayOf(
+//                    RubbishPickupItem(Date(), RubbishWasteType.PLASTIC)
+//                ),
+//                modifier = Modifier.weight(1f)
+//            )
+//        }
+//
+//    }
 
 }
 

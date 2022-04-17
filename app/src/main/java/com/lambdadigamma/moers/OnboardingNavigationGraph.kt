@@ -7,24 +7,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.*
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.lambdadigamma.moers.dashboard.DashboardScreen
-import com.lambdadigamma.moers.events.ui.EventsScreen
-import com.lambdadigamma.moers.explore.ExploreScreen
+import androidx.navigation.navigation
 import com.lambdadigamma.moers.onboarding.*
 import com.lambdadigamma.moers.onboarding.ui.OnboardingTopBar
 import com.lambdadigamma.moers.onboarding.ui.OnboardingTopBarUiState
-import com.lambdadigamma.moers.search.SearchScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OnboardingNavigationGraph(
     navController: NavHostController = rememberNavController(),
-    finishActivity: () -> Unit
+    finishActivity: () -> Unit,
+    onFinishOnboarding: () -> Unit
 ) {
 
     val onboardingViewModel: OnboardingViewModel = hiltViewModel()
@@ -34,8 +34,11 @@ fun OnboardingNavigationGraph(
         )
 
     Scaffold(topBar = { OnboardingTop(navController, onboardingState.value) }) {
-        NavHost(navController = navController, Destinations.Onboarding.welcome) {
-            navigation(Destinations.Onboarding.welcome, Destinations.Onboarding.graph) {
+        NavHost(navController = navController, Destinations.Onboarding.graph) {
+            navigation(
+                Destinations.Onboarding.welcome,
+                Destinations.Onboarding.graph
+            ) {
                 composable(Destinations.Onboarding.welcome) { backStackEntry: NavBackStackEntry ->
                     BackHandler {
                         finishActivity()
@@ -69,30 +72,12 @@ fun OnboardingNavigationGraph(
                     })
                 }
                 composable(Destinations.Onboarding.done) {
-                    OnboardingDoneScreen(onContinue = {})
+                    OnboardingDoneScreen(onContinue = {
+                        onboardingViewModel.setFinished()
+                        onFinishOnboarding()
+                    })
                 }
             }
-            main()
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-fun NavGraphBuilder.main() {
-    navigation(Destinations.dashboard, Destinations.graph) {
-        composable(route = Destinations.dashboard) {
-            DashboardScreen(onOpenSettings = {
-
-            })
-        }
-        composable(route = Destinations.explore) {
-            ExploreScreen()
-        }
-        composable(route = Destinations.search) {
-            SearchScreen()
-        }
-        composable(route = Destinations.events) {
-            EventsScreen()
         }
     }
 }
@@ -107,5 +92,4 @@ fun OnboardingTop(navController: NavController, uiState: OnboardingTopBarUiState
     if (currentRoute != Destinations.Onboarding.welcome) {
         OnboardingTopBar(uiState)
     }
-
 }
