@@ -13,7 +13,10 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
-            <option value="$PROJECT_DIR$/newsfeature" />
+            <option value="$PROJECT_DIR$/events" />
+            <option value="$PROJECT_DIR$/fuel" />
+            <option value="$PROJECT_DIR$/news" />
+            <option value="$PROJECT_DIR$/parking" />
           </set>
         </option>
       </GradleProjectSettings>

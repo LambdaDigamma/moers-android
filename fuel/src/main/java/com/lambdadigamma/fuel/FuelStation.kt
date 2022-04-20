@@ -1,4 +1,4 @@
-package com.lambdadigamma.moers.data.fuel
+package com.lambdadigamma.fuel
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

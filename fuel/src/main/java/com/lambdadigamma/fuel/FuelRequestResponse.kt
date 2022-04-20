@@ -1,4 +1,4 @@
-package com.lambdadigamma.moers.data.fuel
+package com.lambdadigamma.fuel
 
 data class FuelRequestResponse(
     val ok: Boolean,

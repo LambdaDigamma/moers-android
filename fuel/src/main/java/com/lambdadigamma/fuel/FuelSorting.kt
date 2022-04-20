@@ -1,4 +1,4 @@
-package com.lambdadigamma.moers.data.fuel
+package com.lambdadigamma.fuel
 
 /**
  * The Tankerkönig api offers sorting fuel stations

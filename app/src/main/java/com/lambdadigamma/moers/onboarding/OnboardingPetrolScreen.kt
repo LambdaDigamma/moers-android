@@ -11,8 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.lambdadigamma.moers.models.PetrolType
-import com.lambdadigamma.moers.models.localizedName
+import com.lambdadigamma.fuel.FuelType
 import com.lambdadigamma.moers.onboarding.ui.OnboardingHost
 import com.lambdadigamma.moers.ui.theme.LegacyMeinMoersTheme
 import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
@@ -24,7 +23,7 @@ fun OnboardingPetrolScreen(
 ) {
 
     val currentPetrolType = remember {
-        mutableStateOf(PetrolType.DIESEL)
+        mutableStateOf(FuelType.DIESEL)
     }
 
     OnboardingHost(
@@ -64,7 +63,7 @@ fun OnboardingPetrolScreen(
 
                     Column() {
 
-                        PetrolType.values().forEach { petrolType ->
+                        FuelType.values().forEach { petrolType ->
 
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(8.dp),

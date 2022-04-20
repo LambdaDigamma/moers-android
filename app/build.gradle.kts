@@ -147,7 +147,8 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:0.24.6-alpha")
 
     implementation(project(path = ":core"))
-    implementation(project(path = ":newsfeature"))
+    implementation(project(path = ":news"))
+    implementation(project(path = ":fuel"))
 
 }
 
