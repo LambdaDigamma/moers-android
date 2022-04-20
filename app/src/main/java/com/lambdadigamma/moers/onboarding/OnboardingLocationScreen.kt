@@ -12,14 +12,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.rememberPermissionState
 import com.lambdadigamma.moers.R
 import com.lambdadigamma.moers.onboarding.ui.OnboardingHost
 import com.lambdadigamma.moers.ui.theme.LegacyMeinMoersTheme
 import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
-fun OnboardingLocationScreen(onContinue: () -> Unit) {
+fun OnboardingLocationScreen(
+    onContinue: () -> Unit
+) {
 
     OnboardingHost(
         content = {
@@ -114,27 +119,62 @@ fun OnboardingLocationScreen(onContinue: () -> Unit) {
             }
         }
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Button(
-                onClick = onContinue,
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(16.dp),
-            ) {
-                Text(
-                    text = stringResource(R.string.onboarding_location_enable_cta),
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.bodyLarge
-                )
+        OnboardingLocationBottomActions(onContinue = onContinue)
+    }
+
+}
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+private fun OnboardingLocationBottomActions(
+    onContinue: () -> Unit
+) {
+
+    // Fine location permission state
+    val fineLocationPermissionState = rememberPermissionState(
+        android.Manifest.permission.ACCESS_FINE_LOCATION
+    )
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        when (fineLocationPermissionState.status) {
+            PermissionStatus.Granted -> {
+                Button(
+                    onClick = {
+                        onContinue()
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(16.dp),
+                ) {
+                    Text(
+                        text = stringResource(R.string.onboarding_location_continue),
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
             }
-            TextButton(onClick = { /*TODO*/ }) {
-                Text(stringResource(R.string.onboarding_location_not_now_cta))
+            is PermissionStatus.Denied -> {
+                Button(
+                    onClick = {
+                        fineLocationPermissionState.launchPermissionRequest()
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(16.dp),
+                ) {
+                    Text(
+                        text = stringResource(R.string.onboarding_location_enable_cta),
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
+                TextButton(onContinue) {
+                    Text(stringResource(R.string.onboarding_location_not_now_cta))
+                }
             }
         }
     }
-
 }
 
 @Preview

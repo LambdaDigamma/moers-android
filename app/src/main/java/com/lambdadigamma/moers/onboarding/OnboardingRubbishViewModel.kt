@@ -1,10 +1,14 @@
 package com.lambdadigamma.moers.onboarding
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lambdadigamma.moers.Application
+import com.lambdadigamma.moers.core.geo.GMSLocationService
+import com.lambdadigamma.moers.core.geo.GoogleMapsNavigationProvider
 import com.lambdadigamma.moers.data.rubbish.RubbishRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -25,7 +29,21 @@ class OnboardingRubbishViewModel(
                 RubbishStreetUiState(it.name, it.streetAddition)
             }
             uiState = uiState.copy(rubbishStreets = streets)
+            loadLocation()
         }
+    }
+
+    suspend fun loadLocation() {
+
+        val service = GMSLocationService(Application.instance)
+        val location = service.loadLastLocation()
+
+        Log.d("OnboardingRubbishViewModel", "location: $location")
+
+        location?.let {
+            GoogleMapsNavigationProvider().startNavigation(it.latitude, it.longitude)
+        }
+
     }
 
     init {

@@ -4,7 +4,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
@@ -17,23 +16,18 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.lambdadigamma.moers.onboarding.*
 import com.lambdadigamma.moers.onboarding.ui.OnboardingTopBar
-import com.lambdadigamma.moers.onboarding.ui.OnboardingTopBarUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OnboardingNavigationGraph(
     navController: NavHostController = rememberNavController(),
     finishActivity: () -> Unit,
-    onFinishOnboarding: () -> Unit
+    onFinishOnboarding: () -> Unit,
 ) {
 
     val onboardingViewModel: OnboardingViewModel = hiltViewModel()
-    val onboardingState = onboardingViewModel.currentOnboardingState
-        .collectAsState(
-            OnboardingTopBarUiState.default()
-        )
 
-    Scaffold(topBar = { OnboardingTop(navController, onboardingState.value) }) {
+    Scaffold(topBar = { OnboardingTop(navController) }) {
         NavHost(navController = navController, Destinations.Onboarding.graph) {
             navigation(
                 Destinations.Onboarding.welcome,
@@ -48,30 +42,53 @@ fun OnboardingNavigationGraph(
                     })
                 }
                 composable(Destinations.Onboarding.about) {
+                    BackHandler(onBack = {
+                        navController.navigateUp()
+                    })
                     OnboardingAboutScreen(viewModel = onboardingViewModel, onContinue = {
-                        onboardingViewModel.iterateNextStep()
                         navController.navigate(Destinations.Onboarding.userTypeSelection)
                     })
                 }
                 composable(Destinations.Onboarding.userTypeSelection) {
+                    BackHandler {
+                        navController.navigateUp()
+                    }
                     OnboardingUserTypeScreen(onContinue = {
-                        onboardingViewModel.iterateNextStep()
                         navController.navigate(Destinations.Onboarding.location)
                     })
                 }
                 composable(Destinations.Onboarding.location) {
-                    OnboardingLocationScreen(onContinue = {
-                        onboardingViewModel.iterateNextStep()
-                        navController.navigate(Destinations.Onboarding.petrol)
-                    })
+                    BackHandler {
+                        navController.navigateUp()
+                    }
+                    OnboardingLocationScreen(
+                        onContinue = {
+                            navController.navigate(Destinations.Onboarding.rubbishStreet)
+                        }
+                    )
+                }
+                composable(Destinations.Onboarding.rubbishStreet) {
+                    BackHandler {
+                        navController.navigateUp()
+                    }
+                    OnboardingRubbishStreetScreen(
+                        onContinue = {
+                            navController.navigate(Destinations.Onboarding.petrol)
+                        }
+                    )
                 }
                 composable(Destinations.Onboarding.petrol) {
+                    BackHandler {
+                        navController.navigateUp()
+                    }
                     OnboardingPetrolScreen(onContinue = {
-                        onboardingViewModel.iterateNextStep()
                         navController.navigate(Destinations.Onboarding.done)
                     })
                 }
                 composable(Destinations.Onboarding.done) {
+                    BackHandler {
+                        navController.navigateUp()
+                    }
                     OnboardingDoneScreen(onContinue = {
                         onboardingViewModel.setFinished()
                         onFinishOnboarding()
@@ -83,13 +100,20 @@ fun OnboardingNavigationGraph(
 }
 
 @Composable
-fun OnboardingTop(navController: NavController, uiState: OnboardingTopBarUiState) {
+fun OnboardingTop(navController: NavController) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
         ?: Destinations.Onboarding.welcome
 
     if (currentRoute != Destinations.Onboarding.welcome) {
-        OnboardingTopBar(uiState)
+
+        val onboardingStep = OnboardingStep.fromRoute(currentRoute)
+        val state = onboardingStep?.toUiState()
+
+        state?.let {
+            OnboardingTopBar(it)
+        }
+
     }
 }

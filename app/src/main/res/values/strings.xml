@@ -42,12 +42,14 @@
     <string name="onboarding_location_info_intro">The app can conscientiously use your current location to find places, affordable fuel stations or parking lots near you.</string>
     <string name="onboarding_location_info_transparency">Transparency comes first, so you\'ll find a detailed list of how and what location information is used for.</string>
     <string name="onboarding_location_no_location_disclaimer">The app works well regardless of your location permission. It\' s entirely up to you.</string>
+    <string name="onboarding_rubbish_street_title">Waste schedule</string>
     <string name="location_reason_fuel_title">Fuel station prices</string>
     <string name="location_reason_fuel_text">Get the next fuel prices in your area at a glance.</string>
     <string name="location_reason_waste_schedule_title">Setup of the waste schedule</string>
     <string name="location_reason_waste_schedule_text">Find your street quickly when setting up.</string>
     <string name="onboarding_location_enable_cta">Activate gps</string>
     <string name="onboarding_location_not_now_cta">Not now</string>
+    <string name="onboarding_location_continue">Continue</string>
     <string name="onboarding_done_title">Setup complete</string>
     <string name="onboarding_done_cta">Let\'s start</string>
     <string name="onboarding_done_headline">Done!</string>

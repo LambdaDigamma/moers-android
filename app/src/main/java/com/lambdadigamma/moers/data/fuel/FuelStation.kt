@@ -3,7 +3,7 @@ package com.lambdadigamma.moers.data.fuel
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.lambdadigamma.moers.data.geo.Point
+import com.lambdadigamma.moers.core.geo.Point
 
 @Entity(tableName = "fuel_stations")
 data class FuelStation(

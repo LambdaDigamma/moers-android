@@ -1,6 +1,9 @@
 package com.lambdadigamma.moers.onboarding
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -31,7 +34,9 @@ import kotlinx.coroutines.Dispatchers
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun OnboardingRubbishStreetScreen() {
+fun OnboardingRubbishStreetScreen(
+    onContinue: () -> Unit
+) {
 
     val context = LocalContext.current
 
@@ -52,6 +57,7 @@ fun OnboardingRubbishStreetScreen() {
 
             Column(
                 modifier = Modifier
+                    .background(color = MaterialTheme.colorScheme.surface)
                     .fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
@@ -128,16 +134,16 @@ fun OnboardingRubbishStreetScreen() {
                         onValueChange = { email = it }
                     )
 
-//                    LazyColumn() {
-//
-//                        items(viewModel.uiState.rubbishStreets) { street ->
-//                            Text(street.streetName, fontWeight = FontWeight.Medium)
-//                            street.addition?.let {
-//                                Text(it, color = MaterialTheme.colorScheme.secondary)
-//                            }
-//                        }
-//
-//                    }
+                    LazyColumn() {
+
+                        items(viewModel.uiState.rubbishStreets) { street ->
+                            Text(street.streetName, fontWeight = FontWeight.Medium)
+                            street.addition?.let {
+                                Text(it, color = MaterialTheme.colorScheme.secondary)
+                            }
+                        }
+
+                    }
 
 
                 }
@@ -146,24 +152,29 @@ fun OnboardingRubbishStreetScreen() {
 
         }
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Button(
-                onClick = { },
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(16.dp),
-            ) {
-                Text(
-                    text = "Weiter",
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            }
-        }
+        OnboardingRubbishStreetAction()
     }
 
+}
+
+@Composable
+fun OnboardingRubbishStreetAction() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Button(
+            onClick = { },
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(16.dp),
+        ) {
+            Text(
+                text = "Weiter",
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
+    }
 }
 
 @Preview
@@ -171,7 +182,7 @@ fun OnboardingRubbishStreetScreen() {
 fun OnboardingRubbishStreetScreen_Preview() {
     MeinMoersTheme {
         LegacyMeinMoersTheme {
-            OnboardingRubbishStreetScreen()
+            OnboardingRubbishStreetScreen(onContinue = {})
         }
     }
 }

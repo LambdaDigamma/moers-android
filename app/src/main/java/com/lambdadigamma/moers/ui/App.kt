@@ -13,7 +13,10 @@ import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
 
 @ExperimentalMaterial3Api
 @Composable
-fun Onboarding(onFinishOnboarding: () -> Unit, finishActivity: () -> Unit) {
+fun Onboarding(
+    onFinishOnboarding: () -> Unit,
+    finishActivity: () -> Unit,
+) {
     LegacyMeinMoersTheme {
         MeinMoersTheme {
             val navController = rememberNavController()

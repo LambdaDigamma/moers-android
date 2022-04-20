@@ -19,18 +19,6 @@ import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
 @Composable
 fun OnboardingTopBar(state: OnboardingTopBarUiState) {
 
-//    val baseSteps = arrayOf(
-//        OnboardingStep("Privacy", OnboardingStepState.COMPLETE),
-//        OnboardingStep("Rubbish", OnboardingStepState.IN_PROGRESS),
-//        OnboardingStep("Petrol", OnboardingStepState.NOT_COMPLETE),
-//        OnboardingStep("Finish", OnboardingStepState.NOT_COMPLETE),
-//    )
-//
-//
-//    val steps = remember {
-//        mutableStateOf(baseSteps)
-//    }
-
     Card(shape = RectangleShape, elevation = 4.dp) {
         Column(
             modifier = Modifier.padding(16.dp),
