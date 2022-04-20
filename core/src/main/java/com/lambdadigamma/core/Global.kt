@@ -1,4 +1,4 @@
-package com.lambdadigamma.moers.core
+package com.lambdadigamma.core
 
 object Global {
     const val termsUrl: String = "https://moers.app/legal/tac"

@@ -16,5 +16,6 @@ pluginManagement {
 
 rootProject.name = "Mein Moers"
 
-include(":app")
+include(":core")
 include(":newsfeature")
+include(":app")

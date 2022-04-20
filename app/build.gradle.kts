@@ -33,10 +33,12 @@ val retrofitVersion: String by rootProject.extra
 val autofillVersion: String by rootProject.extra
 val gmsVersion: String by rootProject.extra
 
-val androidXTestVersion: String = "1.4.0"
-val testRunnerVersion: String = "1.4.0"
-val testJunitVersion: String = "1.1.3"
-val truthVersion: String = "1.4.0"
+val junitVersion: String by rootProject.extra
+val androidXTestVersion: String by rootProject.extra
+val testRunnerVersion: String by rootProject.extra
+val testJunitVersion: String by rootProject.extra
+val truthVersion: String by rootProject.extra
+val espressoVersion: String by rootProject.extra
 
 android {
     compileSdk = sdkVersion
@@ -92,7 +94,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
     implementation("androidx.activity:activity-compose:1.4.0")
     implementation("androidx.navigation:navigation-compose:2.4.0-rc01")
-    testImplementation("junit:junit:4.13.2")
+    testImplementation("junit:junit:$junitVersion")
 
     // Core library
     androidTestImplementation("androidx.test:core:$androidXTestVersion")
@@ -105,8 +107,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:$testJunitVersion")
     androidTestImplementation("androidx.test.ext:truth:$truthVersion")
 
-
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:$espressoVersion")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
     debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
 
@@ -143,6 +144,9 @@ dependencies {
     implementation("androidx.autofill:autofill:$autofillVersion")
 
     implementation("com.google.accompanist:accompanist-permissions:0.24.6-alpha")
+
+    implementation(project(path = ":core"))
+    implementation(project(path = ":newsfeature"))
 
 }
 

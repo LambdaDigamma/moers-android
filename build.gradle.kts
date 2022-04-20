@@ -26,6 +26,13 @@ extra["gmsVersion"] = "19.0.1"
 extra["roomVersion"] = "2.4.2"
 extra["gsonVersion"] = "2.9.0"
 
+extra["junitVersion"] = "4.13.2"
+extra["androidXTestVersion"] = "1.4.0"
+extra["testRunnerVersion"] = "1.4.0"
+extra["testJunitVersion"] = "1.1.3"
+extra["truthVersion"] = "1.4.0"
+extra["espressoVersion"] = "3.4.0"
+
 /**
  * The buildscript block is where you configure the repositories and
  * dependencies for Gradle itself — meaning, you should not include dependencies
@@ -60,7 +67,7 @@ buildscript {
      */
     dependencies {
         classpath("com.android.tools.build:gradle:7.1.3")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
         classpath("com.google.dagger:hilt-android-gradle-plugin:${hiltAndroid}")
 
         // NOTE: Do not place your application dependencies here; they belong

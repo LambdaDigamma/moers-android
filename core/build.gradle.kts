@@ -13,11 +13,14 @@ val sdkVersion: Int by rootProject.extra
 val appVersion: String by rootProject.extra
 val appVersionCode: Int by rootProject.extra
 
+val gmsVersion: String by rootProject.extra
+
 val junitVersion: String by rootProject.extra
 val androidXTestVersion: String by rootProject.extra
 val testRunnerVersion: String by rootProject.extra
 val testJunitVersion: String by rootProject.extra
 val truthVersion: String by rootProject.extra
+
 val espressoVersion: String by rootProject.extra
 
 android {
@@ -32,8 +35,12 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -46,10 +53,17 @@ android {
 }
 
 dependencies {
+
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.4.1")
     implementation("com.google.android.material:material:1.5.0")
+
+    // Google Play Services
+    implementation("com.google.android.gms:play-services-location:$gmsVersion")
+
     testImplementation("junit:junit:$junitVersion")
     androidTestImplementation("androidx.test.ext:junit:$testJunitVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$espressoVersion")
+
+
 }
