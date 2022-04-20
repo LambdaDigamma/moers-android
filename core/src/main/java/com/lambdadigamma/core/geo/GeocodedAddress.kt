@@ -1,4 +1,4 @@
-package com.lambdadigamma.moers.core.geo
+package com.lambdadigamma.core.geo
 
 import android.location.Address
 

@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
 }
 
 /**
@@ -58,12 +59,18 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.4.1")
     implementation("com.google.android.material:material:1.5.0")
 
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
+
     // Google Play Services
     implementation("com.google.android.gms:play-services-location:$gmsVersion")
 
     testImplementation("junit:junit:$junitVersion")
+    androidTestImplementation("androidx.test:core:$androidXTestVersion")
+    androidTestImplementation("androidx.test:runner:$testRunnerVersion")
+    androidTestImplementation("androidx.test:rules:$testRunnerVersion")
     androidTestImplementation("androidx.test.ext:junit:$testJunitVersion")
+    androidTestImplementation("androidx.test.ext:truth:$truthVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$espressoVersion")
-
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")
 
 }

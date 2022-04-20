@@ -1,11 +1,13 @@
-package com.lambdadigamma.moers.core.geo
+package com.lambdadigamma.core.geo
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.core.content.ContextCompat
-import com.lambdadigamma.moers.Application
 
-class GoogleMapsNavigationProvider : NavigationProvider {
+class GoogleMapsNavigationProvider(
+    val context: Context
+) : NavigationProvider {
 
     override fun startNavigation(
         latitude: Double,
@@ -16,7 +18,7 @@ class GoogleMapsNavigationProvider : NavigationProvider {
         val mapIntent = Intent(Intent.ACTION_VIEW, uri)
         mapIntent.setPackage("com.google.android.apps.maps")
         mapIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        return ContextCompat.startActivity(Application.instance, mapIntent, null)
+        return ContextCompat.startActivity(context, mapIntent, null)
     }
 
     override fun startNavigation(destination: Point, travelMode: TravelMode) {

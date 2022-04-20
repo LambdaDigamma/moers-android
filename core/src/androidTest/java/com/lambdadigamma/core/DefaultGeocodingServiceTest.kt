@@ -1,9 +1,9 @@
-package com.lambdadigamma.moers
+package com.lambdadigamma.core
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.lambdadigamma.moers.core.geo.DefaultGeocodingService
-import com.lambdadigamma.moers.core.geo.Point
+import com.lambdadigamma.core.geo.DefaultGeocodingService
+import com.lambdadigamma.core.geo.Point
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
@@ -33,11 +33,12 @@ class DefaultGeocodingServiceTest {
     fun testGeocoding() {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val geocodingService = DefaultGeocodingService(appContext)
-        val point =
-            geocodingService.geocodeBestPosition("Lindenstraße 24, 47443 Moers, Deutschland")
+        val point = geocodingService
+            .geocodeBestPosition("Lindenstraße 24, 47443 Moers, Deutschland")
+            ?: return Assert.fail()
 
         Assert.assertNotNull(point)
-        Assert.assertEquals(51.4575141, point!!.latitude, 0.001)
-        Assert.assertEquals(6.6456608, point!!.longitude, 0.001)
+        Assert.assertEquals(51.4575141, point.latitude, 0.001)
+        Assert.assertEquals(6.6456608, point.longitude, 0.001)
     }
 }

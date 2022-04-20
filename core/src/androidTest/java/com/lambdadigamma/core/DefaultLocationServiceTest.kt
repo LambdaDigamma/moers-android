@@ -1,4 +1,4 @@
-package com.lambdadigamma.moers
+package com.lambdadigamma.core
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -10,7 +10,7 @@ class DefaultLocationServiceTest {
 
     @Test
     fun placeholder() {
-        
+
     }
 
 //    @Rule

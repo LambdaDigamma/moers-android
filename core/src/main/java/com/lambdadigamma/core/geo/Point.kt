@@ -1,3 +1,3 @@
-package com.lambdadigamma.moers.core.geo
+package com.lambdadigamma.core.geo
 
 data class Point(val latitude: Double, val longitude: Double)

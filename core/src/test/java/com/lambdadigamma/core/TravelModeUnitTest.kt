@@ -1,6 +1,6 @@
-package com.lambdadigamma.moers
+package com.lambdadigamma.core
 
-import com.lambdadigamma.moers.core.geo.TravelMode
+import com.lambdadigamma.core.geo.TravelMode
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

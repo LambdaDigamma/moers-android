@@ -6,9 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lambdadigamma.core.geo.GMSLocationService
+import com.lambdadigamma.core.geo.GoogleMapsNavigationProvider
 import com.lambdadigamma.moers.Application
-import com.lambdadigamma.moers.core.geo.GMSLocationService
-import com.lambdadigamma.moers.core.geo.GoogleMapsNavigationProvider
 import com.lambdadigamma.moers.data.rubbish.RubbishRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -41,7 +41,11 @@ class OnboardingRubbishViewModel(
         Log.d("OnboardingRubbishViewModel", "location: $location")
 
         location?.let {
-            GoogleMapsNavigationProvider().startNavigation(it.latitude, it.longitude)
+            GoogleMapsNavigationProvider(Application.instance)
+                .startNavigation(
+                    it.latitude,
+                    it.longitude
+                )
         }
 
     }

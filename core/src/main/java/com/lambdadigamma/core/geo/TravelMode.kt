@@ -1,4 +1,4 @@
-package com.lambdadigamma.moers.core.geo
+package com.lambdadigamma.core.geo
 
 enum class TravelMode {
     DRIVING,
