@@ -1,9 +1,9 @@
-package com.lambdadigamma.moers.data.rubbish
+package com.lambdadigamma.rubbish
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import com.lambdadigamma.moers.data.rubbish.source.RubbishRemoteDataSource
-import com.lambdadigamma.moers.data.settings.RubbishSettings
+import com.lambdadigamma.rubbish.settings.RubbishSettings
+import com.lambdadigamma.rubbish.source.RubbishRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
@@ -19,9 +19,9 @@ class RubbishRepository(
     private val dataStore: DataStore<RubbishSettings> = context.rubbishSettingsDataStore
 
     private val latestStreetsMutex = Mutex()
-    private var latestStreets: List<RubbishCollectionStreet> = emptyList()
+    private var latestStreets: List<com.lambdadigamma.rubbish.RubbishCollectionStreet> = emptyList()
 
-    suspend fun loadStreets(refresh: Boolean = true): List<RubbishCollectionStreet> {
+    suspend fun loadStreets(refresh: Boolean = true): List<com.lambdadigamma.rubbish.RubbishCollectionStreet> {
 
         if (refresh || latestStreets.isEmpty()) {
             val networkResult = remoteDataSource.fetchStreets()

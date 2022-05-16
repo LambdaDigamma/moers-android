@@ -9,12 +9,12 @@ import androidx.lifecycle.viewModelScope
 import com.lambdadigamma.core.geo.GMSLocationService
 import com.lambdadigamma.core.geo.GoogleMapsNavigationProvider
 import com.lambdadigamma.moers.Application
-import com.lambdadigamma.moers.data.rubbish.RubbishRepository
+import com.lambdadigamma.rubbish.RubbishRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class OnboardingRubbishViewModel(
-    private val rubbishRepository: RubbishRepository
+    private val rubbishRepository: com.lambdadigamma.rubbish.RubbishRepository
 ) : ViewModel() {
 
     var uiState by mutableStateOf(OnboardingRubbishUiState())

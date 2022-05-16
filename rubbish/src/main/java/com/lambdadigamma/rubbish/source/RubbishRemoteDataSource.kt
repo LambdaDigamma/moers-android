@@ -1,6 +1,5 @@
-package com.lambdadigamma.moers.data.rubbish.source
+package com.lambdadigamma.rubbish.source
 
-import com.lambdadigamma.moers.data.rubbish.RubbishCollectionStreet
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
@@ -14,7 +13,7 @@ class RubbishRemoteDataSource(
      * the network and returns the result.
      * This executes on an IO-optimized thread pool, the function is main-safe.
      */
-    suspend fun fetchStreets(): List<RubbishCollectionStreet> {
+    suspend fun fetchStreets(): List<com.lambdadigamma.rubbish.RubbishCollectionStreet> {
         // Move the execution to an IO-optimized thread since the ApiService
         // doesn't support coroutines and makes synchronous requests.
         return withContext(ioDispatcher) {

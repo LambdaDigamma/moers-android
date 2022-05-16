@@ -149,6 +149,8 @@ dependencies {
     implementation(project(path = ":core"))
     implementation(project(path = ":news"))
     implementation(project(path = ":fuel"))
+    implementation(project(path = ":parking"))
+    implementation(project(path = ":rubbish"))
 
 }
 

@@ -1,4 +1,4 @@
-package com.lambdadigamma.moers.data.rubbish
+package com.lambdadigamma.rubbish
 
 import androidx.annotation.Nullable
 import androidx.room.ColumnInfo

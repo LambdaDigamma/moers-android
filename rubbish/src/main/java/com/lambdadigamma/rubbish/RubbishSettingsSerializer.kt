@@ -1,4 +1,4 @@
-package com.lambdadigamma.moers.data.rubbish
+package com.lambdadigamma.rubbish
 
 import android.content.Context
 import androidx.datastore.core.CorruptionException
@@ -6,7 +6,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
 import androidx.datastore.preferences.protobuf.InvalidProtocolBufferException
-import com.lambdadigamma.moers.data.settings.RubbishSettings
+import com.lambdadigamma.rubbish.settings.RubbishSettings
 import java.io.InputStream
 import java.io.OutputStream
 

@@ -18,7 +18,8 @@ rootProject.name = "Mein Moers"
 
 include(":core")
 include(":news")
-include(":app")
 include(":fuel")
 include(":events")
 include(":parking")
+include(":rubbish")
+include(":app")

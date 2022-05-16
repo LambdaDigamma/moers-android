@@ -1,4 +1,4 @@
-package com.lambdadigamma.moers.data.rubbish
+package com.lambdadigamma.rubbish
 
 import androidx.room.*
 
@@ -13,5 +13,5 @@ interface RubbishDao {
 
     @Delete
     fun deleteRubbishCollectionItems(vararg items: RubbishCollectionItem)
-    
+
 }

@@ -15,7 +15,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.lambdadigamma.moers.data.rubbish.*
+import com.lambdadigamma.rubbish.*
 import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -96,7 +96,11 @@ fun RubbishNextDays() {
 }
 
 @Composable
-private fun DayCard(title: String, items: Array<RubbishPickupItem>, modifier: Modifier = Modifier) {
+private fun DayCard(
+    title: String,
+    items: Array<RubbishPickupItem>,
+    modifier: Modifier = Modifier
+) {
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

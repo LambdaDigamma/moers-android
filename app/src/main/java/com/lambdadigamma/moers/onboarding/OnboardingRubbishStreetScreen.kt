@@ -24,12 +24,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.lambdadigamma.moers.data.rubbish.RubbishRepository
-import com.lambdadigamma.moers.data.rubbish.source.DefaultRubbishApiService
-import com.lambdadigamma.moers.data.rubbish.source.RubbishRemoteDataSource
 import com.lambdadigamma.moers.onboarding.ui.OnboardingHost
 import com.lambdadigamma.moers.ui.theme.LegacyMeinMoersTheme
 import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
+import com.lambdadigamma.rubbish.RubbishRepository
+import com.lambdadigamma.rubbish.source.DefaultRubbishApiService
+import com.lambdadigamma.rubbish.source.RubbishRemoteDataSource
 import kotlinx.coroutines.Dispatchers
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -40,10 +40,10 @@ fun OnboardingRubbishStreetScreen(
 
     val context = LocalContext.current
 
-    val rubbishRepository = RubbishRepository(
+    val rubbishRepository = com.lambdadigamma.rubbish.RubbishRepository(
         context = context,
-        remoteDataSource = RubbishRemoteDataSource(
-            rubbishApi = DefaultRubbishApiService.getRubbishService(),
+        remoteDataSource = com.lambdadigamma.rubbish.source.RubbishRemoteDataSource(
+            rubbishApi = com.lambdadigamma.rubbish.source.DefaultRubbishApiService.getRubbishService(),
             ioDispatcher = Dispatchers.IO
         )
     )

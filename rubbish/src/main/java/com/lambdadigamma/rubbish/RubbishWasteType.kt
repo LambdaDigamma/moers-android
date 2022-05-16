@@ -1,4 +1,4 @@
-package com.lambdadigamma.moers.data.rubbish
+package com.lambdadigamma.rubbish
 
 import androidx.compose.ui.graphics.Color
 import com.google.gson.annotations.SerializedName
