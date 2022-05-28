@@ -5,6 +5,7 @@ data class OnboardingRubbishUiState(
 )
 
 data class RubbishStreetUiState(
+    val id: Int,
     val streetName: String,
     val addition: String? = null
 )

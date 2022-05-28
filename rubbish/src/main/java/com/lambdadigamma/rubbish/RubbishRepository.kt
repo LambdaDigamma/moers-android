@@ -19,12 +19,15 @@ class RubbishRepository(
     private val dataStore: DataStore<RubbishSettings> = context.rubbishSettingsDataStore
 
     private val latestStreetsMutex = Mutex()
-    private var latestStreets: List<com.lambdadigamma.rubbish.RubbishCollectionStreet> = emptyList()
+    private var latestStreets: List<RubbishCollectionStreet> = emptyList()
 
-    suspend fun loadStreets(refresh: Boolean = true): List<com.lambdadigamma.rubbish.RubbishCollectionStreet> {
+    suspend fun loadStreets(
+        streetName: String? = null,
+        refresh: Boolean = true
+    ): List<RubbishCollectionStreet> {
 
         if (refresh || latestStreets.isEmpty()) {
-            val networkResult = remoteDataSource.fetchStreets()
+            val networkResult = remoteDataSource.fetchStreets(streetName = streetName)
             // Thread-safe write to latestStreets
             latestStreetsMutex.withLock {
                 this.latestStreets = networkResult
@@ -32,10 +35,6 @@ class RubbishRepository(
         }
 
         return latestStreetsMutex.withLock { this.latestStreets }
-    }
-
-    fun calculateRecommendedStreet() {
-
     }
 
     // --- Reminder
@@ -73,6 +72,20 @@ class RubbishRepository(
         context.rubbishSettingsDataStore.updateData { settings ->
             settings.toBuilder()
                 .setRemindersEnabled(false)
+                .build()
+        }
+    }
+
+    suspend fun setStreet(id: Int, name: String) {
+        val rubbishSettingsStreet = RubbishSettings.RubbishCollectionStreet
+            .newBuilder()
+            .setId(id.toLong())
+            .setName(name)
+            .build()
+
+        dataStore.updateData { settings ->
+            settings.toBuilder()
+                .setRubbishCollectionStreet(rubbishSettingsStreet)
                 .build()
         }
     }

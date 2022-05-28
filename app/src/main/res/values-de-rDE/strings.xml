@@ -54,4 +54,8 @@
     <string name="onboarding_done_cta">Los geht\'s</string>
     <string name="onboarding_done_headline">Geschafft!</string>
     <string name="onboarding_done_text">Du hast die Einrichtung nun abgeschlossen.\nNun kannst Du die App erkunden.</string>
+    <string name="onboarding_rubbish_street_placeholder">Straße</string>
+    <string name="onboarding_rubbish_street_selection_title">Wähle Deine Straße aus</string>
+    <string name="onboarding_rubbish_street_selection_body">Die App kann Dir den Abfallkalender für Deine Straße anzeigen. Suche dazu Deine Straße aus und fahre fort.</string>
+    <string name="onboarding_rubbish_street_skip_action">Später einrichten</string>
 </resources>

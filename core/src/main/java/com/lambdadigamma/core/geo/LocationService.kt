@@ -4,11 +4,13 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
+import android.os.Looper
+import android.util.Log
 import androidx.core.app.ActivityCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 interface LocationService {
@@ -76,28 +78,34 @@ class GMSLocationService(
         return suspendCoroutine { continuation ->
 
             if (!checkCoarseLocationPermission()) {
+                Log.i("GMSLocationService", "No coarse location permission")
                 continuation.resume(null)
             }
 
-//            fusedLocationProvider.getCurrentLocation(
-//                LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY,
-//                CancellationToken
-//            )
+            val locationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setNumUpdates(1)
+                .setInterval(1)
+                .setExpirationDuration(1000)
 
-            fusedLocationProvider.lastLocation
+            val listener = object : LocationCallback() {
+                override fun onLocationResult(p0: LocationResult) {
+                    continuation.resume(
+                        Point(
+                            latitude = p0.lastLocation.latitude,
+                            longitude = p0.lastLocation.longitude
+                        )
+                    )
+                }
+            }
 
-            fusedLocationProvider.lastLocation
-                .addOnSuccessListener { location ->
-                    location?.let {
-                        val point =
-                            Point(latitude = location.latitude, longitude = location.longitude)
-                        return@addOnSuccessListener continuation.resume(point)
-                    }
-                    return@addOnSuccessListener continuation.resume(null)
-                }
-                .addOnFailureListener {
-                    continuation.resume(null)
-                }
+            val task = fusedLocationProvider.requestLocationUpdates(
+                locationRequest,
+                listener,
+                Looper.getMainLooper()
+            )
+
+            task.addOnFailureListener { continuation.resumeWithException(it) }
 
         }
 

@@ -11,17 +11,34 @@
 
 ## Onboarding
 
-* Welcome
-* Privacy
-    * Welche Daten verwenden wir?
-    * Woher stammen die Daten?
-    * Open Data
-    * Entwickler
+- [x] Welcome Screen
+    - [x] UI
+    - [x] Continue Action
+- [ ] About / Privacy
+    - [x] What is open data?
+    - [x] How to contribute?
+        - [ ] Link
+    - [x] Continue Action
+    - [x] Terms and conditions / Privacy Policy
+    - [x] Continue Action
+- [ ] User type (later: City selection)
+    - [ ] Store selection
+    - [ ] Activated features
+    - [x] Continue Action
+- [ ] GPS
+    - [x] Picture (light)
+    - [ ] Picture (dark)
+    - [x] Information
+    - [x] Disclaimer
+    - [ ] Activate GPS
+    - [ ] Skip
+- [ ] 
+
 * Rubbish Street
 * Petrol Type
 * Notifications
 
 ## Dashboard
 
-* Rubbish Next Days
-    * Setting: Show current day
+- Rubbish Next Days
+    - Setting: Show current day

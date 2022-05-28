@@ -54,5 +54,9 @@
     <string name="onboarding_done_cta">Let\'s start</string>
     <string name="onboarding_done_headline">Done!</string>
     <string name="onboarding_done_text">You have now completed the setup.\nNow you can explore the app.</string>
+    <string name="onboarding_rubbish_street_placeholder">Street</string>
+    <string name="onboarding_rubbish_street_selection_title">Choose your street</string>
+    <string name="onboarding_rubbish_street_selection_body">The app can show you the waste calendar for your street. Select your street and continue.</string>
+    <string name="onboarding_rubbish_street_skip_action">Setup later</string>
 
 </resources>
