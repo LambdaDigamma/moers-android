@@ -1,10 +1,15 @@
 package com.lambdadigamma.moers
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
@@ -14,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.lambdadigamma.moers.onboarding.*
 import com.lambdadigamma.moers.onboarding.ui.OnboardingTopBar
 
@@ -25,10 +31,18 @@ fun OnboardingNavigationGraph(
     onFinishOnboarding: () -> Unit,
 ) {
 
+    rememberSystemUiController().setStatusBarColor(
+        MaterialTheme.colorScheme.background, darkIcons = !isSystemInDarkTheme()
+    )
+
     val onboardingViewModel: OnboardingViewModel = hiltViewModel()
 
-    Scaffold(topBar = { OnboardingTop(navController) }) {
-        NavHost(navController = navController, Destinations.Onboarding.graph) {
+    Scaffold(topBar = { OnboardingTop(navController) }, modifier = Modifier.systemBarsPadding()) {
+        NavHost(
+            navController = navController,
+            Destinations.Onboarding.graph,
+            modifier = Modifier.padding(it)
+        ) {
             navigation(
                 Destinations.Onboarding.welcome,
                 Destinations.Onboarding.graph

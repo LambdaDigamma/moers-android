@@ -3,12 +3,11 @@ package com.lambdadigamma.moers.onboarding.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,20 +16,20 @@ import com.lambdadigamma.moers.R
 import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
 
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 fun OnboardingTopBar(state: OnboardingTopBarUiState) {
 
-    Card(shape = RectangleShape, elevation = 4.dp) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text(
-                stringResource(id = state.title),
-                fontWeight = FontWeight.SemiBold,
-                style = MaterialTheme.typography.titleLarge
-            )
-            OnboardingSteps(steps = state.steps)
-        }
+//    Card(shape = RectangleShape, elevation = 4.dp) {
+    Column(
+        modifier = Modifier.padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text(
+            stringResource(id = state.title),
+            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.titleLarge
+        )
+        OnboardingSteps(steps = state.steps)
     }
 
 }

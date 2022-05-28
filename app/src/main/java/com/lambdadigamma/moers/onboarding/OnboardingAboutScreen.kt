@@ -164,7 +164,7 @@ fun ContributeInfoCard() {
 @Composable
 fun TermsAndPrivacyInfoCard() {
 
-    ElevatedCard(containerColor = MaterialTheme.colorScheme.surfaceVariant) {
+    ElevatedCard(/*containerColor = MaterialTheme.colorScheme.surfaceVariant*/) {
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)

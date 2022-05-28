@@ -25,6 +25,8 @@ val truthVersion: String by rootProject.extra
 
 val espressoVersion: String by rootProject.extra
 
+val composeVersion: String by rootProject.extra
+
 android {
     compileSdk = sdkVersion
 
@@ -80,5 +82,11 @@ dependencies {
     implementation("androidx.room:room-paging:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     testImplementation("androidx.room:room-testing:$roomVersion")
+
+    // Compose
+    implementation("androidx.compose.ui:ui:$composeVersion")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha12")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.1.1")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.1.1")
 
 }

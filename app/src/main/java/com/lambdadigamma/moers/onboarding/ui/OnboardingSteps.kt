@@ -47,7 +47,7 @@ fun OnboardingSteps(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface)
+//            .background(MaterialTheme.colorScheme.surface)
             .drawBehind {
                 val strokeWidth = borderWidth.value * density
                 val y = size.height

@@ -52,6 +52,8 @@ android {
 
 dependencies {
 
+    implementation(project(path = ":core"))
+
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.4.1")
     implementation("com.google.android.material:material:1.5.0")
@@ -62,6 +64,9 @@ dependencies {
 
     // Compose
     implementation("androidx.compose.ui:ui:$composeVersion")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha12")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.1.1")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.1.1")
 
     // Gson
     implementation("com.google.code.gson:gson:$gsonVersion")

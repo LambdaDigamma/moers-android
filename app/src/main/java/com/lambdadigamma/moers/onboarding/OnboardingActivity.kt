@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.core.view.WindowCompat
 import com.lambdadigamma.moers.MainActivity
 import com.lambdadigamma.moers.ui.Onboarding
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,6 +21,7 @@ class OnboardingActivity : AppCompatActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             Onboarding(
                 finishActivity = ::finish,
