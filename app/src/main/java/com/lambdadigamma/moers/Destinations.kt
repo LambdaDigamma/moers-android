@@ -18,9 +18,12 @@ object Destinations {
     const val graph = "main"
 
     const val dashboard = "dashboard"
+    const val news = "news"
     const val explore = "explore"
     const val map = "map"
     const val events = "events"
     const val search = "search"
     const val other = "other"
+
+    const val settings = "settings"
 }

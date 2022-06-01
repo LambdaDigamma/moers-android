@@ -32,6 +32,7 @@ val gsonVersion: String by rootProject.extra
 val retrofitVersion: String by rootProject.extra
 val autofillVersion: String by rootProject.extra
 val gmsVersion: String by rootProject.extra
+val coilVersion: String by rootProject.extra
 
 val junitVersion: String by rootProject.extra
 val androidXTestVersion: String by rootProject.extra
@@ -87,14 +88,21 @@ dependencies {
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.4.1")
     implementation("com.google.android.material:material:1.5.0")
+
+    // Compose
     implementation("androidx.compose.ui:ui:$composeVersion")
     implementation("androidx.compose.material:material:$composeVersion")
     implementation("androidx.compose.material3:material3:1.0.0-alpha12")
     implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
+    implementation("androidx.compose.runtime:runtime-livedata:1.2.0-beta02")
+
+    // Coil
+    implementation("io.coil-kt:coil:$coilVersion")
+    implementation("io.coil-kt:coil-compose:2.1.0")
+
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
     implementation("androidx.activity:activity-compose:1.4.0")
     implementation("androidx.navigation:navigation-compose:2.5.0-rc01")
-    implementation("androidx.compose.material:material-icons-extended:$composeVersion")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.24.9-beta")
 
     testImplementation("junit:junit:$junitVersion")
@@ -140,13 +148,15 @@ dependencies {
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     implementation("androidx.room:room-paging:$roomVersion")
-    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
     testImplementation("androidx.room:room-testing:$roomVersion")
 
     // Autofill
     implementation("androidx.autofill:autofill:$autofillVersion")
 
     implementation("com.google.accompanist:accompanist-permissions:0.24.9-beta")
+
+    implementation("com.github.JamalMulla:ComposePrefs3:1.0.2")
 
     implementation(project(path = ":core"))
     implementation(project(path = ":news"))

@@ -38,6 +38,17 @@
 * Petrol Type
 * Notifications
 
+## Settings
+
+- [ ] Benutzer
+    - [ ] Art
+- [ ] Tanken
+    - [ ] Kraftstoff
+- [ ] Abfuhrkalender
+    - [ ] Aktiviert
+    - [ ] Straße
+    - [ ] Erinnerung
+
 ## Dashboard
 
 - Rubbish Next Days

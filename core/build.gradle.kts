@@ -16,6 +16,7 @@ val appVersionCode: Int by rootProject.extra
 
 val gmsVersion: String by rootProject.extra
 val roomVersion: String by rootProject.extra
+val retrofitVersion: String by rootProject.extra
 
 val junitVersion: String by rootProject.extra
 val androidXTestVersion: String by rootProject.extra
@@ -82,6 +83,12 @@ dependencies {
     implementation("androidx.room:room-paging:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     testImplementation("androidx.room:room-testing:$roomVersion")
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-simplexml:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+    implementation("com.squareup.retrofit2:retrofit-mock:$retrofitVersion")
 
     // Compose
     implementation("androidx.compose.ui:ui:$composeVersion")

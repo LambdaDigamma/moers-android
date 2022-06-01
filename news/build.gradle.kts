@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
 }
 
 /**
@@ -12,6 +13,11 @@ val sdkVersion: Int by rootProject.extra
 
 val appVersion: String by rootProject.extra
 val appVersionCode: Int by rootProject.extra
+
+val roomVersion: String by rootProject.extra
+val retrofitVersion: String by rootProject.extra
+
+val hiltVersion: String by rootProject.extra
 
 val junitVersion: String by rootProject.extra
 val androidXTestVersion: String by rootProject.extra
@@ -46,9 +52,28 @@ android {
 }
 
 dependencies {
+    implementation(project(path = ":core"))
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.4.1")
     implementation("com.google.android.material:material:1.5.0")
+
+    // Hilt
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
+
+    // Room
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-simplexml:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+    implementation("com.squareup.retrofit2:retrofit-mock:$retrofitVersion")
+
     testImplementation("junit:junit:$junitVersion")
     androidTestImplementation("androidx.test.ext:junit:$testJunitVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$espressoVersion")

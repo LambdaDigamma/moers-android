@@ -17,6 +17,7 @@ extra["kotlinVersion"] = kotlinVersion
 extra["gradleVersion"] = gradleVersion
 extra["hiltVersion"] = "2.41"
 extra["composeVersion"] = "1.1.1"
+extra["coilVersion"] = "1.2.1"
 extra["datastoreVersion"] = "1.0.0"
 extra["protobufVersion"] = "3.19.0"
 extra["retrofitVersion"] = "2.9.0"
@@ -43,7 +44,7 @@ extra["espressoVersion"] = "3.4.0"
 buildscript {
 
     val kotlinVersion = "1.6.10" //: String by rootProject.extra
-    val hiltAndroid = "2.38.1"
+    val hiltAndroid = "2.40.1"
     val gradleVersion: String by rootProject.extra
 
 
@@ -66,7 +67,7 @@ buildscript {
      * version 7.0.4 as a classpath dependency.
      */
     dependencies {
-        classpath("com.android.tools.build:gradle:7.1.3")
+        classpath("com.android.tools.build:gradle:7.2.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
         classpath("com.google.dagger:hilt-android-gradle-plugin:${hiltAndroid}")
 

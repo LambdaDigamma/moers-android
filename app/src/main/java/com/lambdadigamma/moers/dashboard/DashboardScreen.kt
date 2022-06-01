@@ -4,18 +4,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.lambdadigamma.moers.R
 import com.lambdadigamma.moers.ui.TopBar
+import com.lambdadigamma.rubbish.RubbishRepository
+import com.lambdadigamma.rubbish.source.DefaultRubbishApiService
+import com.lambdadigamma.rubbish.source.RubbishRemoteDataSource
 import kotlinx.coroutines.Dispatchers
 
 @Composable
@@ -23,10 +23,10 @@ fun DashboardScreen(onOpenSettings: () -> Unit) {
 
     val context = LocalContext.current
 
-    val rubbishRepository = com.lambdadigamma.rubbish.RubbishRepository(
+    val rubbishRepository = RubbishRepository(
         context = context,
-        remoteDataSource = com.lambdadigamma.rubbish.source.RubbishRemoteDataSource(
-            rubbishApi = com.lambdadigamma.rubbish.source.DefaultRubbishApiService.getRubbishService(),
+        remoteDataSource = RubbishRemoteDataSource(
+            rubbishApi = DefaultRubbishApiService.getRubbishService(),
             ioDispatcher = Dispatchers.IO
         )
     )
@@ -38,14 +38,38 @@ fun DashboardScreen(onOpenSettings: () -> Unit) {
 //    context.rubbishSettingsDataStore.data.map { it.remindersEnabled }
 //        .collectAsState(initial = false)
 
+    var showMenu by remember { mutableStateOf(false) }
+
     Column() {
         TopBar(
             title = stringResource(id = R.string.navigation_dashboard),
             actions = {
-                IconButton(onClick = onOpenSettings) {
-                    Icon(
-                        Icons.Default.Settings,
-                        contentDescription = stringResource(id = R.string.settings)
+//                IconButton(onClick = onOpenSettings) {
+//                    Icon(
+//                        Icons.Default.Settings,
+//                        contentDescription = stringResource(id = R.string.settings)
+//                    )
+//                }
+                IconButton(onClick = { showMenu = !showMenu }) {
+                    Icon(Icons.Default.MoreVert, "")
+                }
+                DropdownMenu(
+                    expanded = showMenu,
+                    onDismissRequest = { showMenu = false }
+                ) {
+                    DropdownMenuItem(
+                        text = { Text(text = stringResource(id = R.string.settings)) },
+                        onClick = {
+                            onOpenSettings()
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text(text = stringResource(R.string.feedback_navigation)) },
+                        onClick = { /*TODO*/ }
+                    )
+                    DropdownMenuItem(
+                        text = { Text(text = stringResource(R.string.about_navigation)) },
+                        onClick = { /*TODO*/ }
                     )
                 }
             }
