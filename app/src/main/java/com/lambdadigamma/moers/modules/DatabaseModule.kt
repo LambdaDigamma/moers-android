@@ -4,6 +4,7 @@ import android.content.Context
 import com.lambdadigamma.moers.database.AppDatabase
 import com.lambdadigamma.moers.database.DatabaseCreator
 import com.lambdadigamma.newsfeature.NewsDao
+import com.lambdadigamma.rubbish.RubbishDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,4 +26,10 @@ class DatabaseModule {
     fun provideNewsDao(appDatabase: AppDatabase): NewsDao {
         return appDatabase.newsDao()
     }
+
+    @Provides
+    fun provideRubbishDao(appDatabase: AppDatabase): RubbishDao {
+        return appDatabase.rubbishDao()
+    }
+
 }

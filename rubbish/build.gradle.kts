@@ -14,6 +14,8 @@ val sdkVersion: Int by rootProject.extra
 val minSdkVersion: Int by rootProject.extra
 val targetSdkVersion: Int by rootProject.extra
 
+val hiltVersion: String by rootProject.extra
+
 val composeVersion: String by rootProject.extra
 val roomVersion: String by rootProject.extra
 val retrofitVersion: String by rootProject.extra
@@ -61,6 +63,11 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+
+    // Hilt
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
     // Compose
     implementation("androidx.compose.ui:ui:$composeVersion")

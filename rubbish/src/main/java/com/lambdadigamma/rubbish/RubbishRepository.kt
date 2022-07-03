@@ -2,24 +2,35 @@ package com.lambdadigamma.rubbish
 
 import android.content.Context
 import androidx.datastore.core.DataStore
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.lambdadigamma.core.AppExecutors
+import com.lambdadigamma.core.NetworkBoundResource
+import com.lambdadigamma.core.Resource
 import com.lambdadigamma.rubbish.settings.RubbishSettings
 import com.lambdadigamma.rubbish.source.RubbishRemoteDataSource
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import javax.inject.Inject
 
-class RubbishRepository(
-    private val context: Context,
+class RubbishRepository @Inject constructor(
+    @ApplicationContext private val context: Context,
 //    private val locationService: LocationService,
-    private val remoteDataSource: RubbishRemoteDataSource
-//    private val rubbishDao: RubbishDao,
+    private val remoteDataSource: RubbishRemoteDataSource,
+    private val rubbishDao: RubbishDao,
+    private val appExecutors: AppExecutors = AppExecutors()
 ) {
 
     private val dataStore: DataStore<RubbishSettings> = context.rubbishSettingsDataStore
 
     private val latestStreetsMutex = Mutex()
     private var latestStreets: List<RubbishCollectionStreet> = emptyList()
+
+    private val latestPickupItemsMutex = Mutex()
+    private var latestPickupItems: List<RubbishCollectionItem> = emptyList()
 
     suspend fun loadStreets(
         streetName: String? = null,
@@ -35,6 +46,48 @@ class RubbishRepository(
         }
 
         return latestStreetsMutex.withLock { this.latestStreets }
+    }
+
+    fun loadRubbishCollectionItems(): LiveData<Resource<List<RubbishCollectionItem>?>> {
+
+        return object :
+            NetworkBoundResource<List<RubbishCollectionItem>, List<RubbishCollectionItem>>(
+                appExecutors
+            ) {
+
+            override fun saveCallResult(item: List<RubbishCollectionItem>) {
+                rubbishDao.insertRubbishCollectionItems(item)
+            }
+
+            override fun shouldFetch(data: List<RubbishCollectionItem>?): Boolean =
+                true // data == null || data.isEmpty()
+
+            override fun loadFromDb() = rubbishDao.loadAllRubbishCollectionItems()
+
+            override fun createCall(): LiveData<Resource<List<RubbishCollectionItem>>> {
+
+                return MutableLiveData()
+
+
+//                val d = MutableLiveData<Resource<List<RubbishCollectionItem>>>()
+//                remoteDataSource.fetchCollectionItems(streetId)
+            }
+            //                remoteDataSource.fetchCollectionItems()
+
+
+        }.asLiveData()
+
+//        if (latestPickupItems.isEmpty()) {
+//            dataStore.data.collectLatest {
+//                val networkResult = remoteDataSource
+//                    .fetchCollectionItems(it.rubbishCollectionStreet.id)
+//                return@collectLatest latestPickupItemsMutex.withLock {
+//                    this.latestPickupItems = networkResult
+//                }
+//            }
+//        }
+//
+//        return latestPickupItemsMutex.withLock { this.latestPickupItems }
     }
 
     // --- Reminder

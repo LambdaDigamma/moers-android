@@ -1,5 +1,6 @@
 package com.lambdadigamma.moers.dashboard
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -13,27 +14,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.lambdadigamma.moers.R
 import com.lambdadigamma.moers.ui.TopBar
-import com.lambdadigamma.rubbish.RubbishRepository
-import com.lambdadigamma.rubbish.source.DefaultRubbishApiService
-import com.lambdadigamma.rubbish.source.RubbishRemoteDataSource
-import kotlinx.coroutines.Dispatchers
 
 @Composable
-fun DashboardScreen(onOpenSettings: () -> Unit) {
+fun DashboardScreen(onAction: () -> Unit, onOpenSettings: () -> Unit) {
 
     val context = LocalContext.current
 
-    val rubbishRepository = RubbishRepository(
-        context = context,
-        remoteDataSource = RubbishRemoteDataSource(
-            rubbishApi = DefaultRubbishApiService.getRubbishService(),
-            ioDispatcher = Dispatchers.IO
-        )
-    )
+//    val rubbishRepository = RubbishRepository(
+//        context = context,
+//        remoteDataSource = RubbishRemoteDataSource(
+//            rubbishApi = DefaultRubbishApiService.getRubbishService(),
+//            ioDispatcher = Dispatchers.IO
+//        )
+//    )
 
     val scope = rememberCoroutineScope()
 
-    val remindersEnabled = rubbishRepository.reminderEnabled.collectAsState(initial = false)
+//    val remindersEnabled = rubbishRepository.reminderEnabled.collectAsState(initial = false)
 
 //    context.rubbishSettingsDataStore.data.map { it.remindersEnabled }
 //        .collectAsState(initial = false)
@@ -80,7 +77,9 @@ fun DashboardScreen(onOpenSettings: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             PetrolPrizeCard()
-            RubbishNextDays()
+            RubbishNextDays(modifier = Modifier.clickable {
+                onAction()
+            })
 
 //            if (remindersEnabled.value) {
 //                Text("Enabled")

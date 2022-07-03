@@ -1,5 +1,6 @@
 package com.lambdadigamma.rubbish.source
 
+import com.lambdadigamma.rubbish.RubbishCollectionItem
 import com.lambdadigamma.rubbish.RubbishCollectionStreet
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -19,6 +20,12 @@ class RubbishRemoteDataSource(
         // doesn't support coroutines and makes synchronous requests.
         return withContext(ioDispatcher) {
             rubbishApi.fetchStreets(streetName = streetName).data
+        }
+    }
+
+    suspend fun fetchCollectionItems(streetId: Long): List<RubbishCollectionItem> {
+        return withContext(ioDispatcher) {
+            rubbishApi.getPickupItems(streetId).data
         }
     }
 

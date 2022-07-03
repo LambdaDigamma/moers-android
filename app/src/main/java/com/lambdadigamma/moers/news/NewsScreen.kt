@@ -26,12 +26,10 @@ import com.lambdadigamma.newsfeature.NewsListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewsScreen() {
+fun NewsScreen(onShowRssItem: (Int) -> Unit) {
 
     val viewModel: NewsListViewModel = hiltViewModel()
     val news by viewModel.news.observeAsState()
-
-
 
     Column(
         modifier = Modifier
@@ -52,7 +50,9 @@ fun NewsScreen() {
                 ) {
                     items(news?.data ?: emptyList()) { item ->
 
-                        Card(onClick = {}) {
+                        Card(onClick = {
+                            item.id?.let(onShowRssItem)
+                        }) {
                             Column() {
                                 AsyncImage(
                                     model = item.image,

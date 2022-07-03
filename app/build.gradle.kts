@@ -104,6 +104,7 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.4.0")
     implementation("androidx.navigation:navigation-compose:2.5.0-rc01")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.24.9-beta")
+    implementation("com.google.accompanist:accompanist-webview:0.24.9-beta")
 
     testImplementation("junit:junit:$junitVersion")
 

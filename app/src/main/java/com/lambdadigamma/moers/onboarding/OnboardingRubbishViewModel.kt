@@ -13,8 +13,9 @@ import com.lambdadigamma.moers.Application
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class OnboardingRubbishViewModel(
+class OnboardingRubbishViewModel @Inject constructor(
     private val rubbishRepository: com.lambdadigamma.rubbish.RubbishRepository
 ) : ViewModel() {
 

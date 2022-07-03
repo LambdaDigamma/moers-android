@@ -1,16 +1,30 @@
 package com.lambdadigamma.newsfeature
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.Index
 import java.io.Serializable
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Entity(tableName = "newsItems")
-class RssItem : Serializable {
+@Entity(
+    tableName = "rss_items",
+    primaryKeys = ["id"],
+    indices = [Index(value = ["guid"], unique = true)]
+)
+class RssItem() : Serializable {
 
-    @PrimaryKey
+    init {
+
+    }
+
+    //    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    var id: Int? = null
+
+    lateinit var guid: String
+
     var title: String = ""
         set(title) {
             field = title.replace("&#39;", "'").replace("&#039;", "'")

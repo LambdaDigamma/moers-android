@@ -20,7 +20,6 @@ class NewsListViewModel @Inject constructor(
 
     init {
         news = newsRepository.getNews()
-        println(news.value)
     }
 
 }

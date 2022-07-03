@@ -10,10 +10,12 @@ internal class XMLParser : DefaultHandler() {
     private var parsingTitle = false
     private var parsingDescription = false
     private var parsingLink = false
+    private var parsingGuid = false
 
     private var elementValue: String? = null
     private var title = EMPTY_STRING
     private var link: String? = null
+    private var guid: String? = null
     private var image: String? = null
     private var date: String? = null
     private var description: String? = null
@@ -33,6 +35,10 @@ internal class XMLParser : DefaultHandler() {
             TITLE -> if (!qName.contains(MEDIA)) {
                 parsingTitle = true
                 title = EMPTY_STRING
+            }
+            GUID -> {
+                parsingGuid = true
+                guid = EMPTY_STRING
             }
             DESCRIPTION -> {
                 parsingDescription = true
@@ -61,6 +67,7 @@ internal class XMLParser : DefaultHandler() {
                     rssItem = RssItem()
                     rssItem?.let {
                         it.title = title.trim { it <= ' ' }
+                        it.guid = guid ?: ""
                         it.link = link
                         it.image = image
                         it.publishDate = date
@@ -74,6 +81,7 @@ internal class XMLParser : DefaultHandler() {
                         items.add(it)
                     }
                     link = EMPTY_STRING
+                    guid = EMPTY_STRING
                     image = null
                     date = EMPTY_STRING
                 }
@@ -81,6 +89,11 @@ internal class XMLParser : DefaultHandler() {
                     parsingTitle = false
                     elementValue = EMPTY_STRING
                     title = removeNewLine(title)
+                }
+                GUID -> if (!qName.contains(GUID)) {
+                    parsingGuid = false
+                    elementValue = EMPTY_STRING
+                    guid = removeNewLine(guid)
                 }
                 LINK -> if (elementValue?.isNotEmpty() == true) {
                     parsingLink = false
@@ -116,6 +129,9 @@ internal class XMLParser : DefaultHandler() {
         }
         if (parsingLink) {
             link = link!! + buff
+        }
+        if (parsingGuid) {
+            guid = guid!! + buff
         }
     }
 
@@ -155,6 +171,7 @@ internal class XMLParser : DefaultHandler() {
         private const val EMPTY_STRING = ""
         private const val ITEM = "item"
         private const val TITLE = "title"
+        private const val GUID = "guid"
         private const val MEDIA = "media"
         private const val DESCRIPTION = "description"
         private const val LINK = "link"

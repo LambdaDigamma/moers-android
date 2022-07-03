@@ -12,7 +12,10 @@ interface NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNews(news: List<RssItem>): List<Long>
 
-    @Query("SELECT * FROM newsItems")
+    @Query("SELECT * FROM rss_items")
     fun getNews(): LiveData<List<RssItem>>
+
+    @Query("SELECT * FROM rss_items WHERE id = :id")
+    fun getRssItem(id: Long): LiveData<RssItem>
 
 }

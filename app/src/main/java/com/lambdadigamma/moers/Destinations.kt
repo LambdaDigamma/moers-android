@@ -15,7 +15,10 @@ object Destinations {
         const val done = "onboarding/done"
     }
 
+    const val showNewsWebDetail = "news/web-details/{id}"
     const val graph = "main"
+
+    const val rubbishList = "rubbish"
 
     const val dashboard = "dashboard"
     const val news = "news"
