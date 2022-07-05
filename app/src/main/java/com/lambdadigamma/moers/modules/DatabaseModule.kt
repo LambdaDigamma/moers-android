@@ -1,10 +1,13 @@
 package com.lambdadigamma.moers.modules
 
 import android.content.Context
+import com.lambdadigamma.core.AppExecutors
 import com.lambdadigamma.moers.database.AppDatabase
 import com.lambdadigamma.moers.database.DatabaseCreator
 import com.lambdadigamma.newsfeature.NewsDao
 import com.lambdadigamma.rubbish.RubbishDao
+import com.lambdadigamma.rubbish.source.DefaultRubbishApiService
+import com.lambdadigamma.rubbish.source.RubbishApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,5 +34,25 @@ class DatabaseModule {
     fun provideRubbishDao(appDatabase: AppDatabase): RubbishDao {
         return appDatabase.rubbishDao()
     }
+
+    @Provides
+    fun provideRubbishApi(): RubbishApi {
+        return DefaultRubbishApiService.getRubbishService()
+    }
+
+    @Provides
+    fun provideAppExecutors(): AppExecutors {
+        return AppExecutors()
+    }
+
+//    @Provides
+//    fun provideRubbishRepository(): RubbishRepository {
+//        return RubbishRepository(
+//            context = com.lambdadigamma.moers.Application.instance,
+//            remoteDataSource = DefaultRubbishApiService.getRubbishService(),
+//            appExecutors = AppExecutors(),
+//            rubbishDao = provideRubbishDao(provideAppDatabase(com.lambdadigamma.moers.Application.instance))
+//        )
+//    }
 
 }

@@ -22,7 +22,7 @@ data class RubbishCollectionItem(
 
     val parsedDate: Date
         get() {
-            return parseDate(date, "dd.MM.yyyy") ?: Date()
+            return parseDate(date, "yyyy-MM-dd") ?: Date()
         }
 
 }

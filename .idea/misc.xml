@@ -57,11 +57,23 @@
         <entry key="../../../../../../layout/compose-model-1653774541746.xml" value="0.14629629629629629" />
         <entry key="../../../../../../layout/compose-model-1656070840055.xml" value="0.14820234113712374" />
         <entry key="../../../../../../layout/compose-model-1656075227765.xml" value="0.1479933110367893" />
+        <entry key="../../../../../../layout/compose-model-1656954136850.xml" value="0.335" />
+        <entry key="../../../../../../layout/compose-model-1656961313669.xml" value="0.375" />
+        <entry key="../../../../../../layout/compose-model-1656968550999.xml" value="0.45" />
+        <entry key="../../../../../../layout/compose-model-1656975595306.xml" value="0.165" />
+        <entry key="../../../../../../layout/compose-model-1656975822818.xml" value="0.20734797297297297" />
+        <entry key="../../../../../../layout/compose-model-1657010194615.xml" value="0.2712962962962963" />
+        <entry key="../../../../../../layout/compose-model-1657010218483.xml" value="0.375" />
+        <entry key="../../../../../../layout/compose-model-1657026350065.xml" value="0.25" />
+        <entry key="../../../../../../layout/compose-model-1657036511505.xml" value="0.375" />
+        <entry key="../../../../../../layout/compose-model-1657036601484.xml" value="0.375" />
         <entry key="app/src/main/res/drawable-night/ic_outline_newspaper.xml" value="0.1585" />
         <entry key="app/src/main/res/drawable/ic_baseline_calendar_month_24.xml" value="0.1585" />
         <entry key="app/src/main/res/drawable/ic_baseline_dashboard_24.xml" value="0.16" />
         <entry key="app/src/main/res/drawable/ic_outline_calendar_month_24.xml" value="0.1585" />
         <entry key="app/src/main/res/drawable/ic_outline_newspaper_24.xml" value="0.1585" />
+        <entry key="app/src/main/res/drawable/ic_rubbish_organic.xml" value="0.1465" />
+        <entry key="app/src/main/res/drawable/rubbish_organic.xml" value="0.1465" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
       </map>

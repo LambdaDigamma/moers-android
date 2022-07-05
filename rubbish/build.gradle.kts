@@ -22,6 +22,8 @@ val retrofitVersion: String by rootProject.extra
 val gsonVersion: String by rootProject.extra
 val protobufVersion: String by rootProject.extra
 val datastoreVersion: String by rootProject.extra
+val coroutinesAndroidVersion: String by rootProject.extra
+val lifecycleVersion: String by rootProject.extra
 
 android {
     compileSdk = sdkVersion
@@ -55,6 +57,10 @@ android {
 dependencies {
 
     implementation(project(path = ":core"))
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesAndroidVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesAndroidVersion")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
 
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.4.1")

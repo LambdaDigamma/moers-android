@@ -5,28 +5,6 @@ import com.google.gson.annotations.SerializedName
 
 const val RUBBISH_WASTE_TYPE_KEY = "WASTE_TYPE"
 
-fun localizedRubbishWasteType(type: RubbishWasteType): String {
-
-    when (type) {
-        RubbishWasteType.RESIDUAL -> {
-            return "Restabfall"
-        }
-        RubbishWasteType.ORGANIC -> {
-            return "Biotonne"
-        }
-        RubbishWasteType.PAPER -> {
-            return "Papiertonne"
-        }
-        RubbishWasteType.PLASTIC -> {
-            return "Gelber Sack"
-        }
-        RubbishWasteType.CUTTINGS -> {
-            return "Grünschnitt"
-        }
-    }
-
-}
-
 enum class RubbishWasteType(val value: String) {
     @SerializedName("residual")
     RESIDUAL("residual"),

@@ -4,23 +4,47 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.lambdadigamma.core.Resource
 import com.lambdadigamma.core.geo.DefaultGeocodingService
 import com.lambdadigamma.core.geo.GMSLocationService
 import com.lambdadigamma.core.geo.GeocodingService
 import com.lambdadigamma.moers.Application
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+fun <T> LiveData<T>.asFlow(): Flow<T> = callbackFlow {
+    val observer = Observer<T> { value -> this.trySend(value).isSuccess }
+    observeForever(observer)
+    awaitClose {
+        removeObserver(observer)
+    }
+}.flowOn(Dispatchers.Main.immediate)
+
+@HiltViewModel
 class OnboardingRubbishViewModel @Inject constructor(
     private val rubbishRepository: com.lambdadigamma.rubbish.RubbishRepository
 ) : ViewModel() {
 
     var uiState by mutableStateOf(OnboardingRubbishUiState())
         private set
+
+    private var _list = MutableLiveData<List<RubbishStreetUiState>>()
+    val list: LiveData<List<RubbishStreetUiState>>
+        get() = _list
+
+    var filteredStreets: MutableLiveData<Resource<List<RubbishStreetUiState>>> =
+        MutableLiveData(Resource.loading())
+
+//    var streets:
 
     private var locationService: GMSLocationService
     private var geocodingService: GeocodingService
@@ -39,17 +63,36 @@ class OnboardingRubbishViewModel @Inject constructor(
     }
 
     fun load(searchTerm: String? = null) {
+
         loadingJob?.cancel()
         loadingJob = viewModelScope.launch {
-            val streets = rubbishRepository.loadStreets(streetName = searchTerm).map { street ->
-                RubbishStreetUiState(
-                    street.id,
-                    street.name,
-                    street.streetAddition
-                )
-            }
-            uiState = uiState.copy(rubbishStreets = streets)
+            rubbishRepository.getRubbishStreets(streetName = searchTerm).asFlow()
+                .collect { resource ->
+                    val transformed = resource.transform { streets ->
+                        streets.orEmpty().map { street ->
+                            RubbishStreetUiState(
+                                street.id,
+                                street.name,
+                                street.streetAddition
+                            )
+                        }
+                    }
+                    filteredStreets.postValue(transformed)
+                }
         }
+
+//        this.filteredStreets =
+//            Transformations.map(streets) { resource ->
+//                return@map resource.transform { streets ->
+//                    streets.orEmpty().map { street ->
+//                        RubbishStreetUiState(
+//                            street.id,
+//                            street.name,
+//                            street.streetAddition
+//                        )
+//                    }
+//                }
+//            }
     }
 
     suspend fun loadLocation() {

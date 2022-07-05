@@ -18,4 +18,12 @@ data class Resource<ResultType>(
 
     }
 
+    fun <Other> transform(transformation: (ResultType) -> Other): Resource<Other> {
+        return when (status) {
+            Status.SUCCESS -> Resource.success(transformation(data!!))
+            Status.LOADING -> Resource.loading()
+            Status.ERROR -> Resource.error(errorMessage)
+        }
+    }
+
 }

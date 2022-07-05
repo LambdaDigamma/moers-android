@@ -6,6 +6,12 @@ import androidx.room.*
 @Dao
 interface RubbishDao {
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertRubbishStreets(streets: List<RubbishCollectionStreet>): List<Long>
+
+    @Query("SELECT * FROM rubbish_streets")
+    fun getRubbishStreets(): LiveData<List<RubbishCollectionStreet>>
+
     @Query("SELECT * FROM rubbish_collection_items")
     fun loadAllRubbishCollectionItems(): LiveData<List<RubbishCollectionItem>>
 

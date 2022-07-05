@@ -1,3 +1,5 @@
 package com.lambdadigamma.core
 
-data class DataResponse<WrappedData>(val data: WrappedData)
+import com.google.gson.annotations.SerializedName
+
+data class DataResponse<WrappedData>(@SerializedName("data") val data: WrappedData)

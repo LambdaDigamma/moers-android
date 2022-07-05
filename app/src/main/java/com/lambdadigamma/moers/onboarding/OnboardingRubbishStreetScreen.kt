@@ -12,6 +12,8 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -23,7 +25,6 @@ import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalAutofill
 import androidx.compose.ui.platform.LocalAutofillTree
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -31,6 +32,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.lambdadigamma.core.Resource
+import com.lambdadigamma.core.Status
 import com.lambdadigamma.moers.R
 import com.lambdadigamma.moers.onboarding.ui.OnboardingHost
 import com.lambdadigamma.moers.ui.theme.LegacyMeinMoersTheme
@@ -43,17 +46,7 @@ fun OnboardingRubbishStreetScreen(
     onContinue: () -> Unit
 ) {
 
-    val context = LocalContext.current
-
-//    val rubbishRepository = RubbishRepository(
-//        context = context,
-//        remoteDataSource = RubbishRemoteDataSource(
-//            rubbishApi = DefaultRubbishApiService.getRubbishService(),
-//            ioDispatcher = Dispatchers.IO
-//        )
-//    )
-
-    val viewModel: OnboardingRubbishViewModel = hiltViewModel()
+    val viewModel = hiltViewModel<OnboardingRubbishViewModel>()
 
     OnboardingHost(
         shouldScroll = false,
@@ -70,50 +63,113 @@ fun OnboardingRubbishStreetScreen(
                 Divider()
 
                 val focusManager = LocalFocusManager.current
+                val filteredStreets by
+                viewModel.filteredStreets.observeAsState(
+                    initial = Resource.success(listOf(RubbishStreetUiState(1, "Adlerstraße")))
+                )
+                
+                if (filteredStreets.status == Status.SUCCESS) {
+                    val data = filteredStreets.data.orEmpty()
 
-                Surface(tonalElevation = 1.dp) {
-                    LazyColumn(
-                        Modifier
-                            .fillMaxHeight()
-                            .fillMaxWidth(),
-                        contentPadding = PaddingValues(vertical = 16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
-
-                        val streets = viewModel.uiState.rubbishStreets.orEmpty()
-
-                        items(items = streets) { street ->
-
-                            Surface(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                shadowElevation = 1.dp,
-                                tonalElevation = 0.dp,
-                                color = MaterialTheme.colorScheme.background,
-                                onClick = {
-                                    viewModel.selectStreet(street)
-                                    focusManager.clearFocus()
-                                    onContinue()
-                                }
-                            ) {
-                                Column(
+                    Surface(tonalElevation = 1.dp) {
+                        LazyColumn(
+                            Modifier
+                                .fillMaxHeight()
+                                .fillMaxWidth(),
+                            contentPadding = PaddingValues(vertical = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                        ) {
+                            items(items = data) { street ->
+                                Surface(
                                     modifier = Modifier
-                                        .padding(
-                                            vertical = 16.dp,
-                                            horizontal = 16.dp
-                                        )
+                                        .fillMaxWidth(),
+                                    shadowElevation = 1.dp,
+                                    tonalElevation = 0.dp,
+                                    color = MaterialTheme.colorScheme.background,
+                                    onClick = {
+                                        viewModel.selectStreet(street)
+                                        focusManager.clearFocus()
+                                        onContinue()
+                                    }
                                 ) {
-                                    Text(street.streetName, fontWeight = FontWeight.Medium)
-                                    street.addition?.let {
-                                        if (it.isNotEmpty()) {
-                                            Text(it, color = MaterialTheme.colorScheme.secondary)
+                                    Column(
+                                        modifier = Modifier
+                                            .padding(
+                                                vertical = 16.dp,
+                                                horizontal = 16.dp
+                                            )
+                                    ) {
+                                        Text(street.streetName, fontWeight = FontWeight.Medium)
+                                        street.addition?.let {
+                                            if (it.isNotEmpty()) {
+                                                Text(
+                                                    it,
+                                                    color = MaterialTheme.colorScheme.secondary
+                                                )
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
+
+//                    Surface(tonalElevation = 1.dp) {
+//                        LazyColumn(
+//                            Modifier
+//                                .fillMaxHeight()
+//                                .fillMaxWidth(),
+//                            contentPadding = PaddingValues(vertical = 16.dp),
+//                            verticalArrangement = Arrangement.spacedBy(8.dp),
+//                        ) {
+//
+////                        Text("ABC")
+////
+////                        if (s.value.status == Status.SUCCESS) {
+////                            Text("${s.value.data.orEmpty().size} number")
+////                        }
+//
+////                        val streets = viewModel.uiState.rubbishStreets.orEmpty()
+////
+////                        if ()
+////
+////                            items(items = filteredStreets) { street ->
+////
+////                            Surface(
+////                                modifier = Modifier
+////                                    .fillMaxWidth(),
+////                                shadowElevation = 1.dp,
+////                                tonalElevation = 0.dp,
+////                                color = MaterialTheme.colorScheme.background,
+////                                onClick = {
+////                                    viewModel.selectStreet(street)
+////                                    focusManager.clearFocus()
+////                                    onContinue()
+////                                }
+////                            ) {
+////                                Column(
+////                                    modifier = Modifier
+////                                        .padding(
+////                                            vertical = 16.dp,
+////                                            horizontal = 16.dp
+////                                        )
+////                                ) {
+////                                    Text(street.streetName, fontWeight = FontWeight.Medium)
+////                                    street.addition?.let {
+////                                        if (it.isNotEmpty()) {
+////                                            Text(
+////                                                it,
+////                                                color = MaterialTheme.colorScheme.secondary
+////                                            )
+////                                        }
+////                                    }
+////                                }
+////                            }
+////                            }
+//                        }
+//                    }
                 }
+
             }
         }
     ) {

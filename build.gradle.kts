@@ -3,9 +3,9 @@
  * modules in the project.
  * The following are only a few examples of the types of properties you can define.
  */
-extra["sdkVersion"] = 31
+extra["sdkVersion"] = 32
 extra["minSdkVersion"] = 21
-extra["targetSdkVersion"] = 31
+extra["targetSdkVersion"] = 32
 
 extra["appVersion"] = "0.0.1"
 extra["appVersionCode"] = 1
@@ -15,6 +15,8 @@ var gradleVersion = "7.0.4"
 
 extra["kotlinVersion"] = kotlinVersion
 extra["gradleVersion"] = gradleVersion
+extra["coroutinesAndroidVersion"] = "1.6.0"
+extra["lifecycleVersion"] = "2.4.0"
 extra["hiltVersion"] = "2.41"
 extra["composeVersion"] = "1.1.1"
 extra["coilVersion"] = "1.2.1"

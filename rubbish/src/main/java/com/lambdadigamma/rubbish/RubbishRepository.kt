@@ -1,27 +1,29 @@
 package com.lambdadigamma.rubbish
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.asLiveData
 import com.lambdadigamma.core.AppExecutors
 import com.lambdadigamma.core.NetworkBoundResource
 import com.lambdadigamma.core.Resource
 import com.lambdadigamma.rubbish.settings.RubbishSettings
-import com.lambdadigamma.rubbish.source.RubbishRemoteDataSource
+import com.lambdadigamma.rubbish.source.RubbishApi
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
 class RubbishRepository @Inject constructor(
     @ApplicationContext private val context: Context,
 //    private val locationService: LocationService,
-    private val remoteDataSource: RubbishRemoteDataSource,
+//    private val remoteDataSource: RubbishRemoteDataSource,
+    val remoteDataSource: RubbishApi,
     private val rubbishDao: RubbishDao,
-    private val appExecutors: AppExecutors = AppExecutors()
+    private val appExecutors: AppExecutors // = AppExecutors()
 ) {
 
     private val dataStore: DataStore<RubbishSettings> = context.rubbishSettingsDataStore
@@ -32,20 +34,54 @@ class RubbishRepository @Inject constructor(
     private val latestPickupItemsMutex = Mutex()
     private var latestPickupItems: List<RubbishCollectionItem> = emptyList()
 
-    suspend fun loadStreets(
-        streetName: String? = null,
-        refresh: Boolean = true
-    ): List<RubbishCollectionStreet> {
+//    suspend fun loadStreets(
+//        streetName: String? = null,
+//        refresh: Boolean = true
+//    ): List<RubbishCollectionStreet> {
+//
+//        if (refresh || latestStreets.isEmpty()) {
+//            val networkResult = remoteDataSource.fetchStreets(streetName = streetName)
+//            // Thread-safe write to latestStreets
+//            latestStreetsMutex.withLock {
+//                this.latestStreets = networkResult
+//            }
+//        }
+//
+//        return latestStreetsMutex.withLock { this.latestStreets }
+//    }
 
-        if (refresh || latestStreets.isEmpty()) {
-            val networkResult = remoteDataSource.fetchStreets(streetName = streetName)
-            // Thread-safe write to latestStreets
-            latestStreetsMutex.withLock {
-                this.latestStreets = networkResult
+    fun getRubbishStreets(streetName: String? = null): LiveData<Resource<List<RubbishCollectionStreet>?>> {
+        return object :
+            NetworkBoundResource<List<RubbishCollectionStreet>, List<RubbishCollectionStreet>>(
+                appExecutors
+            ) {
+
+            override fun saveCallResult(item: List<RubbishCollectionStreet>) {
+//                LastUpdate.set(Date(), "rubbishStreets")
+                System.out.println(item)
+                rubbishDao.insertRubbishStreets(item)
             }
-        }
 
-        return latestStreetsMutex.withLock { this.latestStreets }
+            override fun shouldFetch(data: List<RubbishCollectionStreet>?): Boolean {
+//                LastUpdate.get("rubbishStreets")?.minuteInterval() ?: 120 > 60
+                return true
+//                return data == null || data.isEmpty()
+            }
+
+            override fun loadFromDb() = rubbishDao.getRubbishStreets()
+
+            override fun createCall(): LiveData<Resource<List<RubbishCollectionStreet>>> {
+
+                Log.d("API", "Fetching streets")
+
+                val fetchedStreets = remoteDataSource.fetchStreets(streetName = streetName)
+
+                return Transformations.map(fetchedStreets) { data ->
+                    return@map data.transform { it.data }
+                }
+            }
+
+        }.asLiveData()
     }
 
     fun loadRubbishCollectionItems(): LiveData<Resource<List<RubbishCollectionItem>?>> {
@@ -56,25 +92,37 @@ class RubbishRepository @Inject constructor(
             ) {
 
             override fun saveCallResult(item: List<RubbishCollectionItem>) {
+                Log.d("Api", "Saving ${item.count()} items!")
                 rubbishDao.insertRubbishCollectionItems(item)
             }
 
             override fun shouldFetch(data: List<RubbishCollectionItem>?): Boolean =
                 true // data == null || data.isEmpty()
 
-            override fun loadFromDb() = rubbishDao.loadAllRubbishCollectionItems()
+            override fun loadFromDb(): LiveData<List<RubbishCollectionItem>> {
+                Log.d("Api", "Loading items from db")
+                return rubbishDao.loadAllRubbishCollectionItems()
+            }
 
             override fun createCall(): LiveData<Resource<List<RubbishCollectionItem>>> {
 
-                return MutableLiveData()
 
+                return Transformations.switchMap(dataStore.data.asLiveData()) {
+                    Log.d("Api", it.rubbishCollectionStreet.id.toString())
+                    Transformations.map(remoteDataSource.getPickupItems(it.rubbishCollectionStreet.id)) { resource ->
+                        Resource.success(resource.data?.data.orEmpty())
+                    }
+                }
+
+//                val t = dataStore.data.asLiveData().map {
+//                    remoteDataSource.getPickupItems(it.rubbishCollectionStreet.id)
+//                }
+//
+//                t.asLiveData()
 
 //                val d = MutableLiveData<Resource<List<RubbishCollectionItem>>>()
 //                remoteDataSource.fetchCollectionItems(streetId)
             }
-            //                remoteDataSource.fetchCollectionItems()
-
-
         }.asLiveData()
 
 //        if (latestPickupItems.isEmpty()) {
@@ -142,6 +190,11 @@ class RubbishRepository @Inject constructor(
                 .build()
         }
     }
+
+    val currentStreet: Flow<RubbishSettings.RubbishCollectionStreet> = dataStore.data
+        .map { settings ->
+            settings.rubbishCollectionStreet
+        }
 
     suspend fun changeReminderTime(hours: Int, minutes: Int) {
 //        context.rubbishSettingsDataStore

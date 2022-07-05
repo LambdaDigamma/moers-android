@@ -1,7 +1,9 @@
 package com.lambdadigamma.rubbish.source
 
+import androidx.lifecycle.LiveData
 import com.lambdadigamma.core.DataResponse
 import com.lambdadigamma.core.LiveDataCallAdapterFactory
+import com.lambdadigamma.core.Resource
 import com.lambdadigamma.rubbish.RubbishCollectionItem
 import com.lambdadigamma.rubbish.RubbishCollectionStreet
 import retrofit2.Retrofit
@@ -13,10 +15,10 @@ import retrofit2.http.Query
 interface DefaultRubbishApiService : RubbishApi {
 
     @GET("rubbish/streets?all")
-    override suspend fun fetchStreets(@Query("q") streetName: String?): DataResponse<List<RubbishCollectionStreet>>
+    override fun fetchStreets(@Query("q") streetName: String?): LiveData<Resource<DataResponse<List<RubbishCollectionStreet>>>>
 
     @GET("rubbish/streets/{id}/pickups")
-    override suspend fun getPickupItems(@Path("id") streetId: Long): DataResponse<List<RubbishCollectionItem>>
+    override fun getPickupItems(@Path("id") streetId: Long): LiveData<Resource<DataResponse<List<RubbishCollectionItem>>>>
 
     companion object Factory {
 
