@@ -16,4 +16,12 @@ enum class FuelType(val value: String) {
             E10 -> "E10"
         }
     }
+
+    fun apiValue(): String {
+        return when (this) {
+            DIESEL -> "diesel"
+            E5 -> "e5"
+            E10 -> "e10"
+        }
+    }
 }

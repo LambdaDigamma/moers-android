@@ -1,6 +1,7 @@
 package com.lambdadigamma.newsfeature
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.lambdadigamma.core.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +20,9 @@ class NewsListViewModel @Inject constructor(
     )
 
     init {
-        news = newsRepository.getNews()
+        news = Transformations.map(newsRepository.getNews()) { resource ->
+            resource.transform { newsItem -> newsItem.orEmpty().sortedByDescending { it.date } }
+        }
     }
 
 }

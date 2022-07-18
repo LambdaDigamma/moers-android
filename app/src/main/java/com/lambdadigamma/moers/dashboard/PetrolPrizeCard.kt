@@ -15,10 +15,10 @@ import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PetrolPrizeCard() {
+fun PetrolPrizeCard(modifier: Modifier = Modifier) {
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth(),
     ) {
         Column(

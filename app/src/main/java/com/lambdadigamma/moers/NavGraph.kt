@@ -13,9 +13,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.lambdadigamma.moers.dashboard.DashboardAction
 import com.lambdadigamma.moers.dashboard.DashboardScreen
 import com.lambdadigamma.moers.events.ui.EventsScreen
 import com.lambdadigamma.moers.explore.ExploreScreen
+import com.lambdadigamma.moers.fuel.FuelStationListScreen
 import com.lambdadigamma.moers.search.SearchScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,9 +49,15 @@ fun NavGraph(
                     navOptions = NavOptions.Builder().build(),
                 )
             }, onAction = {
-                navController.navigate(
-                    Destinations.rubbishList
-                )
+                if (it == DashboardAction.Rubbish) {
+                    navController.navigate(
+                        Destinations.rubbishList
+                    )
+                } else if (it == DashboardAction.Fuel) {
+                    navController.navigate(
+                        Destinations.fuelList
+                    )
+                }
             })
         }
 
@@ -57,6 +65,10 @@ fun NavGraph(
             RubbishListScreen()
         }
 
+        composable(route = Destinations.fuelList) {
+            FuelStationListScreen()
+        }
+        
         // ------------------------------------------------------------
 
 

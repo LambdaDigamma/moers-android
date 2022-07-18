@@ -105,8 +105,7 @@ class RubbishRepository @Inject constructor(
             }
 
             override fun createCall(): LiveData<Resource<List<RubbishCollectionItem>>> {
-
-
+                
                 return Transformations.switchMap(dataStore.data.asLiveData()) {
                     Log.d("Api", it.rubbishCollectionStreet.id.toString())
                     Transformations.map(remoteDataSource.getPickupItems(it.rubbishCollectionStreet.id)) { resource ->
@@ -136,6 +135,14 @@ class RubbishRepository @Inject constructor(
 //        }
 //
 //        return latestPickupItemsMutex.withLock { this.latestPickupItems }
+    }
+
+    fun loadRubbishCollectionItemsFromNetwork(): LiveData<Resource<List<RubbishCollectionItem>>> {
+        return Transformations.switchMap(dataStore.data.asLiveData()) {
+            return@switchMap Transformations.map(remoteDataSource.getPickupItems(it.rubbishCollectionStreet.id)) { resource ->
+                Resource.success(resource.data?.data.orEmpty())
+            }
+        }
     }
 
     // --- Reminder

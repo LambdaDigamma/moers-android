@@ -19,6 +19,7 @@ object Destinations {
     const val graph = "main"
 
     const val rubbishList = "rubbish"
+    const val fuelList = "fuel"
 
     const val dashboard = "dashboard"
     const val news = "news"

@@ -15,8 +15,12 @@ import androidx.compose.ui.unit.dp
 import com.lambdadigamma.moers.R
 import com.lambdadigamma.moers.ui.TopBar
 
+enum class DashboardAction {
+    Fuel, Rubbish
+}
+
 @Composable
-fun DashboardScreen(onAction: () -> Unit, onOpenSettings: () -> Unit) {
+fun DashboardScreen(onAction: (DashboardAction) -> Unit, onOpenSettings: () -> Unit) {
 
     val context = LocalContext.current
 
@@ -76,9 +80,11 @@ fun DashboardScreen(onAction: () -> Unit, onOpenSettings: () -> Unit) {
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            PetrolPrizeCard()
+            PetrolPrizeCard(modifier = Modifier.clickable {
+                onAction(DashboardAction.Fuel)
+            })
             RubbishNextDays(modifier = Modifier.clickable {
-                onAction()
+                onAction(DashboardAction.Rubbish)
             })
 
 //            if (remindersEnabled.value) {
