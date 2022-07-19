@@ -173,6 +173,8 @@ dependencies {
     implementation(project(path = ":parking"))
     implementation(project(path = ":rubbish"))
 
+    implementation("com.google.accompanist:accompanist-placeholder-material:0.24.13-rc")
+
 }
 
 protobuf {

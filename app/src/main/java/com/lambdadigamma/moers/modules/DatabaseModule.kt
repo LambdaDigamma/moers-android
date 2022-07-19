@@ -2,6 +2,8 @@ package com.lambdadigamma.moers.modules
 
 import android.content.Context
 import com.lambdadigamma.core.AppExecutors
+import com.lambdadigamma.core.geo.DefaultGeocodingService
+import com.lambdadigamma.core.geo.GeocodingService
 import com.lambdadigamma.moers.database.AppDatabase
 import com.lambdadigamma.moers.database.DatabaseCreator
 import com.lambdadigamma.newsfeature.NewsDao
@@ -43,6 +45,11 @@ class DatabaseModule {
     @Provides
     fun provideAppExecutors(): AppExecutors {
         return AppExecutors()
+    }
+
+    @Provides
+    fun provideGeocodingService(@ApplicationContext appContext: Context): GeocodingService {
+        return DefaultGeocodingService(appContext)
     }
 
 //    @Provides

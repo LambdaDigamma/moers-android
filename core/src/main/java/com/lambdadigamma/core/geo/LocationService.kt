@@ -8,7 +8,13 @@ import android.os.Looper
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.callbackFlow
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -18,6 +24,71 @@ interface LocationService {
     @Throws(LocationPermissionException::class)
     fun getCurrentLocation(): MutableSharedFlow<Location>
 
+}
+
+class LocationUpdatesUseCase @Inject constructor(
+    @ApplicationContext val context: Context
+) {
+
+    private val client: FusedLocationProviderClient =
+        LocationServices.getFusedLocationProviderClient(context)
+
+    fun fetchUpdates(interval: Int): Flow<Point> = callbackFlow {
+        val locationRequest = LocationRequest.create()
+            .setInterval(TimeUnit.SECONDS.toMillis(interval.toLong()))
+            .setFastestInterval(TimeUnit.SECONDS.toMillis(FASTEST_UPDATE_INTERVAL_SECS))
+            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+
+        val callBack = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                super.onLocationResult(locationResult)
+                val location = locationResult.lastLocation
+                val userLocation = Point(
+                    latitude = location.latitude,
+                    longitude = location.longitude
+                )
+                this@callbackFlow.trySend(userLocation).isSuccess
+            }
+        }
+
+        client.requestLocationUpdates(locationRequest, callBack, Looper.getMainLooper())
+        awaitClose { client.removeLocationUpdates(callBack) }
+    }
+
+    fun fetchCurrentLocation(): Flow<Point> = callbackFlow {
+//        val locationRequest = LocationRequest().apply {
+//            interval = TimeUnit.SECONDS.toMillis(UPDATE_INTERVAL_SECS)
+//            fastestInterval = TimeUnit.SECONDS.toMillis(FASTEST_UPDATE_INTERVAL_SECS)
+//            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+//        }
+
+        val locationRequest = LocationRequest.create()
+            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+            .setFastestInterval(TimeUnit.SECONDS.toMillis(FASTEST_UPDATE_INTERVAL_SECS))
+            .setNumUpdates(1)
+            .setInterval(TimeUnit.SECONDS.toMillis(1))
+            .setExpirationDuration(5000)
+
+        val callBack = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                super.onLocationResult(locationResult)
+                val location = locationResult.lastLocation
+                val userLocation = Point(
+                    latitude = location.latitude,
+                    longitude = location.longitude
+                )
+                this@callbackFlow.trySend(userLocation).isSuccess
+            }
+        }
+
+        client.requestLocationUpdates(locationRequest, callBack, Looper.getMainLooper())
+        awaitClose { client.removeLocationUpdates(callBack) }
+    }
+
+    companion object {
+        private const val UPDATE_INTERVAL_SECS = 10L
+        private const val FASTEST_UPDATE_INTERVAL_SECS = 2L
+    }
 }
 
 class LocationPermissionException : Exception()

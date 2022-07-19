@@ -80,7 +80,7 @@ fun DashboardScreen(onAction: (DashboardAction) -> Unit, onOpenSettings: () -> U
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            PetrolPrizeCard(modifier = Modifier.clickable {
+            FuelDashboardCard(modifier = Modifier.clickable {
                 onAction(DashboardAction.Fuel)
             })
             RubbishNextDays(modifier = Modifier.clickable {

@@ -28,6 +28,8 @@ val espressoVersion: String by rootProject.extra
 
 val composeVersion: String by rootProject.extra
 
+val hiltVersion: String by rootProject.extra
+
 android {
     compileSdk = sdkVersion
 
@@ -83,6 +85,11 @@ dependencies {
     implementation("androidx.room:room-paging:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     testImplementation("androidx.room:room-testing:$roomVersion")
+
+    // Hilt
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")

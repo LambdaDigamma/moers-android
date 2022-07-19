@@ -1,15 +1,21 @@
 package com.lambdadigamma.moers.fuel
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lambdadigamma.core.Status
 import com.lambdadigamma.fuel.FuelType
@@ -49,11 +55,43 @@ fun FuelStationListScreen() {
                 RubbishScheduleLoadingScreen()
             }
             Status.ERROR -> {
+                FuelStationsErrorScreen(stations?.errorMessage ?: "Error")
 //                NewsErrorScreen(error = news?.errorMessage ?: "")
             }
             else -> {
 
             }
+        }
+    }
+}
+
+@Composable
+fun FuelStationsErrorScreen(error: String) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Icon(
+                painter = painterResource(id = com.lambdadigamma.moers.R.drawable.ic_outline_error_outline_24),
+                contentDescription = "Die Tankstellen können im Moment nicht geladen werden.",
+                modifier = Modifier.size(64.dp),
+                tint = MaterialTheme.colorScheme.surfaceTint
+            )
+            Text(
+                text = error,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.surfaceTint
+            )
+//            TextButton(onClick = { /*TODO*/ }) {
+//                Text(text = "Neu laden")
+//            }
         }
     }
 }

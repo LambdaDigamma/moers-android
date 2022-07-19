@@ -1,5 +1,6 @@
 package com.lambdadigamma.moers
 
+import android.os.Build
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,10 +19,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.lambdadigamma.core.DateUtils
 import com.lambdadigamma.core.Status
 import com.lambdadigamma.moers.ui.TopBar
 import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
 import com.lambdadigamma.newsfeature.NewsListViewModel
+import java.time.format.FormatStyle
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,10 +78,14 @@ fun NewsScreen(onShowRssItem: (Int) -> Unit) {
                                             lineHeight = 18.sp,
                                         )
                                     )
-                                    Text(
-                                        text = item.publishDate ?: "",
-                                        style = MaterialTheme.typography.bodyMedium
-                                    )
+                                    item.date?.let { date ->
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            Text(
+                                                text = DateUtils.format(date, FormatStyle.FULL),
+                                                style = MaterialTheme.typography.bodyMedium
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }

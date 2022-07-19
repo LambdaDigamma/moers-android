@@ -2,6 +2,8 @@ package com.lambdadigamma.core.geo
 
 import android.content.Context
 import android.location.Geocoder
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
 interface GeocodingService {
 
@@ -11,7 +13,9 @@ interface GeocodingService {
 
 }
 
-class DefaultGeocodingService(val context: Context) : GeocodingService {
+class DefaultGeocodingService @Inject constructor(
+    @ApplicationContext val context: Context
+) : GeocodingService {
 
     private var geocoder: Geocoder = Geocoder(context)
 

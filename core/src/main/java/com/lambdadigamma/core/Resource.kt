@@ -15,8 +15,11 @@ data class Resource<ResultType>(
 
         fun <ResultType> error(message: String?): Resource<ResultType> =
             Resource(Status.ERROR, errorMessage = message)
-
     }
+
+    fun isLoading(): Boolean = status == Status.LOADING
+
+    fun shouldBeRedacted(): Boolean = status == Status.LOADING || status == Status.ERROR
 
     fun <Other> transform(transformation: (ResultType) -> Other): Resource<Other> {
         return when (status) {

@@ -103,6 +103,9 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     testImplementation("androidx.room:room-testing:$roomVersion")
 
+    implementation("com.google.accompanist:accompanist-placeholder-material:0.24.13-rc")
+
+
 }
 
 protobuf {
