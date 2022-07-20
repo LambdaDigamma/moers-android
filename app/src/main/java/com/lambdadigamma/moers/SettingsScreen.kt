@@ -14,7 +14,7 @@ import com.jamal.composeprefs3.ui.PrefsScreen
 import com.jamal.composeprefs3.ui.prefs.DropDownPref
 import com.jamal.composeprefs3.ui.prefs.SwitchPref
 import com.jamal.composeprefs3.ui.prefs.TextPref
-import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
+import com.lambdadigamma.core.theme.MeinMoersTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

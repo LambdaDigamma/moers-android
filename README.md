@@ -53,3 +53,6 @@
 
 - Rubbish Next Days
     - Setting: Show current day
+
+TODO: 
+- Pad average price with zeros if it is something like 1.9€

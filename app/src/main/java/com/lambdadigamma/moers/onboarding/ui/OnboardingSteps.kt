@@ -16,8 +16,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.lambdadigamma.moers.ui.theme.LegacyMeinMoersTheme
-import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
+import com.lambdadigamma.core.theme.MeinMoersTheme
 
 enum class OnboardingStepState {
     NOT_COMPLETE,
@@ -125,11 +124,9 @@ fun OnboardingSteps(
 @Preview
 @Composable
 fun OnboardingStepsPreview() {
-    LegacyMeinMoersTheme {
-        MeinMoersTheme {
-            OnboardingSteps(
-                modifier = Modifier
-            )
-        }
+    MeinMoersTheme {
+        OnboardingSteps(
+            modifier = Modifier
+        )
     }
 }

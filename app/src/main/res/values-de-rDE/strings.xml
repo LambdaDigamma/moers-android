@@ -58,7 +58,6 @@
     <string name="onboarding_rubbish_street_selection_title">Wähle Deine Straße aus</string>
     <string name="onboarding_rubbish_street_selection_body">Die App kann Dir den Abfallkalender für Deine Straße anzeigen. Suche dazu Deine Straße aus und fahre fort.</string>
     <string name="onboarding_rubbish_street_skip_action">Später einrichten</string>
-    <string name="navigation_news">Neuigkeiten</string>
     <string name="about_navigation">Über die App</string>
     <string name="feedback_navigation">Feedback geben</string>
     <string name="settings_petrol_type_label">Bevorzugter Kraftstoff</string>
@@ -71,6 +70,4 @@
     <string name="settings_rubbish_schedule_active">Aktiviert</string>
     <string name="settings_rubbish_street">Straße</string>
     <string name="settings_rubbish_reminder_time">Erinnerung</string>
-    <string name="news_list_loading_text">Lädt Neuigkeiten…</string>
-    <string name="news_list_error_description">Beim Laden der Neuigkeiten ist ein Fehler aufgetreten.</string>
 </resources>

@@ -6,7 +6,7 @@ import com.lambdadigamma.core.geo.DefaultGeocodingService
 import com.lambdadigamma.core.geo.GeocodingService
 import com.lambdadigamma.moers.database.AppDatabase
 import com.lambdadigamma.moers.database.DatabaseCreator
-import com.lambdadigamma.newsfeature.NewsDao
+import com.lambdadigamma.newsfeature.data.NewsDao
 import com.lambdadigamma.rubbish.RubbishDao
 import com.lambdadigamma.rubbish.source.DefaultRubbishApiService
 import com.lambdadigamma.rubbish.source.RubbishApi

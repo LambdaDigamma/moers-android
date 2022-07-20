@@ -11,11 +11,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.lambdadigamma.core.theme.MeinMoersTheme
 import com.lambdadigamma.moers.Destinations
 import com.lambdadigamma.moers.NavGraph
 import com.lambdadigamma.moers.OnboardingNavigationGraph
-import com.lambdadigamma.moers.ui.theme.LegacyMeinMoersTheme
-import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
 
 @ExperimentalMaterial3Api
 @Composable
@@ -23,15 +22,13 @@ fun Onboarding(
     onFinishOnboarding: () -> Unit,
     finishActivity: () -> Unit,
 ) {
-    LegacyMeinMoersTheme {
-        MeinMoersTheme {
-            val navController = rememberNavController()
-            OnboardingNavigationGraph(
-                navController = navController,
-                onFinishOnboarding = onFinishOnboarding,
-                finishActivity = finishActivity
-            )
-        }
+    MeinMoersTheme {
+        val navController = rememberNavController()
+        OnboardingNavigationGraph(
+            navController = navController,
+            onFinishOnboarding = onFinishOnboarding,
+            finishActivity = finishActivity
+        )
     }
 }
 

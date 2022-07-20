@@ -16,8 +16,10 @@ val appVersionCode: Int by rootProject.extra
 
 val roomVersion: String by rootProject.extra
 val retrofitVersion: String by rootProject.extra
+val composeVersion: String by rootProject.extra
 
 val hiltVersion: String by rootProject.extra
+val coilVersion: String by rootProject.extra
 
 val junitVersion: String by rootProject.extra
 val androidXTestVersion: String by rootProject.extra
@@ -63,6 +65,17 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.4.2")
     implementation("com.google.android.material:material:1.6.1")
 
+    // Compose
+    implementation("androidx.compose.ui:ui:$composeVersion")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha14")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.1.1")
+    implementation("androidx.compose.runtime:runtime-livedata:1.3.0-alpha01")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.1.1")
+
+    // Coil
+    implementation("io.coil-kt:coil:$coilVersion")
+    implementation("io.coil-kt:coil-compose:2.1.0")
+
     // Hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
@@ -83,4 +96,7 @@ dependencies {
     testImplementation("junit:junit:$junitVersion")
     androidTestImplementation("androidx.test.ext:junit:$testJunitVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$espressoVersion")
+
+    // Accompanist
+    implementation("com.google.accompanist:accompanist-webview:0.24.9-beta")
 }

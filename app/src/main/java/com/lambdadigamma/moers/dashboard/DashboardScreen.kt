@@ -12,8 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.lambdadigamma.core.ui.TopBar
+import com.lambdadigamma.fuel.dashboard.FuelDashboardCard
 import com.lambdadigamma.moers.R
-import com.lambdadigamma.moers.ui.TopBar
+import com.lambdadigamma.rubbish.dashboard.RubbishNextDays
 
 enum class DashboardAction {
     Fuel, Rubbish

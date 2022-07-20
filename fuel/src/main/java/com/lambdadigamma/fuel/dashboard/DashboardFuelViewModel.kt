@@ -7,10 +7,9 @@ import com.lambdadigamma.core.Resource
 import com.lambdadigamma.core.geo.GMSLocationService
 import com.lambdadigamma.core.geo.GeocodingService
 import com.lambdadigamma.core.geo.LocationUpdatesUseCase
-import com.lambdadigamma.fuel.FuelDashboardData
-import com.lambdadigamma.fuel.FuelService
-import com.lambdadigamma.fuel.FuelSorting
-import com.lambdadigamma.fuel.FuelType
+import com.lambdadigamma.fuel.data.FuelService
+import com.lambdadigamma.fuel.data.FuelSorting
+import com.lambdadigamma.fuel.data.FuelType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject

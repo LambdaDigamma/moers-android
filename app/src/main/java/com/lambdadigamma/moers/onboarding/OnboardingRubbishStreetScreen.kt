@@ -34,10 +34,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lambdadigamma.core.Resource
 import com.lambdadigamma.core.Status
+import com.lambdadigamma.core.theme.MeinMoersTheme
 import com.lambdadigamma.moers.R
 import com.lambdadigamma.moers.onboarding.ui.OnboardingHost
-import com.lambdadigamma.moers.ui.theme.LegacyMeinMoersTheme
-import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
@@ -67,7 +66,7 @@ fun OnboardingRubbishStreetScreen(
                 viewModel.filteredStreets.observeAsState(
                     initial = Resource.success(listOf(RubbishStreetUiState(1, "Adlerstraße")))
                 )
-                
+
                 if (filteredStreets.status == Status.SUCCESS) {
                     val data = filteredStreets.data.orEmpty()
 
@@ -308,8 +307,6 @@ fun OnboardingRubbishStreetAction(action: () -> Unit) {
 @Composable
 fun OnboardingRubbishStreetScreen_Preview() {
     MeinMoersTheme {
-        LegacyMeinMoersTheme {
-            OnboardingRubbishStreetScreen(onContinue = {})
-        }
+        OnboardingRubbishStreetScreen(onContinue = {})
     }
 }

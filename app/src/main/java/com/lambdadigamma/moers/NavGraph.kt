@@ -13,12 +13,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.lambdadigamma.fuel.list.FuelStationListScreen
 import com.lambdadigamma.moers.dashboard.DashboardAction
 import com.lambdadigamma.moers.dashboard.DashboardScreen
 import com.lambdadigamma.moers.events.ui.EventsScreen
 import com.lambdadigamma.moers.explore.ExploreScreen
-import com.lambdadigamma.moers.fuel.FuelStationListScreen
 import com.lambdadigamma.moers.search.SearchScreen
+import com.lambdadigamma.newsfeature.ui.NewsScreen
+import com.lambdadigamma.newsfeature.ui.NewsWebDetailScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,7 +70,7 @@ fun NavGraph(
         composable(route = Destinations.fuelList) {
             FuelStationListScreen()
         }
-        
+
         // ------------------------------------------------------------
 
 

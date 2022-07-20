@@ -15,10 +15,9 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
+import com.lambdadigamma.core.theme.MeinMoersTheme
 import com.lambdadigamma.moers.R
 import com.lambdadigamma.moers.onboarding.ui.OnboardingHost
-import com.lambdadigamma.moers.ui.theme.LegacyMeinMoersTheme
-import com.lambdadigamma.moers.ui.theme.MeinMoersTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
@@ -181,8 +180,6 @@ private fun OnboardingLocationBottomActions(
 @Composable
 fun OnboardingLocationPreview() {
     MeinMoersTheme {
-        LegacyMeinMoersTheme {
-            OnboardingLocationScreen(onContinue = {})
-        }
+        OnboardingLocationScreen(onContinue = {})
     }
 }
