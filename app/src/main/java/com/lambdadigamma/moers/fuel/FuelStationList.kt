@@ -71,7 +71,7 @@ private fun FuelStationRow(item: FuelStationUiState) {
     ) {
         Column(modifier = Modifier.weight(0.5f)) {
             Text(text = item.brand, fontWeight = FontWeight.Bold)
-            Text(text = item.name.trim() + if (item.distance != null) " (${item.distance}km)" else "")
+            Text(text = item.name.trim() + if (item.distance != null) " • ${item.distance}km" else "")
         }
         Card(
             modifier = Modifier

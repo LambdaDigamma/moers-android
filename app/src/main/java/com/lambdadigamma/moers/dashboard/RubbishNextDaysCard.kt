@@ -51,6 +51,15 @@ fun RubbishNextDays(modifier: Modifier = Modifier) {
                         )
                     }
                 }
+                else -> {
+
+                }
+//                Status.LOADING -> {
+//
+//                }
+//                Status.ERROR -> {
+//
+//                }
             }
 
 //            for (dayGroup in nextDays)

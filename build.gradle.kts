@@ -10,14 +10,14 @@ extra["targetSdkVersion"] = 32
 extra["appVersion"] = "0.0.1"
 extra["appVersionCode"] = 1
 
-var kotlinVersion = "1.6.10"
+var kotlinVersion = "1.7.0"
 var gradleVersion = "7.0.4"
 
 extra["kotlinVersion"] = kotlinVersion
 extra["gradleVersion"] = gradleVersion
-extra["coroutinesAndroidVersion"] = "1.6.0"
-extra["lifecycleVersion"] = "2.4.0"
-extra["hiltVersion"] = "2.41"
+extra["coroutinesAndroidVersion"] = "1.6.4"
+extra["lifecycleVersion"] = "2.5.0"
+extra["hiltVersion"] = "2.42"
 extra["composeVersion"] = "1.1.1"
 extra["coilVersion"] = "1.2.1"
 extra["datastoreVersion"] = "1.0.0"
@@ -45,8 +45,8 @@ extra["espressoVersion"] = "3.4.0"
  */
 buildscript {
 
-    val kotlinVersion = "1.6.10" //: String by rootProject.extra
-    val hiltAndroid = "2.40.1"
+    val kotlinVersion = "1.7.0" //: String by rootProject.extra
+    val hiltAndroid = "2.42"
     val gradleVersion: String by rootProject.extra
 
 
@@ -71,7 +71,7 @@ buildscript {
      */
     dependencies {
         classpath("com.android.tools.build:gradle:7.2.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.0")
         classpath("com.google.dagger:hilt-android-gradle-plugin:${hiltAndroid}")
 //        classpath("com.google.accompanist:accompanist-coil:XXX-SNAPSHOT")
 
