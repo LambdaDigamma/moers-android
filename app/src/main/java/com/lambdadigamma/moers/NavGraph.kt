@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.lambdadigamma.fuel.detail.FuelStationDetailScreen
 import com.lambdadigamma.fuel.list.FuelStationListScreen
 import com.lambdadigamma.moers.dashboard.DashboardAction
 import com.lambdadigamma.moers.dashboard.DashboardScreen
@@ -68,7 +69,28 @@ fun NavGraph(
         }
 
         composable(route = Destinations.fuelList) {
-            FuelStationListScreen()
+            FuelStationListScreen(onShowFuelStation = { id ->
+                navController.navigate(
+                    Destinations.fuelStationDetail.replace(
+                        "{id}",
+                        id
+                    ),
+                    navOptions = NavOptions.Builder().build(),
+                )
+            })
+        }
+
+        composable(
+            route = Destinations.fuelStationDetail,
+            arguments = listOf(navArgument("id") { type = NavType.StringType })
+        ) { backStackEntry ->
+
+            val id = backStackEntry.arguments?.getString("id")
+
+            id?.let {
+                FuelStationDetailScreen(id = it)
+            }
+
         }
 
         // ------------------------------------------------------------

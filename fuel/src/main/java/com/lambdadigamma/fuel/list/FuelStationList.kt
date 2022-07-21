@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 data class FuelStationUiState(
-    val id: Int,
+    val id: String,
     val brand: String,
     val name: String,
     val price: Double,
@@ -29,7 +29,11 @@ data class FuelStationUiState(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FuelStationList(items: List<FuelStationUiState>, modifier: Modifier = Modifier) {
+fun FuelStationList(
+    items: List<FuelStationUiState>,
+    modifier: Modifier = Modifier,
+    onShowFuelStation: (String) -> Unit
+) {
     LazyColumn(
         modifier = modifier
             .background(MaterialTheme.colorScheme.background),
@@ -37,7 +41,7 @@ fun FuelStationList(items: List<FuelStationUiState>, modifier: Modifier = Modifi
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
         items(items) { item ->
-            FuelStationRow(item)
+            FuelStationRow(item, onClick = onShowFuelStation)
         }
         item {
             Column(modifier = Modifier.padding(16.dp)) {
@@ -58,13 +62,13 @@ fun FuelStationList(items: List<FuelStationUiState>, modifier: Modifier = Modifi
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun FuelStationRow(item: FuelStationUiState) {
+private fun FuelStationRow(item: FuelStationUiState, onClick: (String) -> Unit) {
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-
+                onClick(item.id)
             }
             .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -109,21 +113,22 @@ private fun FuelStationRow(item: FuelStationUiState) {
 fun FuelStationListPreview() {
     FuelStationList(
         items = listOf(
-            FuelStationUiState(id = 1, brand = "Markant", name = "Yadigar Güner", price = 1.599),
-            FuelStationUiState(id = 2, brand = "SB", name = "Sb Moers", price = 1.609),
-            FuelStationUiState(id = 3, brand = "JET", name = "MOERS", price = 1.619),
+            FuelStationUiState(id = "1", brand = "Markant", name = "Yadigar Güner", price = 1.599),
+            FuelStationUiState(id = "2", brand = "SB", name = "Sb Moers", price = 1.609),
+            FuelStationUiState(id = "3", brand = "JET", name = "MOERS", price = 1.619),
             FuelStationUiState(
-                id = 4,
+                id = "4",
                 brand = "CLASSIC",
                 name = "Supermarkt-Tankstelle Moers Breslauer Strasse 35 47441 Moers",
                 price = 1.619
             ),
             FuelStationUiState(
-                id = 5,
+                id = "5",
                 brand = "Kuster Energy",
                 name = "Kuster Energy",
                 price = 1.659
             ),
-        )
+        ),
+        onShowFuelStation = {}
     )
 }

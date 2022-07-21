@@ -36,7 +36,7 @@ class FuelStationListViewModel @Inject constructor(
                 it.transform { response ->
                     response.stations.orEmpty().map { station ->
                         FuelStationUiState(
-                            1,
+                            id = station.id,
                             brand = station.brand.trim(),
                             name = station.name.trim(),
                             price = station.price ?: 0.0,

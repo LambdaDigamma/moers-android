@@ -24,6 +24,11 @@ interface FuelService {
         @Query("type") type: String
     ): LiveData<Resource<FuelRequestResponse>>
 
+    @GET("json/detail.php")
+    fun getPetrolStation(
+        @Query("id") id: String
+    ): LiveData<Resource<FuelStationDetailRequestResponse>>
+
     companion object Factory {
 
         private const val BASE_URL = "https://creativecommons.tankerkoenig.de/"

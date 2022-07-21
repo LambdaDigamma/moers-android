@@ -23,7 +23,7 @@ import com.lambdadigamma.fuel.R.drawable
 import com.lambdadigamma.fuel.data.FuelType
 
 @Composable
-fun FuelStationListScreen() {
+fun FuelStationListScreen(onShowFuelStation: (String) -> Unit) {
 
     val viewModel: FuelStationListViewModel = hiltViewModel()
     val stations by viewModel.load().observeAsState()
@@ -46,7 +46,8 @@ fun FuelStationListScreen() {
                 Column(modifier = Modifier.fillMaxSize()) {
                     FuelStationList(
                         items = stations?.data.orEmpty(),
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        onShowFuelStation = onShowFuelStation
                     )
                     FuelStationSearchInfo(type = FuelType.DIESEL)
                 }
