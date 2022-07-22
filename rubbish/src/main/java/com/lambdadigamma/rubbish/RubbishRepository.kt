@@ -9,12 +9,15 @@ import androidx.lifecycle.asLiveData
 import com.lambdadigamma.core.AppExecutors
 import com.lambdadigamma.core.NetworkBoundResource
 import com.lambdadigamma.core.Resource
+import com.lambdadigamma.core.utils.LastUpdate
+import com.lambdadigamma.core.utils.minuteInterval
 import com.lambdadigamma.rubbish.settings.RubbishSettings
 import com.lambdadigamma.rubbish.source.RubbishApi
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
+import java.util.*
 import javax.inject.Inject
 
 class RubbishRepository @Inject constructor(
@@ -27,6 +30,10 @@ class RubbishRepository @Inject constructor(
 ) {
 
     private val dataStore: DataStore<RubbishSettings> = context.rubbishSettingsDataStore
+
+    private val lastUpdate = LastUpdate(key = "rubbishStreets", context = context)
+    private val lastUpdateCollectionItems =
+        LastUpdate(key = "rubbishCollectionItems", context = context)
 
     private val latestStreetsMutex = Mutex()
     private var latestStreets: List<RubbishCollectionStreet> = emptyList()
@@ -57,15 +64,20 @@ class RubbishRepository @Inject constructor(
             ) {
 
             override fun saveCallResult(item: List<RubbishCollectionStreet>) {
-//                LastUpdate.set(Date(), "rubbishStreets")
-                System.out.println(item)
                 rubbishDao.insertRubbishStreets(item)
+                lastUpdate.set(lastUpdate = Date())
             }
 
             override fun shouldFetch(data: List<RubbishCollectionStreet>?): Boolean {
-//                LastUpdate.get("rubbishStreets")?.minuteInterval() ?: 120 > 60
-                return true
-//                return data == null || data.isEmpty()
+
+                if (data == null || data.orEmpty().isEmpty()) {
+                    Log.d("RubbishRepository", "Should fetch: data is null or empty")
+
+                    return true
+                }
+
+                Log.d("RubbishRepository", "Should fetch: checking interval")
+                return (lastUpdate.get()?.minuteInterval() ?: 120) > 60
             }
 
             override fun loadFromDb() = rubbishDao.getRubbishStreets()
@@ -92,12 +104,18 @@ class RubbishRepository @Inject constructor(
             ) {
 
             override fun saveCallResult(item: List<RubbishCollectionItem>) {
-                Log.d("Api", "Saving ${item.count()} items!")
+                rubbishDao.deleteAllRubbishCollectionItems()
                 rubbishDao.insertRubbishCollectionItems(item)
+                lastUpdateCollectionItems.set(lastUpdate = Date())
             }
 
-            override fun shouldFetch(data: List<RubbishCollectionItem>?): Boolean =
-                true // data == null || data.isEmpty()
+            override fun shouldFetch(data: List<RubbishCollectionItem>?): Boolean {
+                if (data == null || data.orEmpty().isEmpty()) {
+                    return true
+                }
+
+                return (lastUpdateCollectionItems.get()?.minuteInterval() ?: 120) > 60
+            }
 
             override fun loadFromDb(): LiveData<List<RubbishCollectionItem>> {
                 Log.d("Api", "Loading items from db")
@@ -105,7 +123,7 @@ class RubbishRepository @Inject constructor(
             }
 
             override fun createCall(): LiveData<Resource<List<RubbishCollectionItem>>> {
-                
+
                 return Transformations.switchMap(dataStore.data.asLiveData()) {
                     Log.d("Api", it.rubbishCollectionStreet.id.toString())
                     Transformations.map(remoteDataSource.getPickupItems(it.rubbishCollectionStreet.id)) { resource ->
@@ -137,7 +155,7 @@ class RubbishRepository @Inject constructor(
 //        return latestPickupItemsMutex.withLock { this.latestPickupItems }
     }
 
-    fun loadRubbishCollectionItemsFromNetwork(): LiveData<Resource<List<RubbishCollectionItem>>> {
+    private fun loadRubbishCollectionItemsFromNetwork(): LiveData<Resource<List<RubbishCollectionItem>>> {
         return Transformations.switchMap(dataStore.data.asLiveData()) {
             return@switchMap Transformations.map(remoteDataSource.getPickupItems(it.rubbishCollectionStreet.id)) { resource ->
                 Resource.success(resource.data?.data.orEmpty())

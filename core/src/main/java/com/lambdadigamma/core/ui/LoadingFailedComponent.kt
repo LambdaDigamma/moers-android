@@ -1,8 +1,6 @@
 package com.lambdadigamma.core.ui
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -44,7 +42,7 @@ fun <Data> ResourcefulContent(
     }
 
     LaunchedEffect(key1 = "abc", block = {
-        onLoad()
+//        onLoad()
     })
 
     val currentState by resource.observeAsState()
@@ -55,38 +53,49 @@ fun <Data> ResourcefulContent(
         state = swipeRefreshState,
         onRefresh = onLoad,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        ) {
-            when (currentState?.status) {
-                Status.LOADING -> {
-                    Text(text = "Loading...")
-                }
-                Status.ERROR -> {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        ResourcefulErrorContent(error = currentState?.errorMessage ?: "")
-                    }
-                }
-                Status.SUCCESS -> {
-                    currentState?.data?.let {
-                        content(it)
-                    }
-//                    Text(text = "Success")
-//                    Text(text = "Success: ${currentState.data}")
-                }
-                else -> {
-
+        when (currentState?.status) {
+            Status.LOADING -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+//                    CircularProgressIndicator()
+                    Text(
+                        text = "Lädt Abfallkalender...",
+                        color = MaterialTheme.colorScheme.secondary
+                    )
                 }
             }
+            Status.ERROR -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    ResourcefulErrorContent(error = currentState?.errorMessage ?: "")
+                }
+            }
+            Status.SUCCESS -> {
+                currentState?.data?.let {
+                    content(it)
+                }
+//                    Text(text = "Success")
+//                    Text(text = "Success: ${currentState.data}")
+            }
+            else -> {
 
+            }
         }
+//        Column(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .verticalScroll(rememberScrollState())
+//        ) {
+//
+//        }
     }
 
 //

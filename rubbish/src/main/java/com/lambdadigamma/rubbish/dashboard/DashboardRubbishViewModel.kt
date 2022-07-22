@@ -24,9 +24,9 @@ class DashboardRubbishViewModel @Inject constructor(
 
     fun load(): LiveData<Resource<List<List<RubbishCollectionItem>>>> {
 
-        return Transformations.map(rubbishRepository.loadRubbishCollectionItemsFromNetwork()) { resource ->
+        return Transformations.map(rubbishRepository.loadRubbishCollectionItems()) { resource ->
             resource.transform { collectionItems ->
-                collectionItems.groupBy { it.parsedDate }.values.take(3)
+                collectionItems.orEmpty().groupBy { it.parsedDate }.values.take(3)
             }
         }
 

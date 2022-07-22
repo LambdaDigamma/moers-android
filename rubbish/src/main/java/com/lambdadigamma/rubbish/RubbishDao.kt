@@ -21,4 +21,7 @@ interface RubbishDao {
     @Delete
     fun deleteRubbishCollectionItems(vararg items: RubbishCollectionItem)
 
+    @Query("DELETE FROM rubbish_collection_items")
+    fun deleteAllRubbishCollectionItems()
+
 }

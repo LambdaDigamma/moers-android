@@ -43,14 +43,11 @@ class RubbishScheduleViewModel @Inject constructor(
             .map { Resource.success(it) }
             .asLiveData()
 
-        rubbishRepository.loadRubbishCollectionItemsFromNetwork()
+        rubbishRepository.loadRubbishCollectionItems()
             .observeForever {
-                Log.d("UI", "Received rubbish collection items")
-                Log.d("UI", it.toString())
-
                 rubbishSchedule.postValue(Resource.success(it.data.orEmpty()))
             }
-        
+
 //        rubbishSchedule =
 //            Transformations.map(rubbishRepository.remoteDataSource.getPickupItems(1)) {
 //                Log.d("UI", "Received rubbish collection items")
