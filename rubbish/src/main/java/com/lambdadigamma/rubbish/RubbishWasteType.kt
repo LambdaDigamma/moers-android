@@ -52,6 +52,26 @@ fun RubbishWasteType.color(): Color {
     }
 }
 
+fun RubbishWasteType.icon(): Int {
+    when (this) {
+        RubbishWasteType.RESIDUAL -> {
+            return R.drawable.ic_rubbish_residual
+        }
+        RubbishWasteType.ORGANIC -> {
+            return R.drawable.ic_rubbish_organic
+        }
+        RubbishWasteType.PAPER -> {
+            return R.drawable.ic_rubbish_paper
+        }
+        RubbishWasteType.PLASTIC -> {
+            return R.drawable.ic_rubbish_plastic
+        }
+        RubbishWasteType.CUTTINGS -> {
+            return R.drawable.ic_rubbish_organic
+        }
+    }
+}
+
 fun RubbishWasteType.backgroundColor(): Color {
     return this.color().copy(0.2f)
 }

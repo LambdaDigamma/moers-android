@@ -112,6 +112,8 @@ dependencies {
 
     implementation("com.google.accompanist:accompanist-placeholder-material:0.24.13-rc")
 
+    // Work
+    implementation("androidx.work:work-runtime-ktx:2.7.1")
 
 }
 

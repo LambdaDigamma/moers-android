@@ -75,6 +75,7 @@ dependencies {
 
     // Google Play Services
     implementation("com.google.android.gms:play-services-location:$gmsVersion")
+    implementation("androidx.work:work-runtime-ktx:2.7.1")
 
     testImplementation("junit:junit:$junitVersion")
     androidTestImplementation("androidx.test:core:$androidXTestVersion")

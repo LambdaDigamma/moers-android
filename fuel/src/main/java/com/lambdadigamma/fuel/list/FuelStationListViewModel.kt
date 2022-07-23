@@ -13,16 +13,15 @@ import javax.inject.Inject
 @HiltViewModel
 class FuelStationListViewModel @Inject constructor(
     private val locationUpdates: LocationUpdatesUseCase,
+    private val fuelService: FuelService
 ) : ViewModel() {
-
-    private val fuelService: FuelService = FuelService.getPetrolService()
 
     fun load(): LiveData<Resource<List<FuelStationUiState>>> {
         Log.d("Api", "Loading fuel stations")
 
         val locationUpdates =
             locationUpdates.fetchUpdates(5 * 60).asLiveData(viewModelScope.coroutineContext)
-
+        
         return Transformations.switchMap(locationUpdates) { point ->
             return@switchMap Transformations.map(
                 fuelService.getPetrolStations(

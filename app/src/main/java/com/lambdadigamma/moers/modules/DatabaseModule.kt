@@ -4,6 +4,7 @@ import android.content.Context
 import com.lambdadigamma.core.AppExecutors
 import com.lambdadigamma.core.geo.DefaultGeocodingService
 import com.lambdadigamma.core.geo.GeocodingService
+import com.lambdadigamma.fuel.data.FuelService
 import com.lambdadigamma.moers.database.AppDatabase
 import com.lambdadigamma.moers.database.DatabaseCreator
 import com.lambdadigamma.newsfeature.data.NewsDao
@@ -50,6 +51,11 @@ class DatabaseModule {
     @Provides
     fun provideGeocodingService(@ApplicationContext appContext: Context): GeocodingService {
         return DefaultGeocodingService(appContext)
+    }
+
+    @Provides
+    fun provideFuelService(): FuelService {
+        return FuelService.getPetrolService()
     }
 
 //    @Provides

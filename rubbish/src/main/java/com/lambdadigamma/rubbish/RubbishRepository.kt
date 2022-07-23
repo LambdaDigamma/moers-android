@@ -1,23 +1,28 @@
 package com.lambdadigamma.rubbish
 
+import android.app.NotificationManager
 import android.content.Context
 import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.asLiveData
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.lambdadigamma.core.AppExecutors
 import com.lambdadigamma.core.NetworkBoundResource
 import com.lambdadigamma.core.Resource
+import com.lambdadigamma.core.notifications.milliInterval
 import com.lambdadigamma.core.utils.LastUpdate
 import com.lambdadigamma.core.utils.minuteInterval
+import com.lambdadigamma.rubbish.notifications.RubbishScheduleNotificationWorker
 import com.lambdadigamma.rubbish.settings.RubbishSettings
 import com.lambdadigamma.rubbish.source.RubbishApi
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.sync.Mutex
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class RubbishRepository @Inject constructor(
@@ -29,33 +34,14 @@ class RubbishRepository @Inject constructor(
     private val appExecutors: AppExecutors // = AppExecutors()
 ) {
 
+    private val notificationManager =
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
     private val dataStore: DataStore<RubbishSettings> = context.rubbishSettingsDataStore
 
     private val lastUpdate = LastUpdate(key = "rubbishStreets", context = context)
     private val lastUpdateCollectionItems =
         LastUpdate(key = "rubbishCollectionItems", context = context)
-
-    private val latestStreetsMutex = Mutex()
-    private var latestStreets: List<RubbishCollectionStreet> = emptyList()
-
-    private val latestPickupItemsMutex = Mutex()
-    private var latestPickupItems: List<RubbishCollectionItem> = emptyList()
-
-//    suspend fun loadStreets(
-//        streetName: String? = null,
-//        refresh: Boolean = true
-//    ): List<RubbishCollectionStreet> {
-//
-//        if (refresh || latestStreets.isEmpty()) {
-//            val networkResult = remoteDataSource.fetchStreets(streetName = streetName)
-//            // Thread-safe write to latestStreets
-//            latestStreetsMutex.withLock {
-//                this.latestStreets = networkResult
-//            }
-//        }
-//
-//        return latestStreetsMutex.withLock { this.latestStreets }
-//    }
 
     fun getRubbishStreets(streetName: String? = null): LiveData<Resource<List<RubbishCollectionStreet>?>> {
         return object :
@@ -106,10 +92,13 @@ class RubbishRepository @Inject constructor(
             override fun saveCallResult(item: List<RubbishCollectionItem>) {
                 rubbishDao.deleteAllRubbishCollectionItems()
                 rubbishDao.insertRubbishCollectionItems(item)
+                removeAllRubbishNotifications()
+                scheduleNotifications(item)
                 lastUpdateCollectionItems.set(lastUpdate = Date())
             }
 
             override fun shouldFetch(data: List<RubbishCollectionItem>?): Boolean {
+                return true
                 if (data == null || data.orEmpty().isEmpty()) {
                     return true
                 }
@@ -123,36 +112,15 @@ class RubbishRepository @Inject constructor(
             }
 
             override fun createCall(): LiveData<Resource<List<RubbishCollectionItem>>> {
-
                 return Transformations.switchMap(dataStore.data.asLiveData()) {
                     Log.d("Api", it.rubbishCollectionStreet.id.toString())
                     Transformations.map(remoteDataSource.getPickupItems(it.rubbishCollectionStreet.id)) { resource ->
                         Resource.success(resource.data?.data.orEmpty())
                     }
                 }
-
-//                val t = dataStore.data.asLiveData().map {
-//                    remoteDataSource.getPickupItems(it.rubbishCollectionStreet.id)
-//                }
-//
-//                t.asLiveData()
-
-//                val d = MutableLiveData<Resource<List<RubbishCollectionItem>>>()
-//                remoteDataSource.fetchCollectionItems(streetId)
             }
         }.asLiveData()
 
-//        if (latestPickupItems.isEmpty()) {
-//            dataStore.data.collectLatest {
-//                val networkResult = remoteDataSource
-//                    .fetchCollectionItems(it.rubbishCollectionStreet.id)
-//                return@collectLatest latestPickupItemsMutex.withLock {
-//                    this.latestPickupItems = networkResult
-//                }
-//            }
-//        }
-//
-//        return latestPickupItemsMutex.withLock { this.latestPickupItems }
     }
 
     private fun loadRubbishCollectionItemsFromNetwork(): LiveData<Resource<List<RubbishCollectionItem>>> {
@@ -223,6 +191,35 @@ class RubbishRepository @Inject constructor(
 
     suspend fun changeReminderTime(hours: Int, minutes: Int) {
 //        context.rubbishSettingsDataStore
+    }
+
+    // --- Notifications ---
+
+    fun scheduleNotifications(collectionItems: List<RubbishCollectionItem>) {
+
+        val workManager: WorkManager = WorkManager.getInstance(context)
+
+        for (item in collectionItems.filter { it.parsedDate > Date() }) {
+
+            val delay = Date().milliInterval(item.parsedDate) // item.parsedDate.time - Date().time
+
+            val work =
+                OneTimeWorkRequestBuilder<RubbishScheduleNotificationWorker>()
+                    .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+                    .setInputData(RubbishScheduleNotificationWorker.inputData(item.type))
+                    .addTag(RubbishScheduleNotificationWorker.TAG)
+                    .build()
+
+            workManager.enqueue(work)
+
+        }
+
+    }
+
+    fun removeAllRubbishNotifications() {
+        val workManager: WorkManager = WorkManager.getInstance(context)
+        workManager.cancelAllWork()
+        workManager.cancelAllWorkByTag("rubbish_schedule_notification")
     }
 
 }
