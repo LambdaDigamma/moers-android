@@ -13,11 +13,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.lambdadigamma.events.ui.EventDetailScreen
+import com.lambdadigamma.events.ui.EventOverviewScreen
 import com.lambdadigamma.fuel.detail.FuelStationDetailScreen
 import com.lambdadigamma.fuel.list.FuelStationListScreen
 import com.lambdadigamma.moers.dashboard.DashboardAction
 import com.lambdadigamma.moers.dashboard.DashboardScreen
-import com.lambdadigamma.moers.events.ui.EventsScreen
 import com.lambdadigamma.moers.explore.ExploreScreen
 import com.lambdadigamma.moers.search.SearchScreen
 import com.lambdadigamma.newsfeature.ui.NewsScreen
@@ -113,7 +114,35 @@ fun NavGraph(
             SearchScreen()
         }
         composable(route = Destinations.events) {
-            EventsScreen()
+            EventOverviewScreen(onSelectEvent = {
+                navController.navigate(
+                    Destinations.eventDetail.replace(
+                        "{id}",
+                        it.toString()
+                    )
+                )
+            })
+        }
+
+        composable(
+            route = Destinations.eventDetail,
+            arguments = listOf(navArgument("id") { type = NavType.IntType })
+        ) { backStackEntry ->
+
+            val id = backStackEntry.arguments?.getInt("id")
+
+            id?.let {
+                EventDetailScreen(id = it, onBack = {
+                    navController.popBackStack()
+                })
+//                NewsWebDetailScreen(
+//                    id = id,
+//                    onBack = {
+//
+//                    }
+//                )
+            }
+
         }
 
         composable(route = Destinations.settings) {

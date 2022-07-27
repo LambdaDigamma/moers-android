@@ -1,50 +1,76 @@
-package com.lambdadigamma.events
+package com.lambdadigamma.events.models
 
-//import androidx.room.Embedded
-//import androidx.room.Entity
-//import androidx.room.Ignore
-//import androidx.room.PrimaryKey
-//import com.google.gson.annotations.SerializedName
-//import com.lambdadigamma.mmapi.MMAPI
-//import com.lambdadigamma.mmapi.api.services.LikeService
-//import com.lambdadigamma.mmapi.models.Entry
-//import com.lambdadigamma.mmapi.models.Organisation
-//import com.lambdadigamma.mmapi.models.event.EventExtras
-//import com.lambdadigamma.mmapi.utils.isInBeforeInterval
-//import com.lambdadigamma.mmapi.utils.minuteInterval
-//import java.text.SimpleDateFormat
-//import java.util.*
-//import kotlin.random.Random
-//
-//const val eventActiveMinuteThreshold = 30
-//
-//@Entity(tableName = "events")
-//data class Event(
-//    @PrimaryKey var id: Int = 0,
-//    var name: String = "",
-//    var description: String? = null,
-//    var url: String? = null,
-//    @SerializedName("start_date") var startDate: Date? = null,
-//    @SerializedName("end_date") var endDate: Date? = null,
-//    var category: String? = null,
-//    @SerializedName("image_path") var imagePath: String? = null,
-//    @SerializedName("organisation_id") var organisationID: Int? = null,
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
+import com.lambdadigamma.core.futureDate
+import java.util.*
+
+const val eventActiveMinuteThreshold = 30
+
+fun List<Event>.filterEvents(): List<Event> {
+
+    val current = Date()
+
+    return this
+        .sortedBy { it.startDate ?: futureDate() }
+        .filter { event ->
+
+            val start = event.startDate
+            val end = event.endDate
+
+            if (start != null && end != null) {
+                if (start >= current && end >= current) {
+                    return@filter true
+                } else return@filter current >= start && current <= end
+            }
+            if (start != null) {
+
+                val calendar = Calendar.getInstance()
+                calendar.time = start
+                calendar.add(
+                    Calendar.MINUTE,
+                    eventActiveMinuteThreshold
+                )
+
+                return@filter calendar.time >= current
+
+            } else {
+                return@filter true
+            }
+
+        }
+
+}
+
+@Entity(tableName = "events")
+data class Event(
+    @PrimaryKey var id: Int = 0,
+    var name: String = "",
+    var description: String? = null,
+    var url: String? = null,
+    @SerializedName("start_date") var startDate: Date? = null,
+    @SerializedName("end_date") var endDate: Date? = null,
+    var category: String? = null,
+    @SerializedName("image_path") var imagePath: String? = null,
+    @SerializedName("organisation_id") var organisationID: Int? = null,
 //    @Ignore var organisation: Organisation? = null,
 //    @Embedded(prefix = "entry") var entry: Entry? = null,
-//    @Embedded(prefix = "extras") var extras: EventExtras? = null,
-//    @SerializedName("created_at") var createdAt: Date? = null,
-//    @SerializedName("updated_at") var updatedAt: Date? = null
-//) {
-//
-//    constructor() : this(name = "")
-//
-//    constructor(id: Int, name: String, startDate: Date?, endDate: Date?) : this() {
-//        this.id = id
-//        this.name = name
-//        this.startDate = startDate
-//        this.endDate = endDate
-//    }
-//
+    @Embedded(prefix = "extras") var extras: EventExtras? = null,
+    @SerializedName("created_at") var createdAt: Date? = null,
+    @SerializedName("updated_at") var updatedAt: Date? = null
+) {
+
+    constructor() : this(name = "")
+
+    constructor(id: Int, name: String, startDate: Date?, endDate: Date?) : this() {
+        this.id = id
+        this.name = name
+        this.startDate = startDate
+        this.endDate = endDate
+    }
+
 //    val subtitle: String
 //        get() {
 //
@@ -218,7 +244,7 @@ package com.lambdadigamma.events
 //            return TimeComponent(day, date, startTime, "")
 //
 //        }
-//
+
 //    fun getLocation(): Entry? {
 //
 //        entry?.let {
@@ -249,7 +275,8 @@ package com.lambdadigamma.events
 //
 //            }
 //        }
-//
+
+    // TODO:
 //        e?.let {
 //            if (e.location != null && e.street != null &&
 //                e.houseNumber != null && e.postcode != null &&
@@ -276,12 +303,12 @@ package com.lambdadigamma.events
 //        return null
 //
 //    }
-//
-//    data class TimeComponent(
-//        val day: String,
-//        val date: String,
-//        val startTime: String,
-//        val endTime: String
-//    )
-//
-//}
+
+    data class TimeComponent(
+        val day: String,
+        val date: String,
+        val startTime: String,
+        val endTime: String
+    )
+
+}

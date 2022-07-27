@@ -27,6 +27,9 @@ object Destinations {
     const val explore = "explore"
     const val map = "map"
     const val events = "events"
+    const val eventDetail = "events/{id}"
+
+
     const val search = "search"
     const val other = "other"
 

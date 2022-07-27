@@ -201,6 +201,7 @@ class RubbishRepository @Inject constructor(
 
         for (item in collectionItems.filter { it.parsedDate > Date() }) {
 
+
             val delay = Date().milliInterval(item.parsedDate) // item.parsedDate.time - Date().time
 
             val work =

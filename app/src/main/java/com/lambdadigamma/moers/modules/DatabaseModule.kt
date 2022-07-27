@@ -4,6 +4,8 @@ import android.content.Context
 import com.lambdadigamma.core.AppExecutors
 import com.lambdadigamma.core.geo.DefaultGeocodingService
 import com.lambdadigamma.core.geo.GeocodingService
+import com.lambdadigamma.events.models.EventDao
+import com.lambdadigamma.events.models.MeinMoersService
 import com.lambdadigamma.fuel.data.FuelService
 import com.lambdadigamma.moers.database.AppDatabase
 import com.lambdadigamma.moers.database.DatabaseCreator
@@ -39,8 +41,18 @@ class DatabaseModule {
     }
 
     @Provides
+    fun provideEventDao(appDatabase: AppDatabase): EventDao {
+        return appDatabase.eventDao()
+    }
+
+    @Provides
     fun provideRubbishApi(): RubbishApi {
         return DefaultRubbishApiService.getRubbishService()
+    }
+
+    @Provides
+    fun provideMeinMoersService(): MeinMoersService {
+        return MeinMoersService.getMeinMoersService()
     }
 
     @Provides
