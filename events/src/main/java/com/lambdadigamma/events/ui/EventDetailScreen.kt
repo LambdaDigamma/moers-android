@@ -42,20 +42,11 @@ fun EventDetailScreen(id: Int, onBack: () -> Unit) {
 private fun EventDetail(event: EventDetailUiState, onBack: () -> Unit) {
 
     val sendIntent: Intent = Intent().apply {
-//        action = Intent.ACTION_SEND
-//        putExtra(Intent.EXTRA_TEXT, "https://moers.app/events/${event.id}")
-//        type = "text/plain"
         action = Intent.ACTION_SEND
-        putExtra(Intent.EXTRA_TEXT, "https://developer.android.com/training/sharing/")
-
-        // (Optional) Here we're setting the title of the content
-//        putExtra(Intent.EXTRA_TITLE, "Introducing content previews")
-
-        // (Optional) Here we're passing a content URI to an image to be displayed
-//        data = contentUri
-//        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        putExtra(Intent.EXTRA_TEXT, event.url)
+        putExtra(Intent.EXTRA_TITLE, event.name)
+        type = "text/plain"
     }
-    val shareIntent = Intent.createChooser(sendIntent, null)
     val context = LocalContext.current
 
     Scaffold(
@@ -72,7 +63,7 @@ private fun EventDetail(event: EventDetailUiState, onBack: () -> Unit) {
                 actions = {
                     IconButton(
                         onClick = {
-                            context.startActivity(shareIntent)
+                            context.startActivity(sendIntent)
                         },
                         content = {
                             Icon(imageVector = Icons.Default.Share, contentDescription = null)
@@ -131,7 +122,7 @@ private fun EventDetail(event: EventDetailUiState, onBack: () -> Unit) {
 
                 LocationRow(location = event.location)
 
-                OrganiserRow()
+                OrganiserRow(organizer = event.organizer)
 
                 Categories(
                     categories = event.categories,
@@ -212,7 +203,7 @@ private fun LocationRow(location: String?) {
 }
 
 @Composable
-private fun OrganiserRow() {
+private fun OrganiserRow(organizer: String?) {
 
 //    Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f))
 
@@ -240,7 +231,7 @@ private fun OrganiserRow() {
             )
         }
         Text(
-            text = "Grafschafter Museum im Moerser Schloss",
+            text = organizer ?: "Unbekannt",
             fontWeight = FontWeight.Normal,
             style = MaterialTheme.typography.bodyMedium,
         )

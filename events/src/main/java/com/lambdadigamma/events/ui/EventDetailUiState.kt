@@ -19,7 +19,9 @@ data class EventDetailUiState(
     val description: String?,
     val date: String,
     val location: String? = null,
+    val organizer: String? = null,
     val isLive: Boolean = false,
+    val url: String? = null,
     val categories: List<String> = listOf(),
 ) {
 
@@ -29,8 +31,10 @@ data class EventDetailUiState(
         description = event.description,
         date = dateString(event.startDate, event.endDate) ?: "",
         location = event.extras?.location,
+        organizer = event.extras?.organizer,
         isLive = isActive(event.startDate, event.endDate),
-        categories = (event.category ?: "").split(",").map { it.trim() }
+        categories = (event.category ?: "").split(",").map { it.trim() },
+        url = event.url
     )
 
     companion object {

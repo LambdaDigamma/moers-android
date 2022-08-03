@@ -18,7 +18,7 @@ fun EventOverviewScreen(onSelectEvent: (Int) -> Unit) {
 
     Column(modifier = Modifier.fillMaxSize()) {
 
-        TopBar(title = stringResource(R.string.navigation_events))
+        TopBar(title = stringResource(R.string.navigation_top_bar))
 
         ResourcefulContent(resource = events, onLoad = { /*TODO*/ }) { it ->
 

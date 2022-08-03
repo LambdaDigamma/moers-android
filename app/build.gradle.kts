@@ -178,6 +178,8 @@ dependencies {
     implementation(project(path = ":events"))
 
     implementation("com.google.accompanist:accompanist-placeholder-material:0.24.13-rc")
+    implementation("com.google.accompanist:accompanist-navigation-animation:0.26.0-alpha")
+
 
 }
 

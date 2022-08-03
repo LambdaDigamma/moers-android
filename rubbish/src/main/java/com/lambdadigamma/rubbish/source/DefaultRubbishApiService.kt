@@ -14,7 +14,7 @@ import retrofit2.http.Query
 
 interface DefaultRubbishApiService : RubbishApi {
 
-    @GET("rubbish/streets?all")
+    @GET("rubbish/streets")
     override fun fetchStreets(@Query("q") streetName: String?): LiveData<Resource<DataResponse<List<RubbishCollectionStreet>>>>
 
     @GET("rubbish/streets/{id}/pickups")

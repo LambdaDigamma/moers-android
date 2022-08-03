@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import com.lambdadigamma.core.*
 import com.lambdadigamma.core.utils.LastUpdate
 import com.lambdadigamma.core.utils.minuteInterval
@@ -34,12 +35,13 @@ class EventRepository @Inject constructor(
                         (lastUpdate.get()?.minuteInterval() ?: 120) > 60
             }
 
-            override fun loadFromDb() = eventDao.getEvents()
+            override fun loadFromDb() =
+                eventDao.getEvents().map { events -> events.sortedBy { it.startDate } }
 
             override fun createCall(): LiveData<Resource<List<Event>>> {
                 return Transformations.map(moersService.getEvents()) { resource ->
                     return@map resource.transform { response ->
-                        return@transform response.data
+                        return@transform response.data.sortedBy { it.startDate }
                     }
                 }
             }
