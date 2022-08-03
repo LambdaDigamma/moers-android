@@ -62,11 +62,23 @@ class RubbishRepository @Inject constructor(
                     return true
                 }
 
-                Log.d("RubbishRepository", "Should fetch: checking interval")
-                return (lastUpdate.get()?.minuteInterval() ?: 120) > 60
+                val shouldLoad = (lastUpdate.get()?.minuteInterval() ?: 120) > 60
+
+                Log.d(
+                    "RubbishRepository",
+                    "Checking last update interval for rubbish streets. Should reload: $shouldLoad"
+                )
+                return shouldLoad
             }
 
-            override fun loadFromDb() = rubbishDao.getRubbishStreets()
+            override fun loadFromDb(): LiveData<List<RubbishCollectionStreet>> {
+
+                streetName?.let {
+                    return rubbishDao.getRubbishStreet(streetName = it)
+                }
+
+                return rubbishDao.getRubbishStreets()
+            }
 
             override fun createCall(): LiveData<Resource<List<RubbishCollectionStreet>>> {
 

@@ -70,5 +70,8 @@
     <string name="settings_rubbish_schedule_active">Active</string>
     <string name="settings_rubbish_street">Street</string>
     <string name="settings_rubbish_reminder_time">Collection reminder</string>
+    <string name="onboarding_location_granted_title">Authorization granted</string>
+    <string name="onboarding_location_granted_description">You have granted the app permission to access your device\'s location.</string>
+    <string name="onboarding_location_granted_undo">You can revoke this permission at any time in your device\'s settings.</string>
 
 </resources>

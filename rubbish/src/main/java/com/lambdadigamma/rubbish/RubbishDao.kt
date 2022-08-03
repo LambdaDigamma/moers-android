@@ -12,6 +12,9 @@ interface RubbishDao {
     @Query("SELECT * FROM rubbish_streets")
     fun getRubbishStreets(): LiveData<List<RubbishCollectionStreet>>
 
+    @Query("SELECT * FROM rubbish_streets WHERE name LIKE '%' || :streetName || '%'")
+    fun getRubbishStreet(streetName: String): LiveData<List<RubbishCollectionStreet>>
+
     @Query("SELECT * FROM rubbish_collection_items")
     fun loadAllRubbishCollectionItems(): LiveData<List<RubbishCollectionItem>>
 

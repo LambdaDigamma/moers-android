@@ -24,14 +24,15 @@ fun OnboardingHost(
 
     Column(modifier = Modifier.fillMaxSize()) {
 
-//        OnboardingTopBar(viewModel.currentOnboardingStepState())
-
         Column(
             modifier = if (shouldScroll) {
                 Modifier
                     .weight(1f)
+                    .background(color = MaterialTheme.colorScheme.background)
                     .verticalScroll(scrollState)
-            } else Modifier.weight(1.0f)
+            } else Modifier
+                .weight(1.0f)
+                .background(color = MaterialTheme.colorScheme.background)
         ) {
             content()
         }

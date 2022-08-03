@@ -44,8 +44,6 @@ class OnboardingRubbishViewModel @Inject constructor(
     var filteredStreets: MutableLiveData<Resource<List<RubbishStreetUiState>>> =
         MutableLiveData(Resource.loading())
 
-//    var streets:
-
     private var locationService: GMSLocationService
     private var geocodingService: GeocodingService
     private var loadingJob: Job? = null
@@ -81,18 +79,6 @@ class OnboardingRubbishViewModel @Inject constructor(
                 }
         }
 
-//        this.filteredStreets =
-//            Transformations.map(streets) { resource ->
-//                return@map resource.transform { streets ->
-//                    streets.orEmpty().map { street ->
-//                        RubbishStreetUiState(
-//                            street.id,
-//                            street.name,
-//                            street.streetAddition
-//                        )
-//                    }
-//                }
-//            }
     }
 
     suspend fun loadLocation() {

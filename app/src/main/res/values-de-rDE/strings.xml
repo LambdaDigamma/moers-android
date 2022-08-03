@@ -70,4 +70,7 @@
     <string name="settings_rubbish_schedule_active">Aktiviert</string>
     <string name="settings_rubbish_street">Straße</string>
     <string name="settings_rubbish_reminder_time">Erinnerung</string>
+    <string name="onboarding_location_granted_title">Berechtigung erteilt</string>
+    <string name="onboarding_location_granted_description">Du hast der App die Berechtigung erteilt, auf den Standort zugreifen zu können.</string>
+    <string name="onboarding_location_granted_undo">Du kannst diese Erlaubnis jederzeit in den Geräte-Einstellungen wieder zurücknehmen.</string>
 </resources>
