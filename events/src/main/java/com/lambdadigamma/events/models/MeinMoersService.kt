@@ -10,6 +10,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 
 interface MeinMoersService {
@@ -23,6 +24,12 @@ interface MeinMoersService {
 
     @GET("events")
     fun getEvents(): LiveData<Resource<DataResponse<List<Event>>>>
+
+    @GET("events/{id}")
+    fun getEvent(@Path("id") id: Int): LiveData<Resource<Event>>
+
+    @GET("events/overview")
+    fun getEventOverview(): LiveData<Resource<DataResponse<EventOverviewResponse>>>
 
     /* Moers Festival */
 

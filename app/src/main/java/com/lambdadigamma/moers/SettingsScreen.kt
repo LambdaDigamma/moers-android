@@ -15,6 +15,11 @@ import com.jamal.composeprefs3.ui.prefs.DropDownPref
 import com.jamal.composeprefs3.ui.prefs.SwitchPref
 import com.jamal.composeprefs3.ui.prefs.TextPref
 import com.lambdadigamma.core.theme.MeinMoersTheme
+import com.lambdadigamma.core.user.UserType
+import com.lambdadigamma.core.utils.dataStore
+import com.lambdadigamma.fuel.data.FuelRepository
+import com.lambdadigamma.fuel.data.FuelType
+import com.lambdadigamma.moers.onboarding.OnboardingUserTypeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,13 +54,14 @@ fun SettingsScreen(onBack: () -> Unit) {
             ) {
                 prefsItem {
                     DropDownPref(
-                        key = "user_type",
+                        key = OnboardingUserTypeViewModel.userTypeKey.name,
                         title = stringResource(R.string.settings_user_type),
                         useSelectedAsSummary = true,
                         entries = mapOf(
-                            "0" to stringResource(R.string.settings_user_type_citizen),
-                            "1" to stringResource(R.string.settings_user_type_guest),
-                        )
+                            UserType.CITIZEN.value to stringResource(R.string.settings_user_type_citizen),
+                            UserType.VISITOR.value to stringResource(R.string.settings_user_type_guest),
+                        ),
+                        defaultValue = OnboardingUserTypeViewModel.defaultUserType.value
                     )
                 }
             }
@@ -65,14 +71,15 @@ fun SettingsScreen(onBack: () -> Unit) {
             ) {
                 prefsItem {
                     DropDownPref(
-                        key = "fuel_type",
+                        key = FuelRepository.fuelTypeKey.name,
                         title = stringResource(R.string.settings_petrol_type_label),
                         useSelectedAsSummary = true,
                         entries = mapOf(
-                            "0" to "Diesel",
-                            "1" to "E5",
-                            "2" to "E10",
-                        )
+                            FuelType.DIESEL.value to FuelType.DIESEL.localizedName(),
+                            FuelType.E5.value to FuelType.E5.localizedName(),
+                            FuelType.E10.value to FuelType.E10.localizedName(),
+                        ),
+                        defaultValue = FuelRepository.defaultFuelType.value
                     )
                 }
             }
@@ -117,9 +124,7 @@ fun SettingsScreen(onBack: () -> Unit) {
 @Preview
 @Composable
 fun SettingsScreenPreviews() {
-
     MeinMoersTheme {
         SettingsScreen(onBack = {})
     }
-
 }

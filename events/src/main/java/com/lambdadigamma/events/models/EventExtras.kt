@@ -3,6 +3,8 @@ package com.lambdadigamma.events.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
+import com.lambdadigamma.events.ui.EventAttendanceMode
 
 @Entity
 data class EventExtras(
@@ -10,6 +12,7 @@ data class EventExtras(
     val needsFestivalTicket: Boolean?,
     val isFree: Boolean?,
     val visitWithExtraTicket: Boolean?,
+    @SerializedName("attendance_mode") val attendanceMode: EventAttendanceMode?,
     @ColumnInfo(name = "extra_organizer") var organizer: String?,
     @ColumnInfo(name = "extra_location") val location: String?,
     @ColumnInfo(name = "extra_street") val street: String?,

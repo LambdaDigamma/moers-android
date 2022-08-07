@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="start_navigation_action">Start navigation</string>
+    <string name="event_detail_no_place">Venue unknown</string>
+    <string name="event_detail_venue_headline">Venue</string>
+    <string name="event_detail_venue_unknown">Unknown</string>
+</resources>

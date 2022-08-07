@@ -24,6 +24,8 @@ val testRunnerVersion: String by rootProject.extra
 val testJunitVersion: String by rootProject.extra
 val truthVersion: String by rootProject.extra
 
+val datastoreVersion: String by rootProject.extra
+
 val espressoVersion: String by rootProject.extra
 
 val composeVersion: String by rootProject.extra
@@ -103,6 +105,10 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-simplexml:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
     implementation("com.squareup.retrofit2:retrofit-mock:$retrofitVersion")
+
+    // Datastore
+    implementation("androidx.datastore:datastore:$datastoreVersion")
+    implementation("androidx.datastore:datastore-preferences:$datastoreVersion")
 
     // Compose
     implementation("androidx.compose.ui:ui:$composeVersion")

@@ -2,7 +2,6 @@ package com.lambdadigamma.events.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.lambdadigamma.core.Resource
 import com.lambdadigamma.events.models.Event
@@ -17,16 +16,14 @@ class EventDetailViewModel @Inject constructor(
 
     var eventId: Int? = null
 
-    fun load(): LiveData<Resource<Event>> {
+    fun load(): LiveData<Resource<Event?>> {
 
         return if (eventId != null) {
-            Transformations.map(eventRepository.getEvent(eventId!!)) {
-                return@map Resource.success(it)
-            }
+            return eventRepository.getEvent(eventId!!)
         } else {
             MutableLiveData(Resource.loading())
         }
-        
+
     }
 
 }

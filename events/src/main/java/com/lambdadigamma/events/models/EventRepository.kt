@@ -49,7 +49,28 @@ class EventRepository @Inject constructor(
         }.asLiveData()
     }
 
-    fun getEvent(id: Int) = eventDao.getEvent(id)
+    fun getEvent(id: Int): LiveData<Resource<Event?>> {
+        return object : NetworkBoundResource<Event, Event>(appExecutors) {
+
+            override fun saveCallResult(item: Event) {
+                eventDao.insertEvents(listOf(item))
+            }
+
+            override fun shouldFetch(data: Event?): Boolean {
+                return data == null
+            }
+
+            override fun loadFromDb() = eventDao.getEvent(id)
+
+            override fun createCall(): LiveData<Resource<Event>> {
+                return Transformations.map(moersService.getEvent(id)) { resource ->
+                    return@map resource.transform { response ->
+                        return@transform response
+                    }
+                }
+            }
+        }.asLiveData()
+    }
 
     fun getMockedEvents(): LiveData<Resource<List<Event>?>> {
 

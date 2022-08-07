@@ -70,15 +70,20 @@ fun NavGraph(
         }
 
         composable(route = Destinations.fuelList) {
-            FuelStationListScreen(onShowFuelStation = { id ->
-                navController.navigate(
-                    Destinations.fuelStationDetail.replace(
-                        "{id}",
-                        id
-                    ),
-                    navOptions = NavOptions.Builder().build(),
-                )
-            })
+            FuelStationListScreen(
+                onBack = {
+                    navController.popBackStack()
+                },
+                onShowFuelStation = { id ->
+                    navController.navigate(
+                        Destinations.fuelStationDetail.replace(
+                            "{id}",
+                            id
+                        ),
+                        navOptions = NavOptions.Builder().build(),
+                    )
+                }
+            )
         }
 
         composable(

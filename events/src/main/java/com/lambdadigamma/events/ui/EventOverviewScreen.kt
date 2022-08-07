@@ -14,19 +14,18 @@ import com.lambdadigamma.events.R
 fun EventOverviewScreen(onSelectEvent: (Int) -> Unit) {
 
     val viewModel: EventOverviewViewModel = hiltViewModel()
-    val events = viewModel.load()
+    val events = viewModel.loadOverview()
 
     Column(modifier = Modifier.fillMaxSize()) {
 
         TopBar(title = stringResource(R.string.navigation_top_bar))
 
         ResourcefulContent(resource = events, onLoad = { /*TODO*/ }) { it ->
-
-            val events = it.orEmpty().map {
-                return@map EventUi(it)
-            }
-
-            EventOverviewList(items = events, onSelectEvent = onSelectEvent)
+            EventOverviewList(
+                todayEvents = it.todayEvents,
+                longTermEvents = it.longTermEvents,
+                onSelectEvent = onSelectEvent
+            )
         }
 
     }

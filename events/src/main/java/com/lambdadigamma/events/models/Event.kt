@@ -57,6 +57,7 @@ data class Event(
     @SerializedName("organisation_id") var organisationID: Int? = null,
 //    @Ignore var organisation: Organisation? = null,
 //    @Embedded(prefix = "entry") var entry: Entry? = null,
+//    @Embedded(prefix = "extras") var extras: EventExtras? = null,
     @Embedded(prefix = "extras") var extras: EventExtras? = null,
     @SerializedName("created_at") var createdAt: Date? = null,
     @SerializedName("updated_at") var updatedAt: Date? = null

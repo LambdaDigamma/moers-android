@@ -1,9 +1,7 @@
 package com.lambdadigamma.moers.onboarding
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -14,10 +12,9 @@ class OnboardingViewModel @Inject constructor(
     val isOnboardingComplete = onboardingRepository.isOnboarded
     val isCitizen = true
 
-    fun setFinished() {
-        viewModelScope.launch {
-            onboardingRepository.setOnboarded()
-        }
+    suspend fun setFinished(callback: suspend () -> Unit) {
+        onboardingRepository.setOnboarded()
+        callback()
     }
 
 }

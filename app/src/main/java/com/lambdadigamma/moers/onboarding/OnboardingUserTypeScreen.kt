@@ -9,30 +9,55 @@ import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.lambdadigamma.core.theme.MeinMoersTheme
+import com.lambdadigamma.core.user.UserType
 import com.lambdadigamma.moers.R
 import com.lambdadigamma.moers.onboarding.ui.OnboardingHost
-
-enum class UserType {
-    CITIZEN,
-    VISITOR
-}
 
 // Maybe later this could be become the hometown selection?
 @Composable
 @ExperimentalMaterial3Api
 fun OnboardingUserTypeScreen(onContinue: () -> Unit) {
 
-    val selectedUserType = remember { mutableStateOf(UserType.CITIZEN) }
+    val viewModel: OnboardingUserTypeViewModel = hiltViewModel()
+    val selectedUserType =
+        viewModel.userType.collectAsState(initial = OnboardingUserTypeViewModel.defaultUserType)
+
+    LaunchedEffect(key1 = "InitialOnboardingUserSetup", block = {
+        viewModel.updateUserType(OnboardingUserTypeViewModel.defaultUserType)
+    })
+
+    OnboardingUserTypeContent(
+        selectedUserType = selectedUserType,
+        onUpdateUserType = { userType ->
+            viewModel.updateUserType(userType)
+        },
+        onContinue = onContinue
+    )
+
+}
+
+@Composable
+@ExperimentalMaterial3Api
+fun OnboardingUserTypeContent(
+    selectedUserType: State<UserType>,
+    onUpdateUserType: (UserType) -> Unit,
+    onContinue: () -> Unit
+) {
+
+    val selectedUserType = remember {
+        mutableStateOf(selectedUserType.value)
+    }
 
     OnboardingHost(
         content = {
@@ -54,7 +79,10 @@ fun OnboardingUserTypeScreen(onContinue: () -> Unit) {
                     ) {
                         RadioButton(
                             selected = selectedUserType.value == UserType.CITIZEN,
-                            onClick = { selectedUserType.value = UserType.CITIZEN })
+                            onClick = {
+                                onUpdateUserType(UserType.CITIZEN)
+                                selectedUserType.value = UserType.CITIZEN
+                            })
                         Text(text = stringResource(R.string.onboarding_user_type_citizen))
                     }
                     Row(
@@ -63,7 +91,10 @@ fun OnboardingUserTypeScreen(onContinue: () -> Unit) {
                     ) {
                         RadioButton(
                             selected = selectedUserType.value == UserType.VISITOR,
-                            onClick = { selectedUserType.value = UserType.VISITOR })
+                            onClick = {
+                                onUpdateUserType(UserType.VISITOR)
+                                selectedUserType.value = UserType.VISITOR
+                            })
                         Text(text = stringResource(R.string.onboarding_user_type_visitor))
                     }
                 }
@@ -85,11 +116,12 @@ fun OnboardingUserTypeScreen(onContinue: () -> Unit) {
                             style = MaterialTheme.typography.titleMedium
                         )
 
-                        Card(
-                            shape = RoundedCornerShape(12.dp)
+                        ElevatedCard(
+                            shape = RoundedCornerShape(12.dp),
+                            elevation = CardDefaults.elevatedCardElevation(),
                         ) {
 
-                            Column {
+                            Column(modifier = Modifier.background(MaterialTheme.colorScheme.surface)) {
 
                                 FeatureRow(
                                     title = stringResource(R.string.feature_petrol_title),
@@ -201,4 +233,20 @@ fun FeatureRow(title: String, text: String, checked: Boolean = false, standalone
 
     }
 
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview
+@Composable
+fun OnboardingUserTypePreview() {
+    MeinMoersTheme {
+        val userType = remember { mutableStateOf(UserType.CITIZEN) }
+        OnboardingUserTypeContent(
+            selectedUserType = userType,
+            onContinue = {},
+            onUpdateUserType = {
+                userType.value = it
+            }
+        )
+    }
 }

@@ -9,7 +9,6 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.lambdadigamma.core.ui.TopBar
@@ -24,35 +23,12 @@ enum class DashboardAction {
 @Composable
 fun DashboardScreen(onAction: (DashboardAction) -> Unit, onOpenSettings: () -> Unit) {
 
-    val context = LocalContext.current
-
-//    val rubbishRepository = RubbishRepository(
-//        context = context,
-//        remoteDataSource = RubbishRemoteDataSource(
-//            rubbishApi = DefaultRubbishApiService.getRubbishService(),
-//            ioDispatcher = Dispatchers.IO
-//        )
-//    )
-
-    val scope = rememberCoroutineScope()
-
-//    val remindersEnabled = rubbishRepository.reminderEnabled.collectAsState(initial = false)
-
-//    context.rubbishSettingsDataStore.data.map { it.remindersEnabled }
-//        .collectAsState(initial = false)
-
     var showMenu by remember { mutableStateOf(false) }
 
     Column() {
         TopBar(
             title = stringResource(id = R.string.navigation_dashboard),
             actions = {
-//                IconButton(onClick = onOpenSettings) {
-//                    Icon(
-//                        Icons.Default.Settings,
-//                        contentDescription = stringResource(id = R.string.settings)
-//                    )
-//                }
                 IconButton(onClick = { showMenu = !showMenu }) {
                     Icon(Icons.Default.MoreVert, "")
                 }
@@ -88,29 +64,6 @@ fun DashboardScreen(onAction: (DashboardAction) -> Unit, onOpenSettings: () -> U
             RubbishNextDays(modifier = Modifier.clickable {
                 onAction(DashboardAction.Rubbish)
             })
-
-//            if (remindersEnabled.value) {
-//                Text("Enabled")
-//            } else {
-//                Text("not enabled")
-//            }
-
-//            Button(onClick = {
-//                scope.launch {
-//                    if (remindersEnabled.value) {
-//                        rubbishRepository.disableReminders()
-//                    } else {
-//                        rubbishRepository.enableReminders()
-//                    }
-//                }
-//            }) {
-//                if (remindersEnabled.value) {
-//                    Text("disable reminders")
-//                } else {
-//                    Text("enable reminders")
-//                }
-//            }
-
         }
 
     }

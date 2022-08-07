@@ -1,10 +1,17 @@
 package com.lambdadigamma.events.ui
 
+import androidx.annotation.StringRes
+import com.lambdadigamma.core.ui.Venue
+import com.lambdadigamma.events.R
 import com.lambdadigamma.events.models.Event
 import java.text.SimpleDateFormat
 import java.util.*
 
 const val eventActiveMinuteThreshold = 30
+
+const val ATTENDANCE_MIXED = "mixed";
+const val ATTENDANCE_OFFLINE = "offline";
+const val ATTENDANCE_ONLINE = "online";
 
 data class TimeComponent(
     val day: String,
@@ -13,16 +20,34 @@ data class TimeComponent(
     val endTime: String
 )
 
+enum class EventAttendanceMode(val value: String) {
+    MIXED(ATTENDANCE_MIXED),
+    OFFLINE(ATTENDANCE_OFFLINE),
+    ONLINE(ATTENDANCE_ONLINE),
+}
+
+@StringRes
+fun EventAttendanceMode.localizedName(): Int {
+    return when (this) {
+        EventAttendanceMode.MIXED -> R.string.attendance_mode_mixed
+        EventAttendanceMode.OFFLINE -> R.string.attendance_mode_offline
+        EventAttendanceMode.ONLINE -> R.string.attendance_mode_online
+    }
+}
+
+val defaultAttendanceMode = EventAttendanceMode.OFFLINE
+
 data class EventDetailUiState(
     val id: Int,
     val name: String,
     val description: String?,
     val date: String,
-    val location: String? = null,
+    val venue: Venue? = null,
     val organizer: String? = null,
     val isLive: Boolean = false,
     val url: String? = null,
     val categories: List<String> = listOf(),
+    val attendanceMode: EventAttendanceMode = EventAttendanceMode.OFFLINE,
 ) {
 
     constructor(event: Event) : this(
@@ -30,11 +55,18 @@ data class EventDetailUiState(
         name = event.name,
         description = event.description,
         date = dateString(event.startDate, event.endDate) ?: "",
-        location = event.extras?.location,
+        venue = event.extras?.location?.let {
+            Venue(
+                it,
+                firstLine = (event.extras?.street ?: "") + " " + (event.extras?.houseNumber ?: ""),
+                secondLine = (event.extras?.postcode ?: "") + " " + (event.extras?.place ?: "")
+            )
+        },
         organizer = event.extras?.organizer,
         isLive = isActive(event.startDate, event.endDate),
         categories = (event.category ?: "").split(",").map { it.trim() },
-        url = event.url
+        url = event.url,
+        attendanceMode = event.extras?.attendanceMode ?: defaultAttendanceMode
     )
 
     companion object {

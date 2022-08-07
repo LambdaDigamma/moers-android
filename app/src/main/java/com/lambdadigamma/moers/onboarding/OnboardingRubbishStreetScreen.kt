@@ -10,11 +10,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -39,13 +36,48 @@ import com.lambdadigamma.moers.R
 import com.lambdadigamma.moers.onboarding.ui.OnboardingHost
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OnboardingRubbishStreetScreen(
     onContinue: () -> Unit
 ) {
 
     val viewModel = hiltViewModel<OnboardingRubbishViewModel>()
+    val filteredStreets by viewModel.filteredStreets.observeAsState(
+        initial = Resource.success(listOf(RubbishStreetUiState(1, "Adlerstraße")))
+    )
+    val searchTerm = viewModel.searchTerm.collectAsState()
+    val scope = rememberCoroutineScope()
+
+    OnboardingRubbishStreetContent(
+        searchTerm = searchTerm,
+        filteredStreets = filteredStreets,
+        onSelectStreet = {
+            viewModel.selectStreet(it)
+        },
+        onUpdateSearchTerm = {
+            viewModel.updateSearchTerm(it)
+        },
+        onLoadLocation = {
+            scope.launch {
+                viewModel.loadLocation()
+            }
+        },
+        onContinue = onContinue
+    )
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun OnboardingRubbishStreetContent(
+    searchTerm: State<String>,
+    filteredStreets: Resource<List<RubbishStreetUiState>>,
+    onSelectStreet: (RubbishStreetUiState) -> Unit,
+    onLoadLocation: () -> Unit,
+    onUpdateSearchTerm: (String) -> Unit,
+    onContinue: () -> Unit
+) {
 
     OnboardingHost(
         shouldScroll = false,
@@ -53,19 +85,18 @@ fun OnboardingRubbishStreetScreen(
 
             Column(
                 modifier = Modifier
-                    .background(color = MaterialTheme.colorScheme.background)
                     .fillMaxSize(),
             ) {
 
-                TopRubbishStreetSelection(viewModel = viewModel)
+                TopRubbishStreetSelection(
+                    searchTerm = searchTerm,
+                    onUpdateSearchTerm = onUpdateSearchTerm,
+                    onLoadLocation = onLoadLocation,
+                )
 
-                Divider()
+                Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
 
                 val focusManager = LocalFocusManager.current
-                val filteredStreets by
-                viewModel.filteredStreets.observeAsState(
-                    initial = Resource.success(listOf(RubbishStreetUiState(1, "Adlerstraße")))
-                )
 
                 if (filteredStreets.status == Status.SUCCESS) {
                     val data = filteredStreets.data.orEmpty()
@@ -86,13 +117,14 @@ fun OnboardingRubbishStreetScreen(
                                     tonalElevation = 0.dp,
                                     color = MaterialTheme.colorScheme.background,
                                     onClick = {
-                                        viewModel.selectStreet(street)
+                                        onSelectStreet(street)
                                         focusManager.clearFocus()
                                         onContinue()
                                     }
                                 ) {
                                     Column(
                                         modifier = Modifier
+                                            .background(MaterialTheme.colorScheme.surface)
                                             .padding(
                                                 vertical = 16.dp,
                                                 horizontal = 16.dp
@@ -112,63 +144,7 @@ fun OnboardingRubbishStreetScreen(
                             }
                         }
                     }
-
-//                    Surface(tonalElevation = 1.dp) {
-//                        LazyColumn(
-//                            Modifier
-//                                .fillMaxHeight()
-//                                .fillMaxWidth(),
-//                            contentPadding = PaddingValues(vertical = 16.dp),
-//                            verticalArrangement = Arrangement.spacedBy(8.dp),
-//                        ) {
-//
-////                        Text("ABC")
-////
-////                        if (s.value.status == Status.SUCCESS) {
-////                            Text("${s.value.data.orEmpty().size} number")
-////                        }
-//
-////                        val streets = viewModel.uiState.rubbishStreets.orEmpty()
-////
-////                        if ()
-////
-////                            items(items = filteredStreets) { street ->
-////
-////                            Surface(
-////                                modifier = Modifier
-////                                    .fillMaxWidth(),
-////                                shadowElevation = 1.dp,
-////                                tonalElevation = 0.dp,
-////                                color = MaterialTheme.colorScheme.background,
-////                                onClick = {
-////                                    viewModel.selectStreet(street)
-////                                    focusManager.clearFocus()
-////                                    onContinue()
-////                                }
-////                            ) {
-////                                Column(
-////                                    modifier = Modifier
-////                                        .padding(
-////                                            vertical = 16.dp,
-////                                            horizontal = 16.dp
-////                                        )
-////                                ) {
-////                                    Text(street.streetName, fontWeight = FontWeight.Medium)
-////                                    street.addition?.let {
-////                                        if (it.isNotEmpty()) {
-////                                            Text(
-////                                                it,
-////                                                color = MaterialTheme.colorScheme.secondary
-////                                            )
-////                                        }
-////                                    }
-////                                }
-////                            }
-////                            }
-//                        }
-//                    }
                 }
-
             }
         }
     ) {
@@ -181,7 +157,11 @@ fun OnboardingRubbishStreetScreen(
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun TopRubbishStreetSelection(viewModel: OnboardingRubbishViewModel) {
+fun TopRubbishStreetSelection(
+    searchTerm: State<String>,
+    onLoadLocation: () -> Unit,
+    onUpdateSearchTerm: (String) -> Unit
+) {
 
     Column(
         modifier = Modifier
@@ -206,9 +186,7 @@ fun TopRubbishStreetSelection(viewModel: OnboardingRubbishViewModel) {
         Spacer(modifier = Modifier.height(16.dp))
 
         val scope = rememberCoroutineScope()
-        val searchTerm = viewModel.searchTerm.collectAsState()
 
-//        var searchTerm by remember { mutableStateOf(viewModel.uiState.searchTerm) }
         val autofillNode = AutofillNode(
             autofillTypes = listOf(
 //                AutofillType.PostalAddress,
@@ -216,7 +194,7 @@ fun TopRubbishStreetSelection(viewModel: OnboardingRubbishViewModel) {
 //                AutofillType.AddressRegion,
                 AutofillType.AddressStreet
             ),
-            onFill = { viewModel.updateSearchTerm(it) }
+            onFill = { onUpdateSearchTerm(it) }
         )
 
         val focusManager = LocalFocusManager.current
@@ -252,7 +230,7 @@ fun TopRubbishStreetSelection(viewModel: OnboardingRubbishViewModel) {
                     Text(stringResource(R.string.onboarding_rubbish_street_placeholder))
                 },
                 onValueChange = { searchTerm ->
-                    viewModel.updateSearchTerm(searchTerm)
+                    onUpdateSearchTerm(searchTerm)
                 },
                 singleLine = true,
                 keyboardActions = KeyboardActions(
@@ -268,9 +246,7 @@ fun TopRubbishStreetSelection(viewModel: OnboardingRubbishViewModel) {
             Spacer(modifier = Modifier.width(8.dp))
 
             IconButton(onClick = {
-                scope.launch {
-                    viewModel.loadLocation()
-                }
+                onLoadLocation()
             }) {
                 Icon(
                     Icons.Filled.LocationOn,
@@ -307,6 +283,33 @@ fun OnboardingRubbishStreetAction(action: () -> Unit) {
 @Composable
 fun OnboardingRubbishStreetScreen_Preview() {
     MeinMoersTheme {
-        OnboardingRubbishStreetScreen(onContinue = {})
+
+        val searchTerm = remember {
+            mutableStateOf("")
+        }
+
+        val streets = listOf<RubbishStreetUiState>(
+            RubbishStreetUiState(
+                id = 1,
+                streetName = "Bahnhofstrasse",
+            ),
+            RubbishStreetUiState(
+                id = 2,
+                streetName = "Hauptstrasse",
+            ),
+            RubbishStreetUiState(
+                id = 3,
+                streetName = "Friedrichstrasse",
+            ),
+        )
+
+        OnboardingRubbishStreetContent(
+            searchTerm = searchTerm,
+            filteredStreets = Resource.success(streets),
+            onSelectStreet = {},
+            onLoadLocation = { /*TODO*/ },
+            onUpdateSearchTerm = { searchTerm.value = it },
+            onContinue = {}
+        )
     }
 }

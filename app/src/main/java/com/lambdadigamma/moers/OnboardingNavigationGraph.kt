@@ -6,46 +6,30 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.lambdadigamma.moers.onboarding.*
-import com.lambdadigamma.moers.onboarding.ui.OnboardingTopBar
+import kotlinx.coroutines.launch
 
-fun positionForRoute(route: String): Int {
+const val tweenTimeEnter = 500
 
-    val routes = arrayOf<String>(
-        Destinations.Onboarding.welcome,
-        Destinations.Onboarding.about,
-        Destinations.Onboarding.userTypeSelection,
-        Destinations.Onboarding.location,
-        Destinations.Onboarding.rubbishStreet,
-        Destinations.Onboarding.petrol,
-        Destinations.Onboarding.done
-    )
-
-    return routes.indexOf(route)
+private fun positionForRoute(route: String): Int {
+    return OnboardingStep.fromRoute(route)?.value ?: -1
 }
-
-val tweenTimeEnter = 500
 
 @OptIn(ExperimentalAnimationApi::class)
 private fun enterTransition(
@@ -56,7 +40,14 @@ private fun enterTransition(
     val initialPosition = positionForRoute(initialRoute)
     val destinationPosition = positionForRoute(destinationRoute)
 
-    return if (destinationPosition > initialPosition) {
+
+    return if (
+        listOf(Destinations.Onboarding.welcome, Destinations.Onboarding.about).contains(
+            destinationRoute
+        )
+    ) {
+        return EnterTransition.None
+    } else if (destinationPosition > initialPosition) {
         contentScope.slideIntoContainer(
             AnimatedContentScope.SlideDirection.Left,
             animationSpec = tween(tweenTimeEnter)
@@ -67,15 +58,6 @@ private fun enterTransition(
             animationSpec = tween(tweenTimeEnter)
         )
     }
-
-//        tween(
-//            start = start.toFloat(),
-//            end = end.toFloat(),
-//            easing = tween.easeInOut,
-//            onEnd = {
-//                onboardingViewModel.onEnterTransitionEnd()
-//            }
-//        )
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
@@ -132,12 +114,6 @@ fun OnboardingNavigationGraph(
                             )
                         }
                     },
-//                    exitTransition = {
-//                        slideOutOfContainer(
-//                            AnimatedContentScope.SlideDirection.Right,
-//                            animationSpec = tween(tweenTimeEnter)
-//                        )
-//                    }
                 ) {
                     BackHandler(onBack = {
                         navController.navigateUp()
@@ -222,7 +198,7 @@ fun OnboardingNavigationGraph(
                     BackHandler {
                         navController.navigateUp()
                     }
-                    OnboardingPetrolScreen(onContinue = {
+                    OnboardingFuelScreen(onContinue = {
                         navController.navigate(Destinations.Onboarding.done)
                     })
                 }
@@ -242,33 +218,12 @@ fun OnboardingNavigationGraph(
                         navController.navigateUp()
                     }
                     OnboardingDoneScreen(onContinue = {
-                        onboardingViewModel.setFinished()
-                        onFinishOnboarding()
+                        onboardingViewModel.viewModelScope.launch {
+                            onboardingViewModel.setFinished(callback = onFinishOnboarding)
+                        }
                     })
                 }
             }
         }
-    }
-}
-
-@Composable
-fun OnboardingTop(navController: NavController) {
-
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
-        ?: Destinations.Onboarding.welcome
-
-    if (currentRoute != Destinations.Onboarding.welcome) {
-
-        val onboardingStep = OnboardingStep.fromRoute(currentRoute)
-        val state = onboardingStep?.toUiState()
-
-        state?.let {
-            Column(modifier = Modifier.fillMaxWidth()) {
-                OnboardingTopBar(it)
-                Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
-            }
-        }
-
     }
 }

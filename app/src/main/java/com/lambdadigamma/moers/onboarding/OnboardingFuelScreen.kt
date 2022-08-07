@@ -2,27 +2,53 @@ package com.lambdadigamma.moers.onboarding
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.lambdadigamma.core.theme.MeinMoersTheme
+import com.lambdadigamma.fuel.data.FuelRepository
 import com.lambdadigamma.fuel.data.FuelType
 import com.lambdadigamma.moers.onboarding.ui.OnboardingHost
 
 @Composable
 @ExperimentalMaterial3Api
-fun OnboardingPetrolScreen(
+fun OnboardingFuelScreen(
     onContinue: () -> Unit
 ) {
 
-    val currentPetrolType = remember {
-        mutableStateOf(FuelType.DIESEL)
+    val viewModel: OnboardingFuelViewModel = hiltViewModel()
+    val selectedFuelType =
+        viewModel.fuelType.collectAsState(initial = FuelRepository.defaultFuelType)
+
+    LaunchedEffect(key1 = "InitialOnboardingFuelSetup", block = {
+        viewModel.updateFuelType(FuelRepository.defaultFuelType)
+    })
+
+    OnboardingFuelContent(
+        selectedFuelType = selectedFuelType,
+        onUpdateFuelType = {
+            viewModel.updateFuelType(it)
+        },
+        onContinue = onContinue
+    )
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun OnboardingFuelContent(
+    selectedFuelType: State<FuelType>,
+    onUpdateFuelType: (FuelType) -> Unit,
+    onContinue: () -> Unit
+) {
+
+    val selectedFuelType = remember {
+        mutableStateOf(selectedFuelType.value)
     }
 
     OnboardingHost(
@@ -61,33 +87,27 @@ fun OnboardingPetrolScreen(
                     )
 
                     Column() {
-
                         FuelType.values().forEach { petrolType ->
-
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
 
                                 RadioButton(
-                                    selected = currentPetrolType.value == petrolType,
+                                    selected = selectedFuelType.value == petrolType,
                                     onClick = {
-                                        currentPetrolType.value = petrolType
+                                        selectedFuelType.value = petrolType
+                                        onUpdateFuelType(petrolType)
                                     }
                                 )
 
                                 Text(text = petrolType.localizedName())
 
                             }
-
                         }
-
                     }
-
                 }
-
             }
-
         }
     ) {
         Column(
@@ -114,7 +134,15 @@ fun OnboardingPetrolScreen(
 @Composable
 @ExperimentalMaterial3Api
 fun OnboardingPetrolPreview() {
+    val currentPetrolType = remember {
+        mutableStateOf(FuelType.DIESEL)
+    }
+
     MeinMoersTheme {
-        OnboardingPetrolScreen(onContinue = {})
+        OnboardingFuelContent(
+            selectedFuelType = currentPetrolType,
+            onUpdateFuelType = { currentPetrolType.value = it },
+            onContinue = {}
+        )
     }
 }

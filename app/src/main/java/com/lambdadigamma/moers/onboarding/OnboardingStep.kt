@@ -10,8 +10,8 @@ enum class OnboardingStep constructor(val value: Int) {
     ABOUT(0),
     USER_TYPE(1),
     LOCATION(2),
-    PETROL(3),
-    RUBBISH_STREET(4),
+    RUBBISH_STREET(3),
+    PETROL(4),
     DONE(5);
 
     companion object {

@@ -2,11 +2,9 @@ package com.lambdadigamma.fuel.list
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -18,12 +16,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lambdadigamma.core.Status
-import com.lambdadigamma.core.ui.TopBar
 import com.lambdadigamma.fuel.R.drawable
 import com.lambdadigamma.fuel.data.FuelType
 
 @Composable
-fun FuelStationListScreen(onShowFuelStation: (String) -> Unit) {
+fun FuelStationListScreen(onBack: () -> Unit, onShowFuelStation: (String) -> Unit) {
 
     val viewModel: FuelStationListViewModel = hiltViewModel()
     val stations by viewModel.load().observeAsState()
@@ -32,15 +29,21 @@ fun FuelStationListScreen(onShowFuelStation: (String) -> Unit) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        TopBar(
-            title = "Kraftstoff",
+        SmallTopAppBar(
+            title = {
+                Text("Kraftstoff")
+            },
+            navigationIcon = {
+                IconButton(onClick = onBack) {
+                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                }
+            },
             actions = {
                 IconButton(onClick = { }) {
                     Icon(Icons.Outlined.Info, "")
                 }
             }
         )
-
         when (stations?.status) {
             Status.SUCCESS -> {
                 Column(modifier = Modifier.fillMaxSize()) {

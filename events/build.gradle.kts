@@ -10,6 +10,7 @@ val minSdkVersion: Int by rootProject.extra
 val targetSdkVersion: Int by rootProject.extra
 
 val hiltVersion: String by rootProject.extra
+val coilVersion: String by rootProject.extra
 
 val composeVersion: String by rootProject.extra
 val roomVersion: String by rootProject.extra
@@ -75,6 +76,10 @@ dependencies {
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
+
+    // Coil
+    implementation("io.coil-kt:coil:$coilVersion")
+    implementation("io.coil-kt:coil-compose:2.1.0")
 
     // Compose
     implementation("androidx.compose.ui:ui:$composeVersion")
