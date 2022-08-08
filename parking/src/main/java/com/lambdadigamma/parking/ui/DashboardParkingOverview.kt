@@ -2,9 +2,6 @@ package com.lambdadigamma.parking.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -93,21 +90,40 @@ fun DashboardParkingView(
     parkingAreas: List<ParkingAreaDashboardUiState>,
     modifier: Modifier = Modifier
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(12.dp),
+    val chunked = parkingAreas.chunked(2)
+
+    Column(
+        modifier = Modifier.padding(12.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        userScrollEnabled = false
     ) {
-        items(parkingAreas) {
-            ParkingAreaInfo(
-                name = it.name,
-                freeSites = it.freeSites,
-                modifier = Modifier
-            )
+        for (chunk in chunked) {
+            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                for (parkingArea in chunk) {
+                    ParkingAreaInfo(
+                        name = parkingArea.name,
+                        freeSites = parkingArea.freeSites,
+                        modifier = Modifier.weight(0.5f)
+                    )
+                }
+            }
         }
     }
+
+//    LazyVerticalGrid(
+//        columns = GridCells.Fixed(2),
+//        contentPadding = PaddingValues(12.dp),
+//        verticalArrangement = Arrangement.spacedBy(8.dp),
+//        horizontalArrangement = Arrangement.spacedBy(16.dp),
+//        userScrollEnabled = false
+//    ) {
+//        items(parkingAreas) {
+//            ParkingAreaInfo(
+//                name = it.name,
+//                freeSites = it.freeSites,
+//                modifier = Modifier
+//            )
+//        }
+//    }
 }
 
 @Composable

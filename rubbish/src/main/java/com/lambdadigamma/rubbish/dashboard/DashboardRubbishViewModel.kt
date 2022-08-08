@@ -17,11 +17,6 @@ class DashboardRubbishViewModel @Inject constructor(
     @ApplicationContext val context: Context
 ) : ViewModel() {
 
-//    var rubbishSchedule: Flow<Resource<List<RubbishCollectionItem>>>
-//
-//    var rubbishSchedule: MutableLiveData<Resource<List<RubbishCollectionItem>>> =
-//        MutableLiveData(Resource.loading())
-
     fun load(): LiveData<Resource<List<List<RubbishCollectionItem>>>> {
 
         return Transformations.map(rubbishRepository.loadRubbishCollectionItems()) { resource ->
@@ -30,6 +25,12 @@ class DashboardRubbishViewModel @Inject constructor(
             }
         }
 
+    }
+
+    fun list(): LiveData<Resource<List<RubbishCollectionItem>>> {
+        return Transformations.map(rubbishRepository.loadRubbishCollectionItems()) { resource ->
+            resource.transform { it.orEmpty() }
+        }
     }
 
 }
