@@ -19,7 +19,6 @@ import com.lambdadigamma.moers.onboarding.ui.OnboardingHost
 
 @Composable
 fun OnboardingAboutScreen(
-    viewModel: OnboardingViewModel,
     onContinue: () -> Unit,
 ) {
 

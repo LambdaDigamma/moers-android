@@ -11,6 +11,7 @@ plugins {
     kotlin("kapt")
     id("com.google.protobuf") version "0.8.18"
     id("dagger.hilt.android.plugin")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 /**
@@ -234,6 +235,13 @@ tasks.create("incrementVersion") {
             .replaceFirst(Regex("versionName = .+\""), "versionName = \"$newVersion\"")
         buildFile.writeText(newBuild)
     }
+}
+
+secrets {
+    // To add your Maps API key to this project:
+    // 1. Add this line to your local.properties file, where YOUR_API_KEY is your API key:
+    //        MAPS_API_KEY=YOUR_API_KEY
+    defaultPropertiesFileName = "local.defaults.properties"
 }
 
 tasks.create("incrementVersionCode") {

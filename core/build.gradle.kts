@@ -117,6 +117,10 @@ dependencies {
     implementation("androidx.compose.runtime:runtime-livedata:1.3.0-alpha01")
     debugImplementation("androidx.compose.ui:ui-tooling:1.1.1")
 
+    // Google Maps
+    implementation("com.google.maps.android:maps-compose:2.5.3")
+    implementation("com.google.android.gms:play-services-maps:18.0.2")
+
     implementation("com.google.accompanist:accompanist-swiperefresh:0.24.13-rc")
 
 }

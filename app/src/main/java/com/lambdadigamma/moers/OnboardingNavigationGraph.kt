@@ -95,7 +95,7 @@ fun OnboardingNavigationGraph(
                             )
                         }
                     },
-                ) { backStackEntry: NavBackStackEntry ->
+                ) { _: NavBackStackEntry ->
                     BackHandler {
                         finishActivity()
                     }
@@ -118,7 +118,7 @@ fun OnboardingNavigationGraph(
                     BackHandler(onBack = {
                         navController.navigateUp()
                     })
-                    OnboardingAboutScreen(viewModel = onboardingViewModel, onContinue = {
+                    OnboardingAboutScreen(onContinue = {
                         navController.navigate(Destinations.Onboarding.userTypeSelection)
                     })
                 }

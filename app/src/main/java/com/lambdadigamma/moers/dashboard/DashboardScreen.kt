@@ -1,6 +1,5 @@
 package com.lambdadigamma.moers.dashboard
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -14,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.lambdadigamma.core.ui.TopBar
 import com.lambdadigamma.fuel.dashboard.FuelDashboardCard
 import com.lambdadigamma.moers.R
+import com.lambdadigamma.parking.ui.DashboardParkingOverview
 import com.lambdadigamma.rubbish.dashboard.RubbishNextDays
 
 enum class DashboardAction {
@@ -58,12 +58,13 @@ fun DashboardScreen(onAction: (DashboardAction) -> Unit, onOpenSettings: () -> U
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            FuelDashboardCard(modifier = Modifier.clickable {
+            FuelDashboardCard {
                 onAction(DashboardAction.Fuel)
-            })
-            RubbishNextDays(modifier = Modifier.clickable {
+            }
+            RubbishNextDays {
                 onAction(DashboardAction.Rubbish)
-            })
+            }
+            DashboardParkingOverview()
         }
 
     }

@@ -185,8 +185,6 @@ fun TopRubbishStreetSelection(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        val scope = rememberCoroutineScope()
-
         val autofillNode = AutofillNode(
             autofillTypes = listOf(
 //                AutofillType.PostalAddress,

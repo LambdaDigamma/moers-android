@@ -1,7 +1,7 @@
 package com.lambdadigamma.fuel.dashboard
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Card
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,7 +20,7 @@ import com.lambdadigamma.core.Status
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FuelDashboardCard(modifier: Modifier = Modifier) {
+fun FuelDashboardCard(modifier: Modifier = Modifier, onClick: () -> Unit) {
 
     val viewModel: DashboardFuelViewModel = hiltViewModel()
 
@@ -33,7 +33,8 @@ fun FuelDashboardCard(modifier: Modifier = Modifier) {
 
     val dashboardResource by viewModel.load().observeAsState()
 
-    Card(
+    ElevatedCard(
+        onClick = onClick,
         modifier = modifier
             .fillMaxWidth(),
     ) {
@@ -113,5 +114,5 @@ fun FuelDashboardCard(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun PetrolPrizeCardPreview() {
-    FuelDashboardCard()
+    FuelDashboardCard(onClick = {})
 }

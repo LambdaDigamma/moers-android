@@ -5,6 +5,7 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,32 +27,15 @@ fun FuelStationDetailScreen(id: String) {
     val data = viewModel.load()
 
     ResourcefulContent(resource = data, onLoad = { /*TODO*/ }) {
-        repeat(30) {
-            Text(text = "Item $it")
+//        repeat(30) {
+//            Text(text = "Item $it")
+//        }
+        Column(Modifier.verticalScroll(rememberScrollState())) {
+            FuelStationDetail(
+                data = it
+            )
         }
-//        Column(Modifier.verticalScroll(rememberScrollState())) {
-//            FuelStationDetail(
-//                data = it
-//            )
-//            Box(modifier = Modifier.height(600.dp))
-//        }
     }
-
-//    when (data?.status) {
-//        Status.SUCCESS -> {
-//            data?.data?.let {
-//                FuelStationDetail(
-//                    data = it
-//                )
-//            }
-//        }
-//        Status.LOADING -> {
-//            Text(text = "id = $id")
-//        }
-//        else -> {
-//
-//        }
-//    }
 }
 
 @Composable
@@ -73,6 +57,10 @@ fun FuelStationDetail(data: FuelStationUiState) {
 //                .background(MaterialTheme.colorScheme.background)
                 .scrollable(scrollState, orientation = Orientation.Vertical)
         ) {
+
+//            Map(modifier = Modifier
+//                .fillMaxSize()
+//                .height(400.dp))
 
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
