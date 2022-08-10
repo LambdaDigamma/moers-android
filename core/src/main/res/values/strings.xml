@@ -4,4 +4,5 @@
     <string name="event_detail_no_place">Venue unknown</string>
     <string name="event_detail_venue_headline">Venue</string>
     <string name="event_detail_venue_unknown">Unknown</string>
+    <string name="navigation_back">Back</string>
 </resources>

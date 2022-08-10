@@ -2,7 +2,6 @@ package com.lambdadigamma.fuel.list
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -16,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lambdadigamma.core.Status
+import com.lambdadigamma.core.ui.NavigationBackButton
 import com.lambdadigamma.fuel.R.drawable
 import com.lambdadigamma.fuel.data.FuelType
 
@@ -34,9 +34,7 @@ fun FuelStationListScreen(onBack: () -> Unit, onShowFuelStation: (String) -> Uni
                 Text("Kraftstoff")
             },
             navigationIcon = {
-                IconButton(onClick = onBack) {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                }
+                NavigationBackButton(onBack = onBack)
             },
             actions = {
                 IconButton(onClick = { }) {

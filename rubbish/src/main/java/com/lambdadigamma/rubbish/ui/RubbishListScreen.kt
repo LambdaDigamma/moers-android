@@ -2,10 +2,6 @@ package com.lambdadigamma.rubbish.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewModelScope
 import com.lambdadigamma.core.theme.MeinMoersTheme
+import com.lambdadigamma.core.ui.NavigationBackButton
 import com.lambdadigamma.core.ui.ResourcefulContent
 import com.lambdadigamma.rubbish.R
 import com.lambdadigamma.rubbish.RubbishScheduleViewModel
@@ -39,9 +36,7 @@ fun RubbishListScreen(onBack: () -> Unit) {
         SmallTopAppBar(
             title = { Text(stringResource(R.string.rubbish_collection_title)) },
             navigationIcon = {
-                IconButton(onClick = onBack) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                }
+                NavigationBackButton(onBack = onBack)
             },
             actions = {
 //                IconButton(onClick = { }) {

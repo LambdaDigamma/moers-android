@@ -1,8 +1,6 @@
 package com.lambdadigamma.moers
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,6 +13,7 @@ import com.jamal.composeprefs3.ui.prefs.DropDownPref
 import com.jamal.composeprefs3.ui.prefs.SwitchPref
 import com.jamal.composeprefs3.ui.prefs.TextPref
 import com.lambdadigamma.core.theme.MeinMoersTheme
+import com.lambdadigamma.core.ui.NavigationBackButton
 import com.lambdadigamma.core.user.UserType
 import com.lambdadigamma.core.utils.dataStore
 import com.lambdadigamma.fuel.data.FuelRepository
@@ -34,11 +33,7 @@ fun SettingsScreen(onBack: () -> Unit) {
         LargeTopAppBar(
             title = { Text(text = stringResource(id = R.string.settings)) },
             navigationIcon = {
-                IconButton(onClick = {
-                    onBack()
-                }) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = null)
-                }
+                NavigationBackButton(onBack = onBack)
             },
             colors = TopAppBarDefaults.largeTopAppBarColors()
 //            scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()

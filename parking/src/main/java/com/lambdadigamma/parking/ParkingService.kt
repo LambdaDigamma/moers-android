@@ -7,10 +7,12 @@ import com.lambdadigamma.core.DataResponse
 import com.lambdadigamma.core.LiveDataCallAdapterFactory
 import com.lambdadigamma.core.Resource
 import com.lambdadigamma.core.utils.AcceptLanguageHeaderInterceptor
+import com.lambdadigamma.parking.detail.ParkingAreaResponse
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 data class ParkingAreasResponse(@SerializedName("parking_areas") val parkingAreas: List<ParkingArea>)
 
@@ -21,6 +23,9 @@ interface ParkingService {
 
     @GET("parking-areas")
     fun getParkingAreas(): LiveData<Resource<DataResponse<ParkingAreasResponse>>>
+
+    @GET("parking-areas/{id}")
+    fun getParkingArea(@Path("id") id: Int): LiveData<Resource<DataResponse<ParkingAreaResponse>>>
 
     companion object Factory {
 

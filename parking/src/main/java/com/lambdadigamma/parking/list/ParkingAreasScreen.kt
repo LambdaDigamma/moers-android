@@ -1,11 +1,9 @@
-package com.lambdadigamma.parking.ui
+package com.lambdadigamma.parking.list
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,16 +14,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lambdadigamma.core.theme.MeinMoersTheme
+import com.lambdadigamma.core.ui.NavigationBackButton
 import com.lambdadigamma.core.ui.RelativeDateText
 import com.lambdadigamma.core.ui.ResourcefulContent
-import com.lambdadigamma.parking.*
+import com.lambdadigamma.parking.ParkingAreaOpeningState
 import com.lambdadigamma.parking.R
+import com.lambdadigamma.parking.localizedName
 import java.util.*
 import kotlin.math.max
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ParkingAreasScreen(onBack: () -> Unit) {
+fun ParkingAreasScreen(onSelectParkingArea: (Int) -> Unit, onBack: () -> Unit) {
 
     val viewModel: ParkingAreaListViewModel = hiltViewModel()
     val resource = viewModel.load()
@@ -35,16 +35,15 @@ fun ParkingAreasScreen(onBack: () -> Unit) {
             SmallTopAppBar(title = {
                 Text(text = stringResource(R.string.parking_areas_title))
             }, navigationIcon = {
-                IconButton(onClick = onBack) {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
-                }
+                NavigationBackButton(onBack = onBack)
             })
         },
         content = {
             ResourcefulContent(resource = resource, onLoad = { /*TODO*/ }) { parkingAreas ->
                 ParkingAreaScreenContent(
                     parkingAreas = parkingAreas,
-                    modifier = Modifier.padding(it)
+                    modifier = Modifier.padding(it),
+                    onSelectParkingArea = onSelectParkingArea
                 )
             }
         }
@@ -54,7 +53,8 @@ fun ParkingAreasScreen(onBack: () -> Unit) {
 @Composable
 private fun ParkingAreaScreenContent(
     parkingAreas: List<ParkingAreaListItem>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onSelectParkingArea: (Int) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -70,7 +70,8 @@ private fun ParkingAreaScreenContent(
                 freeSites = max(parkingArea.capacity - parkingArea.occupiedSites, 0),
                 capacity = parkingArea.capacity,
                 currentOpeningState = parkingArea.currentOpeningState,
-                lastUpdate = parkingArea.lastUpdated
+                lastUpdate = parkingArea.lastUpdated,
+                onClick = { onSelectParkingArea(parkingArea.id) }
             )
         }
 
@@ -85,9 +86,10 @@ private fun ParkingAreaDashboard(
     freeSites: Int,
     capacity: Int,
     currentOpeningState: ParkingAreaOpeningState,
-    lastUpdate: Date
+    lastUpdate: Date,
+    onClick: () -> Unit
 ) {
-    ElevatedCard {
+    ElevatedCard(onClick = onClick) {
         Surface(tonalElevation = 8.dp, modifier = Modifier.fillMaxWidth()) {
             Row(
                 horizontalArrangement = Arrangement.End,
@@ -170,6 +172,7 @@ private fun ParkingAreaScreenPreview() {
                     lastUpdated = Date()
                 ),
             ),
+            onSelectParkingArea = {}
 //            modifier = Modifier.padding(16.dp)
         )
     }

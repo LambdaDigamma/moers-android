@@ -23,7 +23,8 @@ import com.lambdadigamma.moers.explore.ExploreScreen
 import com.lambdadigamma.moers.search.SearchScreen
 import com.lambdadigamma.newsfeature.ui.NewsScreen
 import com.lambdadigamma.newsfeature.ui.NewsWebDetailScreen
-import com.lambdadigamma.parking.ui.ParkingAreasScreen
+import com.lambdadigamma.parking.detail.ParkingAreaDetailScreen
+import com.lambdadigamma.parking.list.ParkingAreasScreen
 import com.lambdadigamma.rubbish.ui.RubbishListScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -99,9 +100,34 @@ fun NavGraph(
         }
 
         composable(route = Destinations.parkingAreas) {
-            ParkingAreasScreen(onBack = {
-                navController.popBackStack()
-            })
+            ParkingAreasScreen(
+                onBack = {
+                    navController.popBackStack()
+                },
+                onSelectParkingArea = { parkingAreaId ->
+                    navController.navigate(
+                        Destinations.parkingAreaDetail.replace(
+                            "{id}",
+                            "$parkingAreaId"
+                        ),
+                        navOptions = NavOptions.Builder().build(),
+                    )
+                }
+            )
+        }
+        composable(
+            route = Destinations.parkingAreaDetail,
+            arguments = listOf(navArgument("id") { type = NavType.IntType })
+        ) { backStackEntry ->
+
+            val id = backStackEntry.arguments?.getInt("id")
+
+            id?.let {
+                ParkingAreaDetailScreen(id = it, onBack = {
+                    navController.popBackStack()
+                })
+            }
+
         }
 
         composable(

@@ -1,4 +1,4 @@
-package com.lambdadigamma.parking
+package com.lambdadigamma.parking.dashboard
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lambdadigamma.core.theme.MeinMoersTheme
+import com.lambdadigamma.parking.R
 
 @Composable
 fun DashboardParkingAreaError(error: String) {

@@ -2,9 +2,9 @@ package com.lambdadigamma.newsfeature.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.web.WebView
 import com.google.accompanist.web.rememberWebViewState
+import com.lambdadigamma.core.ui.NavigationBackButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -24,9 +25,7 @@ fun NewsWebDetailScreen(id: Int, onBack: () -> Unit) {
     Scaffold(
         topBar = {
             SmallTopAppBar(title = {}, navigationIcon = {
-                IconButton(onClick = onBack) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                }
+                NavigationBackButton(onBack = onBack)
             })
         }
     ) { innerPadding ->

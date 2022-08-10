@@ -1,4 +1,4 @@
-package com.lambdadigamma.parking.ui
+package com.lambdadigamma.parking.dashboard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -20,9 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lambdadigamma.core.Status
 import com.lambdadigamma.core.theme.MeinMoersTheme
-import com.lambdadigamma.parking.DashboardParkingAreaError
-import com.lambdadigamma.parking.DashboardParkingAreaLoading
-import com.lambdadigamma.parking.ParkingDashboardViewModel
 import com.lambdadigamma.parking.R
 
 data class ParkingAreaDashboardUiState(

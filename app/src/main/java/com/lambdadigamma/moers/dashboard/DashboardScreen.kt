@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.lambdadigamma.core.ui.TopBar
 import com.lambdadigamma.fuel.dashboard.FuelDashboardCard
 import com.lambdadigamma.moers.R
-import com.lambdadigamma.parking.ui.DashboardParkingOverview
+import com.lambdadigamma.parking.dashboard.DashboardParkingOverview
 import com.lambdadigamma.rubbish.dashboard.DashboardRubbishComponent
 
 enum class DashboardAction {
@@ -61,7 +61,6 @@ fun DashboardScreen(onAction: (DashboardAction) -> Unit, onOpenSettings: () -> U
         content = { paddingValues ->
             Column(
                 modifier = Modifier
-//                    .fillMaxSize()
                     .padding(paddingValues)
                     .verticalScroll(rememberScrollState())
                     .padding(16.dp),
@@ -77,22 +76,6 @@ fun DashboardScreen(onAction: (DashboardAction) -> Unit, onOpenSettings: () -> U
                     onAction(DashboardAction.Parking)
                 }
             }
-//            Column(
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .padding(paddingValues)
-//                    .padding(16.dp)
-//                    .verticalScroll(rememberScrollState()),
-//                verticalArrangement = Arrangement.spacedBy(16.dp)
-//            ) {
-//                FuelDashboardCard {
-//                    onAction(DashboardAction.Fuel)
-//                }
-//                DashboardRubbishComponent {
-//                    onAction(DashboardAction.Rubbish)
-//                }
-//                DashboardParkingOverview()
-//            }
         }
     )
 

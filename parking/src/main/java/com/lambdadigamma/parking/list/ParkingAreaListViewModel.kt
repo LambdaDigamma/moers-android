@@ -1,9 +1,11 @@
-package com.lambdadigamma.parking
+package com.lambdadigamma.parking.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.lambdadigamma.core.Resource
+import com.lambdadigamma.parking.ParkingAreaOpeningState
+import com.lambdadigamma.parking.ParkingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject

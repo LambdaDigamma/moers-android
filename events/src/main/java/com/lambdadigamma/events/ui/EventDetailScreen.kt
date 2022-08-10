@@ -7,7 +7,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -21,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.lambdadigamma.core.geo.GoogleMapsNavigationProvider
 import com.lambdadigamma.core.geo.TravelMode
 import com.lambdadigamma.core.theme.MeinMoersTheme
+import com.lambdadigamma.core.ui.NavigationBackButton
 import com.lambdadigamma.core.ui.ResourcefulContent
 import com.lambdadigamma.core.ui.VenueCard
 import com.lambdadigamma.events.R
@@ -74,9 +74,7 @@ private fun EventDetail(event: EventDetailUiState, onBack: () -> Unit) {
                     Text(text = "Details")
                 },
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                    }
+                    NavigationBackButton(onBack = onBack)
                 },
                 actions = {
                     IconButton(

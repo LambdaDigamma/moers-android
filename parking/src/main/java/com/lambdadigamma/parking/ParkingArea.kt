@@ -1,7 +1,9 @@
 package com.lambdadigamma.parking
 
 import androidx.annotation.StringRes
+import androidx.compose.ui.graphics.Color
 import com.google.gson.annotations.SerializedName
+import com.lambdadigamma.core.geo.GeoJsonPoint
 import java.util.*
 
 enum class ParkingAreaOpeningState(val value: String) {
@@ -13,6 +15,22 @@ enum class ParkingAreaOpeningState(val value: String) {
 
     @SerializedName("unknown")
     UNKNOWN("unknown")
+}
+
+fun ParkingAreaOpeningState.backgroundColor(): Color {
+    return when (this) {
+        ParkingAreaOpeningState.OPEN -> Color(0xFF4CAF50)
+        ParkingAreaOpeningState.CLOSED -> Color(0xFFF44336)
+        ParkingAreaOpeningState.UNKNOWN -> Color.Gray
+    }
+}
+
+fun ParkingAreaOpeningState.textColor(): Color {
+    return when (this) {
+        ParkingAreaOpeningState.OPEN -> Color.White
+        ParkingAreaOpeningState.CLOSED -> Color.White
+        ParkingAreaOpeningState.UNKNOWN -> Color.Black
+    }
 }
 
 @StringRes
@@ -28,16 +46,10 @@ data class ParkingArea(
     val id: Int,
     val name: String,
     val slug: String,
+    val location: GeoJsonPoint,
     @SerializedName("current_opening_state") val currentOpeningState: ParkingAreaOpeningState,
     @SerializedName("capacity") val capacity: Int,
     @SerializedName("occupied_sites") val occupiedSites: Int,
     @SerializedName("created_at") val createdAt: Date?,
     @SerializedName("updated_at") val updatedAt: Date?
-    //"location": {
-    //    "type": "Point",
-    //    "coordinates": [
-    //    6.631362,
-    //    51.449781
-    //    ]
-    //},
 )
