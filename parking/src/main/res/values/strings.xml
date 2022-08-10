@@ -2,4 +2,8 @@
 <resources>
     <string name="loading_parking_areas">Loading current parking allocation…</string>
     <string name="dashboard_parking_headline">Available parking areas</string>
+    <string name="parking_area_open">Open</string>
+    <string name="parking_area_closed">Closed</string>
+    <string name="parking_area_unknown">Unknown</string>
+    <string name="parking_areas_title">Parking areas</string>
 </resources>

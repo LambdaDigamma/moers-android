@@ -33,12 +33,12 @@ data class ParkingAreaDashboardUiState(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardParkingOverview(modifier: Modifier = Modifier) {
+fun DashboardParkingOverview(modifier: Modifier = Modifier, onClick: () -> Unit) {
 
     val viewModel: ParkingDashboardViewModel = hiltViewModel()
     val parkingAreas by viewModel.load().observeAsState()
 
-    ElevatedCard(modifier.fillMaxWidth()) {
+    ElevatedCard(onClick = onClick, modifier = modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.padding(12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -104,26 +104,15 @@ fun DashboardParkingView(
                         freeSites = parkingArea.freeSites,
                         modifier = Modifier.weight(0.5f)
                     )
+                    // This is needed to create two column layout
+                    // even if there is only one parking area.
+                    if (chunk.size == 1) {
+                        Box(modifier = Modifier.weight(0.5f))
+                    }
                 }
             }
         }
     }
-
-//    LazyVerticalGrid(
-//        columns = GridCells.Fixed(2),
-//        contentPadding = PaddingValues(12.dp),
-//        verticalArrangement = Arrangement.spacedBy(8.dp),
-//        horizontalArrangement = Arrangement.spacedBy(16.dp),
-//        userScrollEnabled = false
-//    ) {
-//        items(parkingAreas) {
-//            ParkingAreaInfo(
-//                name = it.name,
-//                freeSites = it.freeSites,
-//                modifier = Modifier
-//            )
-//        }
-//    }
 }
 
 @Composable

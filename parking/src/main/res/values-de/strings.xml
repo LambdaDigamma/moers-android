@@ -2,4 +2,8 @@
 <resources>
     <string name="loading_parking_areas">Lädt aktuelle Parkplatzbelegung…</string>
     <string name="dashboard_parking_headline">Freie Parkplätze</string>
+    <string name="parking_area_open">Geöffnet</string>
+    <string name="parking_area_closed">Geschlossen</string>
+    <string name="parking_area_unknown">Unbekannt</string>
+    <string name="parking_areas_title">Parkplätze</string>
 </resources>

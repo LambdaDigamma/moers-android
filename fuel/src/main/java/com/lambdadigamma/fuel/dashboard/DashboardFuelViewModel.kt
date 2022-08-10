@@ -23,7 +23,7 @@ class DashboardFuelViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val locationService: GMSLocationService
-    private val fuelService: FuelService = FuelService.getPetrolService()
+    private val fuelService: FuelService = FuelService.getFuelService()
 
     init {
         this.locationService = GMSLocationService(context)
@@ -41,6 +41,8 @@ class DashboardFuelViewModel @Inject constructor(
         location.observeForever {
             Log.d("DashboardFuelViewModel", "location: $it")
         }
+
+
 
         return Transformations.switchMap(location) { receivedLocation ->
 

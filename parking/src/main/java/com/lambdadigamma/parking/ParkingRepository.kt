@@ -21,5 +21,11 @@ class ParkingRepository @Inject constructor(
             it.transform { response -> response.data.parkingAreas }
         }
     }
-    
+
+    fun loadParkingAreas(): LiveData<Resource<List<ParkingArea>>> {
+        return Transformations.map(parkingService.getParkingAreas()) {
+            it.transform { response -> response.data.parkingAreas }
+        }
+    }
+
 }

@@ -1,34 +1,32 @@
-package com.lambdadigamma.moers
+package com.lambdadigamma.rubbish.ui
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewModelScope
 import com.lambdadigamma.core.theme.MeinMoersTheme
 import com.lambdadigamma.core.ui.ResourcefulContent
-import com.lambdadigamma.core.ui.TopBar
+import com.lambdadigamma.rubbish.R
 import com.lambdadigamma.rubbish.RubbishScheduleViewModel
-import com.lambdadigamma.rubbish.ui.RubbishScheduleList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun RubbishListScreen() {
+fun RubbishListScreen(onBack: () -> Unit) {
 
     val viewModel: RubbishScheduleViewModel = hiltViewModel()
     val rubbishSchedule = viewModel.rubbishSchedule
-    val rubbishCollectionStreet by viewModel.rubbishCollectionStreet.observeAsState()
 
     LaunchedEffect(key1 = "load_rubbish_schedule") {
         viewModel.load()
@@ -38,12 +36,17 @@ fun RubbishListScreen() {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        TopBar(
-            title = "Abfallkalender",
-            actions = {
-                IconButton(onClick = { }) {
-                    Icon(Icons.Outlined.Info, "")
+        SmallTopAppBar(
+            title = { Text(stringResource(R.string.rubbish_collection_title)) },
+            navigationIcon = {
+                IconButton(onClick = onBack) {
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                 }
+            },
+            actions = {
+//                IconButton(onClick = { }) {
+//                    Icon(Icons.Outlined.Info, "")
+//                }
             }
         )
 
@@ -73,19 +76,10 @@ fun RubbishListScreen() {
     }
 }
 
-@Composable
-fun RubbishStreetInfo() {
-
-    Row {
-
-    }
-
-}
-
 @Preview
 @Composable
 fun RubbishListScreen_Preview() {
     MeinMoersTheme {
-        RubbishListScreen()
+        RubbishListScreen(onBack = {})
     }
 }

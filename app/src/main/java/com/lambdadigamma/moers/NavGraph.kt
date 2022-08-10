@@ -23,14 +23,16 @@ import com.lambdadigamma.moers.explore.ExploreScreen
 import com.lambdadigamma.moers.search.SearchScreen
 import com.lambdadigamma.newsfeature.ui.NewsScreen
 import com.lambdadigamma.newsfeature.ui.NewsWebDetailScreen
+import com.lambdadigamma.parking.ui.ParkingAreasScreen
+import com.lambdadigamma.rubbish.ui.RubbishListScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavGraph(
+    modifier: Modifier = Modifier,
     finishActivity: () -> Unit = {},
     navController: NavHostController = rememberNavController(),
-    startDestination: String = Destinations.dashboard,
-    modifier: Modifier = Modifier
+    startDestination: String = Destinations.dashboard
 ) {
 
     rememberSystemUiController().setStatusBarColor(
@@ -53,20 +55,30 @@ fun NavGraph(
                     navOptions = NavOptions.Builder().build(),
                 )
             }, onAction = {
-                if (it == DashboardAction.Rubbish) {
-                    navController.navigate(
-                        Destinations.rubbishList
-                    )
-                } else if (it == DashboardAction.Fuel) {
-                    navController.navigate(
-                        Destinations.fuelList
-                    )
+                when (it) {
+                    DashboardAction.Rubbish -> {
+                        navController.navigate(
+                            Destinations.rubbishList
+                        )
+                    }
+                    DashboardAction.Fuel -> {
+                        navController.navigate(
+                            Destinations.fuelList
+                        )
+                    }
+                    DashboardAction.Parking -> {
+                        navController.navigate(
+                            Destinations.parkingAreas
+                        )
+                    }
                 }
             })
         }
 
         composable(route = Destinations.rubbishList) {
-            RubbishListScreen()
+            RubbishListScreen(onBack = {
+                navController.popBackStack()
+            })
         }
 
         composable(route = Destinations.fuelList) {
@@ -84,6 +96,12 @@ fun NavGraph(
                     )
                 }
             )
+        }
+
+        composable(route = Destinations.parkingAreas) {
+            ParkingAreasScreen(onBack = {
+                navController.popBackStack()
+            })
         }
 
         composable(

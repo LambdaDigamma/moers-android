@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lambdadigamma.core.DateUtils
 import com.lambdadigamma.core.theme.MeinMoersTheme
+import com.lambdadigamma.core.ui.DateText
 import com.lambdadigamma.rubbish.R.drawable
 import com.lambdadigamma.rubbish.RubbishCollectionItem
 import com.lambdadigamma.rubbish.RubbishWasteType
@@ -49,7 +50,8 @@ fun RubbishRow(item: RubbishCollectionItem, modifier: Modifier = Modifier) {
             modifier = Modifier.padding(horizontal = 12.dp),
         ) {
             Text(text = item.type.localizedName(), fontWeight = FontWeight.Medium)
-            Text(text = formattedDate)
+//            Text(text = formattedDate)
+            DateText(date = item.parsedDate)
         }
     }
 }
@@ -63,7 +65,7 @@ fun RubbishRow_Preview() {
             item = RubbishCollectionItem(
                 id = 1,
                 type = RubbishWasteType.RESIDUAL,
-                date = "01.02.2022"
+                date = "2022-01-02"
             )
         )
     }

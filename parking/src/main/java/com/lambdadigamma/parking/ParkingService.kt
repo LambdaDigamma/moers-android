@@ -19,6 +19,9 @@ interface ParkingService {
     @GET("parking/dashboard")
     fun getParkingDashboard(): LiveData<Resource<DataResponse<ParkingAreasResponse>>>
 
+    @GET("parking-areas")
+    fun getParkingAreas(): LiveData<Resource<DataResponse<ParkingAreasResponse>>>
+
     companion object Factory {
 
         fun getParkingService(): ParkingService {

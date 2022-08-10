@@ -73,7 +73,7 @@ class DatabaseModule {
 
     @Provides
     fun provideFuelService(): FuelService {
-        return FuelService.getPetrolService()
+        return FuelService.getFuelService()
     }
 
 //    @Provides

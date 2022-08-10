@@ -4,4 +4,5 @@
     <string name="notification_channel_rubbish_description">Sendet am vorherigen Tag eine Benachrichtigung über die Abfuhr des Mülls.</string>
     <string name="notification_rubbish_content">Morgen wird abgeholt: %s</string>
     <string name="dashboard_rubbish_headline">Next collection dates</string>
+    <string name="rubbish_collection_title">Waste calendar</string>
 </resources>

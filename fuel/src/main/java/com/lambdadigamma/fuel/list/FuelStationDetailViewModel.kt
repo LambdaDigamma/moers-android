@@ -17,7 +17,7 @@ class FuelStationDetailViewModel @Inject constructor(
 
     lateinit var id: String
 
-    private val fuelService: FuelService = FuelService.getPetrolService()
+    private val fuelService: FuelService = FuelService.getFuelService()
 
     fun load(): LiveData<Resource<FuelStationUiState>> {
         Log.d("Api", "Loading fuel station")

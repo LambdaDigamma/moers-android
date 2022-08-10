@@ -33,7 +33,7 @@ interface FuelService {
 
         private const val BASE_URL = "https://creativecommons.tankerkoenig.de/"
 
-        fun getPetrolService(): FuelService {
+        fun getFuelService(): FuelService {
             val client = OkHttpClient.Builder()
                 .addInterceptor { chain -> return@addInterceptor addApiKeyToRequests(chain) }
                 .build()

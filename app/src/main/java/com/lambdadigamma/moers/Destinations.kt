@@ -29,6 +29,7 @@ object Destinations {
     const val events = "events"
     const val eventDetail = "events/{id}"
 
+    const val parkingAreas = "parking-areas"
 
     const val search = "search"
     const val other = "other"
