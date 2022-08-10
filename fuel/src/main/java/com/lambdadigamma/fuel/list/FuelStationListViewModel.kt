@@ -21,10 +21,10 @@ class FuelStationListViewModel @Inject constructor(
 
         val locationUpdates =
             locationUpdates.fetchUpdates(5 * 60).asLiveData(viewModelScope.coroutineContext)
-        
+
         return Transformations.switchMap(locationUpdates) { point ->
             return@switchMap Transformations.map(
-                fuelService.getPetrolStations(
+                fuelService.getFuelStations(
                     latitude = point.latitude,
                     longitude = point.longitude,
                     radius = 10.0,

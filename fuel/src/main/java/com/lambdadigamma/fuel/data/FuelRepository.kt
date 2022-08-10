@@ -29,7 +29,7 @@ class FuelRepository @Inject constructor(
 
     fun load(point: Point): LiveData<Resource<List<FuelStationUiState>>> {
         return Transformations.map(
-            fuelService.getPetrolStations(
+            fuelService.getFuelStations(
                 latitude = point.latitude,
                 longitude = point.longitude,
                 radius = 10.0,

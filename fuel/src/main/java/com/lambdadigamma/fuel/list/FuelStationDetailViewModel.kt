@@ -23,7 +23,7 @@ class FuelStationDetailViewModel @Inject constructor(
         Log.d("Api", "Loading fuel station")
 
         return Transformations.map(
-            fuelService.getPetrolStation(id)
+            fuelService.getFuelStation(id)
         ) {
             it.transform { response ->
                 return@transform FuelStationUiState(

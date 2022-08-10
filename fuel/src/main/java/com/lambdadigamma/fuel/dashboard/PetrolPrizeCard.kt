@@ -126,6 +126,6 @@ fun FuelDashboardCard(modifier: Modifier = Modifier, onClick: () -> Unit) {
 
 @Preview
 @Composable
-fun PetrolPrizeCardPreview() {
+private fun FuelDashboardCardPreview() {
     FuelDashboardCard(onClick = {})
 }

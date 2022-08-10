@@ -50,7 +50,7 @@ class DashboardFuelViewModel @Inject constructor(
                 .firstOrNull()?.place ?: "Ort unbekannt"
 
             Transformations.map(
-                fuelService.getPetrolStations(
+                fuelService.getFuelStations(
                     latitude = receivedLocation.latitude,
                     longitude = receivedLocation.longitude,
                     radius = 10.0,

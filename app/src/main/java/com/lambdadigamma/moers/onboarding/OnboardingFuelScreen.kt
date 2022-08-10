@@ -87,21 +87,21 @@ fun OnboardingFuelContent(
                     )
 
                     Column() {
-                        FuelType.values().forEach { petrolType ->
+                        FuelType.values().forEach { fuelType ->
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
 
                                 RadioButton(
-                                    selected = selectedFuelType.value == petrolType,
+                                    selected = selectedFuelType.value == fuelType,
                                     onClick = {
-                                        selectedFuelType.value = petrolType
-                                        onUpdateFuelType(petrolType)
+                                        selectedFuelType.value = fuelType
+                                        onUpdateFuelType(fuelType)
                                     }
                                 )
 
-                                Text(text = petrolType.localizedName())
+                                Text(text = fuelType.localizedName())
 
                             }
                         }
@@ -133,15 +133,15 @@ fun OnboardingFuelContent(
 @Preview
 @Composable
 @ExperimentalMaterial3Api
-fun OnboardingPetrolPreview() {
-    val currentPetrolType = remember {
+private fun OnboardingFuelPreview() {
+    val currentFuelType = remember {
         mutableStateOf(FuelType.DIESEL)
     }
 
     MeinMoersTheme {
         OnboardingFuelContent(
-            selectedFuelType = currentPetrolType,
-            onUpdateFuelType = { currentPetrolType.value = it },
+            selectedFuelType = currentFuelType,
+            onUpdateFuelType = { currentFuelType.value = it },
             onContinue = {}
         )
     }

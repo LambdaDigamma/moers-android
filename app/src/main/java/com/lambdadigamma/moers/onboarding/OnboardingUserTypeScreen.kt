@@ -124,8 +124,8 @@ fun OnboardingUserTypeContent(
                             Column(modifier = Modifier.background(MaterialTheme.colorScheme.surface)) {
 
                                 FeatureRow(
-                                    title = stringResource(R.string.feature_petrol_title),
-                                    text = stringResource(R.string.feature_petrol_text),
+                                    title = stringResource(R.string.feature_fuel_title),
+                                    text = stringResource(R.string.feature_fuel_text),
                                     checked = true
                                 )
 

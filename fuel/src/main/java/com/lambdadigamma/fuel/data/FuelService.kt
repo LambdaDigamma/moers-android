@@ -16,7 +16,7 @@ import retrofit2.http.Query
 interface FuelService {
 
     @GET("json/list.php")
-    fun getPetrolStations(
+    fun getFuelStations(
         @Query("lat") latitude: Double,
         @Query("lng") longitude: Double,
         @Query("rad") radius: Double,
@@ -25,7 +25,7 @@ interface FuelService {
     ): LiveData<Resource<FuelRequestResponse>>
 
     @GET("json/detail.php")
-    fun getPetrolStation(
+    fun getFuelStation(
         @Query("id") id: String
     ): LiveData<Resource<FuelStationDetailRequestResponse>>
 

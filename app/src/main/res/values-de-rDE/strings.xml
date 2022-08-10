@@ -26,8 +26,8 @@
     <string name="onboarding_user_type_info">Lege nun fest, ob Du Bürger:in oder Besucher:in bist, damit die App genau an Deine Bedürfnisse angepasst werden kann.</string>
     <string name="onboarding_user_type_citizen">Bürger:in</string>
     <string name="onboarding_user_type_visitor">Besucher:in</string>
-    <string name="feature_petrol_title">Kraftstoffpreis</string>
-    <string name="feature_petrol_text">Lasse Dir den Kraftstoffpreis in der Umgebung anzeigen.</string>
+    <string name="feature_fuel_title">Kraftstoffpreis</string>
+    <string name="feature_fuel_text">Lasse Dir den Kraftstoffpreis in der Umgebung anzeigen.</string>
     <string name="feature_parking_title">Aktuelle Parkdaten</string>
     <string name="feature_parking_text">Finde schnell freie Parkplätze in Deiner Nähe.</string>
     <string name="feature_waste_schedule_title">Abfallkalender</string>
@@ -60,7 +60,7 @@
     <string name="onboarding_rubbish_street_skip_action">Später einrichten</string>
     <string name="about_navigation">Über die App</string>
     <string name="feedback_navigation">Feedback geben</string>
-    <string name="settings_petrol_type_label">Bevorzugter Kraftstoff</string>
+    <string name="settings_fuel_type_label">Bevorzugter Kraftstoff</string>
     <string name="settings_user_type">Art</string>
     <string name="settings_user_header">Benutzer</string>
     <string name="settings_rubbish_header">Abfuhrkalender</string>

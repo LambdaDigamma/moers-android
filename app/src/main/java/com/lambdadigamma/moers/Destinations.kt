@@ -11,7 +11,7 @@ object Destinations {
         const val location = "onboarding/location"
         const val notifications = "onboarding/notifications"
         const val rubbishStreet = "onboarding/rubbishStreet"
-        const val petrol = "onboarding/petrol"
+        const val fuel = "onboarding/fuel"
         const val done = "onboarding/done"
     }
 

@@ -179,17 +179,17 @@ fun OnboardingNavigationGraph(
                     }
                     OnboardingRubbishStreetScreen(
                         onContinue = {
-                            navController.navigate(Destinations.Onboarding.petrol)
+                            navController.navigate(Destinations.Onboarding.fuel)
                         }
                     )
                 }
                 composable(
-                    route = Destinations.Onboarding.petrol,
+                    route = Destinations.Onboarding.fuel,
                     enterTransition = {
                         initialState.destination.route?.let { it1 ->
                             enterTransition(
                                 initialRoute = it1,
-                                destinationRoute = Destinations.Onboarding.petrol,
+                                destinationRoute = Destinations.Onboarding.fuel,
                                 contentScope = this
                             )
                         }

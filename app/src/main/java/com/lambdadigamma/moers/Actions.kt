@@ -47,9 +47,9 @@ class OnboardingActions(navController: NavHostController) {
         }
     }
 
-    val continueToPetrol = { from: NavBackStackEntry ->
+    val continueToFuel = { from: NavBackStackEntry ->
         if (from.lifecycleIsResumed()) {
-            navController.navigate(Destinations.Onboarding.petrol)
+            navController.navigate(Destinations.Onboarding.fuel)
         }
     }
 

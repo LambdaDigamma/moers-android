@@ -72,7 +72,7 @@ fun SettingsScreen(onBack: () -> Unit) {
                 prefsItem {
                     DropDownPref(
                         key = FuelRepository.fuelTypeKey.name,
-                        title = stringResource(R.string.settings_petrol_type_label),
+                        title = stringResource(R.string.settings_fuel_type_label),
                         useSelectedAsSummary = true,
                         entries = mapOf(
                             FuelType.DIESEL.value to FuelType.DIESEL.localizedName(),

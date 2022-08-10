@@ -26,8 +26,8 @@
     <string name="onboarding_user_type_info">Now, select if you are a citizen or a visitor, so that the app can be adjusted to your needs.</string>
     <string name="onboarding_user_type_citizen">Citizen</string>
     <string name="onboarding_user_type_visitor">Visitor</string>
-    <string name="feature_petrol_title">Fuel price</string>
-    <string name="feature_petrol_text">View the price of fuel in your area.</string>
+    <string name="feature_fuel_title">Fuel price</string>
+    <string name="feature_fuel_text">View the price of fuel in your area.</string>
     <string name="feature_parking_title">Recent parking statistics</string>
     <string name="feature_parking_text">Easily locate free parking lots near you.</string>
     <string name="feature_waste_schedule_title">Waste schedule</string>
@@ -60,7 +60,7 @@
     <string name="onboarding_rubbish_street_skip_action">Setup later</string>
     <string name="about_navigation">About this app</string>
     <string name="feedback_navigation">Send feedback</string>
-    <string name="settings_petrol_type_label">Preferred fuel</string>
+    <string name="settings_fuel_type_label">Preferred fuel</string>
     <string name="settings_user_header">User</string>
     <string name="settings_user_type">Type</string>
     <string name="settings_rubbish_header">Rubbish schedule</string>

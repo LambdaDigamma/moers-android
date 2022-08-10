@@ -35,7 +35,7 @@
 - [ ] 
 
 * Rubbish Street
-* Petrol Type
+* Fuel Type
 * Notifications
 
 ## Settings
@@ -54,5 +54,6 @@
 - Rubbish Next Days
     - Setting: Show current day
 
-TODO: 
+TODO:
+
 - Pad average price with zeros if it is something like 1.9€
