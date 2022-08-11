@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="current_location">Current location</string>
+    <string name="parking_area_detail_title">Details</string>
+    <string name="fuel_label_diesel">Diesel</string>
+    <string name="fuel_label_e5">Super E5</string>
+    <string name="fuel_label_e10">Super E10</string>
 </resources>

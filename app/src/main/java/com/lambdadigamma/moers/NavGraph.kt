@@ -138,7 +138,9 @@ fun NavGraph(
             val id = backStackEntry.arguments?.getString("id")
 
             id?.let {
-                FuelStationDetailScreen(id = it)
+                FuelStationDetailScreen(id = it, onBack = {
+                    navController.popBackStack()
+                })
             }
 
         }

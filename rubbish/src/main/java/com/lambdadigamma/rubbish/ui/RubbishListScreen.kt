@@ -53,21 +53,6 @@ fun RubbishListScreen(onBack: () -> Unit) {
         }) { list ->
             RubbishScheduleList(items = list.orEmpty())
         }
-
-//        when (rubbishSchedule?.status) {
-//            Status.SUCCESS -> {
-//                RubbishScheduleList(items = rubbishSchedule?.data.orEmpty())
-//            }
-//            Status.LOADING -> {
-//                RubbishScheduleLoadingScreen()
-//            }
-//            Status.ERROR -> {
-////                NewsErrorScreen(error = news?.errorMessage ?: "")
-//            }
-//            else -> {
-//
-//            }
-//        }
     }
 }
 

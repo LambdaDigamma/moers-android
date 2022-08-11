@@ -52,7 +52,7 @@ fun NewsScreen(onShowRssItem: (Int) -> Unit) {
                     contentPadding = PaddingValues(16.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
-                    items(news?.data ?: emptyList()) { item ->
+                    items(news?.data ?: emptyList(), key = { it.guid }) { item ->
 
                         Card(onClick = {
                             item.id?.let(onShowRssItem)

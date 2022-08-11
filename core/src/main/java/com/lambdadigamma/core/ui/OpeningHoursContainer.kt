@@ -1,15 +1,14 @@
 package com.lambdadigamma.core.ui
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.lambdadigamma.core.R
 import com.lambdadigamma.core.theme.MeinMoersTheme
 
 data class OpeningHoursEntry(val label: String, val value: String)
@@ -22,9 +21,10 @@ fun OpeningHoursContainer(
 ) {
 
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        label?.let {
-            Text(text = it, fontWeight = FontWeight.Bold)
-        }
+        Text(
+            text = label ?: stringResource(R.string.opening_hours_headline),
+            fontWeight = FontWeight.Bold
+        )
         for (entry in entries) {
             OpeningEntryRow(label = entry.label, value = entry.value)
         }
@@ -35,12 +35,12 @@ fun OpeningHoursContainer(
 @Composable
 fun OpeningEntryRow(label: String, value: String) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-        Text(text = label, fontWeight = FontWeight.Medium)
-        Text(text = value, fontWeight = FontWeight.Medium)
+        Text(text = label, fontWeight = FontWeight.Normal)
+        Text(text = value, fontWeight = FontWeight.Normal)
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun OpeningHoursContainerPreview() {
 
@@ -51,6 +51,6 @@ fun OpeningHoursContainerPreview() {
     )
 
     MeinMoersTheme {
-        OpeningHoursContainer(entries = entries)
+        OpeningHoursContainer(entries = entries, modifier = Modifier.padding(16.dp))
     }
 }

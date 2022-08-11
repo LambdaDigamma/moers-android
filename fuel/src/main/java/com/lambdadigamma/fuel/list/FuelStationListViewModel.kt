@@ -38,6 +38,7 @@ class FuelStationListViewModel @Inject constructor(
                             id = station.id,
                             brand = station.brand.trim(),
                             name = station.name.trim(),
+                            point = station.coordinate,
                             price = station.price ?: 0.0,
                             distance = station.dist
                         )

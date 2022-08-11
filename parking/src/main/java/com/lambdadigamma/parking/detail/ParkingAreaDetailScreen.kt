@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lambdadigamma.core.geo.GeoJsonPoint
+import com.lambdadigamma.core.geo.Point
 import com.lambdadigamma.core.theme.MeinMoersTheme
 import com.lambdadigamma.core.ui.NavigationBackButton
 import com.lambdadigamma.core.ui.RelativeDateText
@@ -82,7 +83,10 @@ fun ParkingAreaDetailContent(parkingArea: ParkingAreaDetailState, onBack: () -> 
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
 
-            Map(modifier = Modifier.padding(horizontal = 16.dp))
+            Map(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                point = parkingArea.location.toPoint()
+            )
 
 //            PastOccupancy(
 //                modifier = Modifier.padding(horizontal = 16.dp),
@@ -151,7 +155,12 @@ private fun CurrentState(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Map(modifier: Modifier = Modifier) {
+private fun Map(point: Point, modifier: Modifier = Modifier) {
+
+    ElevatedButton(onClick = { /*TODO*/ }) {
+        Text(text = "Navigation starten")
+    }
+
     ElevatedCard(modifier = modifier) {
         Box(
             Modifier
@@ -161,6 +170,8 @@ private fun Map(modifier: Modifier = Modifier) {
                 .clip(RoundedCornerShape(12.dp)),
             contentAlignment = Alignment.Center
         ) {
+
+
             Text(text = "Map")
         }
     }

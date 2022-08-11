@@ -18,6 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.placeholder.material.placeholder
 import com.lambdadigamma.core.Status
 import com.lambdadigamma.fuel.R
+import com.lambdadigamma.fuel.ui.FuelPriceText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,7 +58,6 @@ fun FuelDashboardCard(modifier: Modifier = Modifier, onClick: () -> Unit) {
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
-//                            Icon
                             Icon(
                                 imageVector = Icons.Default.Place,
                                 contentDescription = null,
@@ -81,8 +81,10 @@ fun FuelDashboardCard(modifier: Modifier = Modifier, onClick: () -> Unit) {
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         val price = dashboardResource?.data?.price ?: placeholderData.price
-                        Text(
-                            text = "$price€",
+
+                        FuelPriceText(
+                            price = price,
+                            showSmall9 = false,
                             style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.placeholder(
@@ -90,6 +92,7 @@ fun FuelDashboardCard(modifier: Modifier = Modifier, onClick: () -> Unit) {
                                 color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.25f),
                             )
                         )
+
                         Text(
                             text = "PRO ${dashboardResource?.data?.type ?: placeholderData.type}".uppercase(),
 //                    color = MaterialTheme.colorScheme.onBackground,

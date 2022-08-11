@@ -10,24 +10,27 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.BaselineShift
-import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.lambdadigamma.core.geo.Point
+import com.lambdadigamma.core.ui.AddressUiState
+import com.lambdadigamma.fuel.ui.FuelPriceText
 
 data class FuelStationUiState(
     val id: String,
     val brand: String,
     val name: String,
+    val point: Point,
     val price: Double,
-    val distance: Double? = null
+    val priceDiesel: Double? = null,
+    val priceE5: Double? = null,
+    val priceE10: Double? = null,
+    val distance: Double? = null,
+    val address: AddressUiState? = null,
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FuelStationList(
     items: List<FuelStationUiState>,
@@ -40,7 +43,7 @@ fun FuelStationList(
         contentPadding = PaddingValues(bottom = 32.dp),
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
-        items(items) { item ->
+        items(items, key = { it.id }) { item ->
             FuelStationRow(item, onClick = onShowFuelStation)
         }
         item {
@@ -73,9 +76,17 @@ private fun FuelStationRow(item: FuelStationUiState, onClick: (String) -> Unit) 
             .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Column(modifier = Modifier.weight(0.5f)) {
+        Column(
+            modifier = Modifier
+                .padding(end = 12.dp)
+                .weight(0.5f)
+        ) {
             Text(text = item.brand, fontWeight = FontWeight.Bold)
-            Text(text = item.name.trim() + if (item.distance != null) " • ${item.distance}km" else "")
+            Text(
+                text = (if (item.distance != null) "${item.distance}km • " else "") + item.name.trim(),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
         }
         Card(
             modifier = Modifier
@@ -84,23 +95,10 @@ private fun FuelStationRow(item: FuelStationUiState, onClick: (String) -> Unit) 
             shape = RoundedCornerShape(4.dp),
         ) {
             Column(modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)) {
-
-                val price = item.price.toString()
-                val pricePart = price.substring(0, price.length - 1)
-                val superscript = SpanStyle(
-                    baselineShift = BaselineShift.Superscript,
-                    fontSize = 12.sp,
-                )
-
-                Text(
-                    text = buildAnnotatedString {
-                        append(pricePart)
-                        withStyle(superscript) {
-                            append("9")
-                        }
-                    },
+                FuelPriceText(
+                    price = item.price,
                     fontWeight = FontWeight.Bold,
-                    style = LocalTextStyle.current.copy(fontFeatureSettings = "tnum"),
+                    style = LocalTextStyle.current.copy(fontFeatureSettings = "tnum")
                 )
             }
         }
@@ -113,20 +111,40 @@ private fun FuelStationRow(item: FuelStationUiState, onClick: (String) -> Unit) 
 fun FuelStationListPreview() {
     FuelStationList(
         items = listOf(
-            FuelStationUiState(id = "1", brand = "Markant", name = "Yadigar Güner", price = 1.599),
-            FuelStationUiState(id = "2", brand = "SB", name = "Sb Moers", price = 1.609),
-            FuelStationUiState(id = "3", brand = "JET", name = "MOERS", price = 1.619),
+            FuelStationUiState(
+                id = "1",
+                brand = "Markant",
+                name = "Yadigar Güner",
+                price = 1.599,
+                point = Point(latitude = 52.5, longitude = 13.4)
+            ),
+            FuelStationUiState(
+                id = "2",
+                brand = "SB",
+                name = "Sb Moers",
+                price = 1.609,
+                point = Point(latitude = 52.5, longitude = 13.4)
+            ),
+            FuelStationUiState(
+                id = "3",
+                brand = "JET",
+                name = "MOERS",
+                price = 1.619,
+                point = Point(latitude = 52.5, longitude = 13.4)
+            ),
             FuelStationUiState(
                 id = "4",
                 brand = "CLASSIC",
                 name = "Supermarkt-Tankstelle Moers Breslauer Strasse 35 47441 Moers",
-                price = 1.619
+                price = 1.619,
+                point = Point(latitude = 52.5, longitude = 13.4),
             ),
             FuelStationUiState(
                 id = "5",
                 brand = "Kuster Energy",
                 name = "Kuster Energy",
-                price = 1.659
+                price = 1.659,
+                point = Point(latitude = 52.5, longitude = 13.4),
             ),
         ),
         onShowFuelStation = {}

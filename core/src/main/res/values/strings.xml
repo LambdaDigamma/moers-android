@@ -5,4 +5,6 @@
     <string name="event_detail_venue_headline">Venue</string>
     <string name="event_detail_venue_unknown">Unknown</string>
     <string name="navigation_back">Back</string>
+    <string name="address_headline">Address</string>
+    <string name="opening_hours_headline">Opening hours</string>
 </resources>

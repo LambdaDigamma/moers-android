@@ -2,6 +2,7 @@ package com.lambdadigamma.parking.list
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.*
@@ -64,7 +65,7 @@ private fun ParkingAreaScreenContent(
         modifier = modifier
     ) {
 
-        items(parkingAreas) { parkingArea ->
+        items(parkingAreas, key = { it.id }) { parkingArea ->
             ParkingAreaDashboard(
                 name = parkingArea.name,
                 freeSites = max(parkingArea.capacity - parkingArea.occupiedSites, 0),
@@ -73,6 +74,23 @@ private fun ParkingAreaScreenContent(
                 lastUpdate = parkingArea.lastUpdated,
                 onClick = { onSelectParkingArea(parkingArea.id) }
             )
+        }
+
+        item(span = { GridItemSpan(2) }) {
+            Column(modifier = Modifier) {
+                Text(
+                    text = stringResource(R.string.parking_areas_resource_disclaimer),
+                    color = MaterialTheme.colorScheme.secondary,
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Normal
+                )
+                Text(
+                    text = stringResource(R.string.parking_areas_resource_source),
+                    color = MaterialTheme.colorScheme.secondary,
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Normal
+                )
+            }
         }
 
     }
