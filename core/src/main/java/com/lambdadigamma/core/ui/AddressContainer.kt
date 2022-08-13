@@ -45,8 +45,8 @@ fun AddressContainer(
             text = label ?: stringResource(R.string.address_headline),
             fontWeight = FontWeight.Bold
         )
-        Text(text = firstLine, fontWeight = FontWeight.Normal)
-        Text(text = secondLine, fontWeight = FontWeight.Normal)
+        Text(text = firstLine, fontWeight = FontWeight.Normal, style = MaterialTheme.typography.bodyMedium)
+        Text(text = secondLine, fontWeight = FontWeight.Normal, style = MaterialTheme.typography.bodyMedium)
     }
 
 }

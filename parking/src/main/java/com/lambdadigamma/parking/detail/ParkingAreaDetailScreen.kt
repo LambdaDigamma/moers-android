@@ -7,7 +7,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
@@ -19,6 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.lambdadigamma.core.geo.GeoJsonPoint
 import com.lambdadigamma.core.geo.Point
 import com.lambdadigamma.core.theme.MeinMoersTheme
+import com.lambdadigamma.core.ui.ElevatedNavigationButton
 import com.lambdadigamma.core.ui.NavigationBackButton
 import com.lambdadigamma.core.ui.RelativeDateText
 import com.lambdadigamma.core.ui.ResourcefulContent
@@ -157,24 +157,22 @@ private fun CurrentState(
 @Composable
 private fun Map(point: Point, modifier: Modifier = Modifier) {
 
-    ElevatedButton(onClick = { /*TODO*/ }) {
-        Text(text = "Navigation starten")
-    }
+    ElevatedNavigationButton(point = point, modifier = Modifier.padding(horizontal = 16.dp))
 
-    ElevatedCard(modifier = modifier) {
-        Box(
-            Modifier
-                .fillMaxWidth()
-//                .background(MaterialTheme.colorScheme.surface)
-                .height(200.dp)
-                .clip(RoundedCornerShape(12.dp)),
-            contentAlignment = Alignment.Center
-        ) {
-
-
-            Text(text = "Map")
-        }
-    }
+//    ElevatedCard(modifier = modifier) {
+//        Box(
+//            Modifier
+//                .fillMaxWidth()
+////                .background(MaterialTheme.colorScheme.surface)
+//                .height(200.dp)
+//                .clip(RoundedCornerShape(12.dp)),
+//            contentAlignment = Alignment.Center
+//        ) {
+//
+//
+//            Text(text = "Map")
+//        }
+//    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

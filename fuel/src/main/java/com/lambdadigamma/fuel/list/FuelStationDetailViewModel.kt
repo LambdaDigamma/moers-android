@@ -1,5 +1,6 @@
 package com.lambdadigamma.fuel.list
 
+import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
@@ -7,8 +8,12 @@ import androidx.lifecycle.ViewModel
 import com.lambdadigamma.core.Resource
 import com.lambdadigamma.core.geo.LocationUpdatesUseCase
 import com.lambdadigamma.core.ui.AddressUiState
+import com.lambdadigamma.core.ui.OpeningHoursEntry
 import com.lambdadigamma.fuel.data.FuelService
+import com.lambdadigamma.fuel.detail.FuelStationDetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,14 +25,15 @@ class FuelStationDetailViewModel @Inject constructor(
 
     private val fuelService: FuelService = FuelService.getFuelService()
 
-    fun load(): LiveData<Resource<FuelStationUiState>> {
+    fun load(): LiveData<Resource<FuelStationDetailUiState>> {
         Log.d("Api", "Loading fuel station")
 
         return Transformations.map(
             fuelService.getFuelStation(id)
-        ) {
-            it.transform { response ->
-                return@transform FuelStationUiState(
+        ) { resource ->
+            resource.transform { response ->
+
+                return@transform FuelStationDetailUiState(
                     id = response.station.id,
                     brand = response.station.brand.trim(),
                     name = response.station.name.trim(),
@@ -44,6 +50,21 @@ class FuelStationDetailViewModel @Inject constructor(
                         state = response.station.state ?: "",
                         zip = response.station.postCode ?: ""
                     ),
+                    openingHours = response.station.openingTimes.map {
+                        val time = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+                            val start = LocalTime.parse(it.start).format(timeFormat)
+                            val end = LocalTime.parse(it.end).format(timeFormat)
+                            "${start}-${end}"
+                        } else {
+                            "${it.start}-${it.end}"
+                        }
+                        OpeningHoursEntry(
+                            label = it.text,
+                            value = time
+                        )
+                    },
+                    isOpen = response.station.isOpen
                 )
             }
         }

@@ -1,6 +1,7 @@
 package com.lambdadigamma.core.ui
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,6 +29,9 @@ fun OpeningHoursContainer(
         for (entry in entries) {
             OpeningEntryRow(label = entry.label, value = entry.value)
         }
+        if (entries.isEmpty()) {
+            OpeningEntryRow(label = "Öffnungszeiten unbekannt", value = "")
+        }
     }
 
 }
@@ -35,8 +39,18 @@ fun OpeningHoursContainer(
 @Composable
 fun OpeningEntryRow(label: String, value: String) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-        Text(text = label, fontWeight = FontWeight.Normal)
-        Text(text = value, fontWeight = FontWeight.Normal)
+        Text(
+            text = label,
+            fontWeight = FontWeight.Normal,
+            maxLines = 3,
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.weight(0.5f)
+        )
+        Text(
+            text = value,
+            fontWeight = FontWeight.Normal,
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
 

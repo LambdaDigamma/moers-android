@@ -1,5 +1,8 @@
 # Mein Moers
 
+> Du möchtest lieber eine Beschreibung auf Deutsch lesen?
+> Dann geht's hier entlang!
+
 ### Technologies
 
 - Kotlin Flow
