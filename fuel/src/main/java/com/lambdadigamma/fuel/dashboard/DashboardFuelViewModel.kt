@@ -7,9 +7,9 @@ import com.lambdadigamma.core.Resource
 import com.lambdadigamma.core.geo.GMSLocationService
 import com.lambdadigamma.core.geo.GeocodingService
 import com.lambdadigamma.core.geo.LocationUpdatesUseCase
+import com.lambdadigamma.fuel.data.FuelRepository
 import com.lambdadigamma.fuel.data.FuelService
 import com.lambdadigamma.fuel.data.FuelSorting
-import com.lambdadigamma.fuel.data.FuelType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -19,7 +19,8 @@ import kotlin.math.roundToInt
 class DashboardFuelViewModel @Inject constructor(
     @ApplicationContext context: Context,
     private val locationUpdates: LocationUpdatesUseCase,
-    private val geocodingService: GeocodingService
+    private val geocodingService: GeocodingService,
+    private val repository: FuelRepository,
 ) : ViewModel() {
 
     private val locationService: GMSLocationService
@@ -42,41 +43,46 @@ class DashboardFuelViewModel @Inject constructor(
             Log.d("DashboardFuelViewModel", "location: $it")
         }
 
+        val fuelType = repository.fuelType.asLiveData(viewModelScope.coroutineContext)
 
+        return Transformations.switchMap(fuelType) { fuelType ->
+            return@switchMap Transformations.switchMap(location) { receivedLocation ->
 
-        return Transformations.switchMap(location) { receivedLocation ->
+                val locationTitle = geocodingService.reverseGeocode(receivedLocation)
+                    .firstOrNull()?.place ?: "Ort unbekannt"
 
-            val locationTitle = geocodingService.reverseGeocode(receivedLocation)
-                .firstOrNull()?.place ?: "Ort unbekannt"
-
-            Transformations.map(
-                fuelService.getFuelStations(
-                    latitude = receivedLocation.latitude,
-                    longitude = receivedLocation.longitude,
-                    radius = 10.0,
-                    sorting = FuelSorting.DISTANCE.value,
-                    type = FuelType.DIESEL.apiValue()
-                )
-            ) { resource ->
-                resource.transform { response ->
-
-                    val notNull = response.stations.orEmpty().mapNotNull {
-                        it.price
-                    }
-
-                    val average = DoubleArray(notNull.size) { i ->
-                        notNull[i]
-                    }.average()
-
-                    FuelDashboardData(
-                        type = "L DIESEL",
-                        location = locationTitle,
-                        price = (average * 100).roundToInt() / 100.0,
-                        numberOfStations = notNull.size
+                Transformations.map(
+                    fuelService.getFuelStations(
+                        latitude = receivedLocation.latitude,
+                        longitude = receivedLocation.longitude,
+                        radius = 10.0,
+                        sorting = FuelSorting.DISTANCE.value,
+                        type = fuelType.apiValue()
                     )
+                ) { resource ->
+                    resource.transform { response ->
+
+                        val notNull = response.stations.orEmpty().mapNotNull {
+                            it.price
+                        }
+
+                        val average = DoubleArray(notNull.size) { i ->
+                            notNull[i]
+                        }.average()
+
+                        Log.d("FuelDashboardViewModel", "L ${fuelType.localizedName().uppercase()}")
+
+                        FuelDashboardData(
+                            type = "L ${fuelType.localizedName().uppercase()}",
+                            location = locationTitle,
+                            price = (average * 100).roundToInt() / 100.0,
+                            numberOfStations = notNull.size
+                        )
+                    }
                 }
             }
         }
+
 
     }
 

@@ -9,5 +9,6 @@
     <string name="opening_hours_headline">Opening hours</string>
     <string name="badge_is_open">Open</string>
     <string name="badge_is_closed">Closed</string>
-    <string name="start_navigation">Navigation starten</string>
+    <string name="start_navigation">Start navigation</string>
+    <string name="opening_hours_unknown">Opening hours unknown</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.lambdadigamma.fuel.data
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -27,14 +28,14 @@ class FuelRepository @Inject constructor(
 
     private val dataStore: DataStore<Preferences> = context.dataStore
 
-    fun load(point: Point): LiveData<Resource<List<FuelStationUiState>>> {
+    fun load(point: Point, fuelType: FuelType): LiveData<Resource<List<FuelStationUiState>>> {
         return Transformations.map(
             fuelService.getFuelStations(
                 latitude = point.latitude,
                 longitude = point.longitude,
                 radius = 10.0,
                 FuelSorting.DISTANCE.value,
-                FuelType.DIESEL.apiValue()
+                fuelType.apiValue()
             )
         ) {
             it.transform { response ->
@@ -62,8 +63,9 @@ class FuelRepository @Inject constructor(
         .map { settings ->
             settings[fuelTypeKey]?.let {
                 try {
-                    FuelType.valueOf(it)
+                    FuelType.fromString(it)
                 } catch (e: Exception) {
+                    Log.e("FuelRepository", "Invalid fuel type: $it")
                     defaultFuelType
                 }
             } ?: defaultFuelType

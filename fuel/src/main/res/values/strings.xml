@@ -7,4 +7,5 @@
     <string name="fuel_label_e10">Super E10</string>
     <string name="start_navigation">Start navigation</string>
     <string name="fuel_datasource">Data source: CC BY 4.0 - https://creativecommons.tankerkoenig.de</string>
+    <string name="fuel_stations_title">Fuel stations</string>
 </resources>

@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class OnboardingFuelViewModel @Inject constructor(
     @ApplicationContext val context: Context,
-    val fuelRepository: FuelRepository
+    private val fuelRepository: FuelRepository
 ) : ViewModel() {
 
     val fuelType = fuelRepository.fuelType
@@ -23,13 +23,5 @@ class OnboardingFuelViewModel @Inject constructor(
             fuelRepository.updateFuelType(fuelType)
         }
     }
-
-//    private val dataStore: DataStore<Preferences> = context.dataStore
-
-
-//    val fuelType = dataStore.data.map { it[fuelTypeKey] }
-//        .map {
-//            it?.let { FuelType.valueOf(it) }
-//        }
 
 }

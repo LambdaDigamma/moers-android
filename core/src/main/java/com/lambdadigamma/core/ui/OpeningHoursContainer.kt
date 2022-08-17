@@ -30,7 +30,7 @@ fun OpeningHoursContainer(
             OpeningEntryRow(label = entry.label, value = entry.value)
         }
         if (entries.isEmpty()) {
-            OpeningEntryRow(label = "Öffnungszeiten unbekannt", value = "")
+            OpeningEntryRow(label = stringResource(R.string.opening_hours_unknown), value = "")
         }
     }
 

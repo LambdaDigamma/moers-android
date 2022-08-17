@@ -19,8 +19,15 @@ enum class RubbishWasteType(val value: String) {
     PLASTIC("plastic"),
 
     @SerializedName("cuttings")
-    CUTTINGS("cuttings")
+    CUTTINGS("cuttings");
+
+    companion object {
+        fun fromString(value: String): RubbishWasteType {
+            return values().first { it.value == value }
+        }
+    }
 }
+
 
 fun RubbishWasteType.localizedName(): String {
     return when (this) {

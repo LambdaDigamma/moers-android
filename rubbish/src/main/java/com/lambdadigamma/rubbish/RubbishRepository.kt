@@ -21,6 +21,7 @@ import com.lambdadigamma.rubbish.source.RubbishApi
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -105,7 +106,17 @@ class RubbishRepository @Inject constructor(
                 rubbishDao.deleteAllRubbishCollectionItems()
                 rubbishDao.insertRubbishCollectionItems(item)
                 removeAllRubbishNotifications()
-                scheduleNotifications(item)
+                
+                runBlocking {
+                    reminderTime.collect { time ->
+                        scheduleNotifications(
+                            collectionItems = item,
+                            hours = time?.hours ?: 20,
+                            minutes = time?.minutes ?: 0,
+                        )
+                    }
+                }
+
                 lastUpdateCollectionItems.set(lastUpdate = Date())
             }
 
@@ -157,7 +168,6 @@ class RubbishRepository @Inject constructor(
             } else {
                 return@map null
             }
-
         }
 
     suspend fun enableReminders(hours: Int = 20, minutes: Int = 0) {
@@ -207,14 +217,23 @@ class RubbishRepository @Inject constructor(
 
     // --- Notifications ---
 
-    fun scheduleNotifications(collectionItems: List<RubbishCollectionItem>) {
+    fun scheduleNotifications(
+        collectionItems: List<RubbishCollectionItem>,
+        hours: Int,
+        minutes: Int
+    ) {
 
         val workManager: WorkManager = WorkManager.getInstance(context)
 
         for (item in collectionItems.filter { it.parsedDate > Date() }) {
 
+            val reminderDate = getDateOfPreviousDayAtHourMinute(
+                date = item.parsedDate,
+                hour = hours,
+                minutes = minutes
+            )
 
-            val delay = Date().milliInterval(item.parsedDate) // item.parsedDate.time - Date().time
+            val delay = Date().milliInterval(reminderDate)
 
             val work =
                 OneTimeWorkRequestBuilder<RubbishScheduleNotificationWorker>()
@@ -227,6 +246,32 @@ class RubbishRepository @Inject constructor(
 
         }
 
+    }
+
+    private fun scheduleTestNotification() {
+
+        val workManager: WorkManager = WorkManager.getInstance(context)
+
+        val work =
+            OneTimeWorkRequestBuilder<RubbishScheduleNotificationWorker>()
+                .setInitialDelay(10, TimeUnit.SECONDS)
+                .setInputData(RubbishScheduleNotificationWorker.inputData(RubbishWasteType.ORGANIC))
+                .addTag(RubbishScheduleNotificationWorker.TAG)
+                .build()
+
+        workManager.enqueue(work)
+
+    }
+
+    private fun getDateOfPreviousDayAtHourMinute(date: Date, hour: Int, minutes: Int): Date {
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        calendar.set(Calendar.HOUR_OF_DAY, hour)
+        calendar.set(Calendar.MINUTE, minutes)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        calendar.add(Calendar.DATE, -1)
+        return calendar.time
     }
 
     fun removeAllRubbishNotifications() {

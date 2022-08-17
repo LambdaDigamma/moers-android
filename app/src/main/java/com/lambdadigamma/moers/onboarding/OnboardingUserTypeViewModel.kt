@@ -27,7 +27,7 @@ class OnboardingUserTypeViewModel @Inject constructor(
         .map { settings ->
             settings[userTypeKey]?.let {
                 try {
-                    UserType.valueOf(it)
+                    UserType.fromString(it)
                 } catch (e: Exception) {
                     defaultUserType
                 }

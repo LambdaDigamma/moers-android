@@ -32,10 +32,10 @@ class RubbishScheduleNotificationWorker(
             }
 
             rubbishTypeValue?.let { value ->
-                val rubbishWasteType = RubbishWasteType.valueOf(value)
+                val rubbishWasteType = RubbishWasteType.fromString(value)
 
                 val builder = NotificationCompat.Builder(context, CHANNEL_ID).apply {
-                    setContentTitle(rubbishWasteType.name)
+                    setContentTitle(context.getString(R.string.rubbish_notification_title))
                     setContentText(
                         String.format(
                             context.getString(R.string.notification_rubbish_content),

@@ -5,4 +5,5 @@
     <string name="notification_rubbish_content">Morgen wird abgeholt: %s</string>
     <string name="dashboard_rubbish_headline">Nächste Leerungen</string>
     <string name="rubbish_collection_title">Abfallkalender</string>
+    <string name="rubbish_notification_title">Abfallkalender</string>
 </resources>

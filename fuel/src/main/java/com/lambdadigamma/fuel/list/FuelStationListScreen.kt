@@ -10,12 +10,14 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lambdadigamma.core.Status
 import com.lambdadigamma.core.ui.NavigationBackButton
+import com.lambdadigamma.fuel.R
 import com.lambdadigamma.fuel.R.drawable
 import com.lambdadigamma.fuel.data.FuelType
 
@@ -24,6 +26,7 @@ fun FuelStationListScreen(onBack: () -> Unit, onShowFuelStation: (String) -> Uni
 
     val viewModel: FuelStationListViewModel = hiltViewModel()
     val stations by viewModel.load().observeAsState()
+    val fuelType by viewModel.fuelType.observeAsState()
 
     Column(
         modifier = Modifier
@@ -31,7 +34,7 @@ fun FuelStationListScreen(onBack: () -> Unit, onShowFuelStation: (String) -> Uni
     ) {
         SmallTopAppBar(
             title = {
-                Text("Kraftstoff")
+                Text(stringResource(R.string.fuel_stations_title))
             },
             navigationIcon = {
                 NavigationBackButton(onBack = onBack)
@@ -50,7 +53,7 @@ fun FuelStationListScreen(onBack: () -> Unit, onShowFuelStation: (String) -> Uni
                         modifier = Modifier.weight(1f),
                         onShowFuelStation = onShowFuelStation
                     )
-                    FuelStationSearchInfo(type = FuelType.DIESEL)
+                    FuelStationSearchInfo(type = fuelType ?: FuelType.DIESEL)
                 }
             }
             Status.LOADING -> {
@@ -58,7 +61,6 @@ fun FuelStationListScreen(onBack: () -> Unit, onShowFuelStation: (String) -> Uni
             }
             Status.ERROR -> {
                 FuelStationsErrorScreen(stations?.errorMessage ?: "Error")
-//                NewsErrorScreen(error = news?.errorMessage ?: "")
             }
             else -> {
 
