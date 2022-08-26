@@ -73,5 +73,20 @@
     <string name="onboarding_location_granted_title">Authorization granted</string>
     <string name="onboarding_location_granted_description">You have granted the app permission to access your device\'s location.</string>
     <string name="onboarding_location_granted_undo">You can revoke this permission at any time in your device\'s settings.</string>
+    <string name="about_title">About</string>
+    <string name="feedback_title">Feedback</string>
+    <string name="send_feedback_action">Send feedback</string>
+    <string name="rate_app_headline">Rate the app</string>
+    <string name="rate_app_line1">If you already like the app, I\'m very happy about a positive review in the Play Store.</string>
+    <string name="rate_app_line2">Otherwise, be kind and wait to give a negative review until development has advanced further.</string>
+    <string name="rate_app_action">Rate app</string>
+    <string name="feedback_card_title">Send feedback</string>
+    <string name="feedback_card_line1">This app is still in active development. Nevertheless, I welcome feedback and feedback at any time.</string>
+    <string name="feedback_card_line2">However, please note that not everything works yet and the app is still missing some functions.</string>
+    <string name="feedback_card_line3">I appreciate any constructive criticism, bug reports and other suggestions.</string>
+    <string name="feedback_card_mail_subject" translatable="false">Feedback zur Mein Moers (Android)</string>
+    <string name="feedback_card_mail_address" translatable="false">mailto:meinmoers@lambdadigamma.com</string>
+    <string name="feedback_disclaimer_line1">If you submitted an app review or dismissed it, the button may no longer work.</string>
+    <string name="feedback_disclaimer_line2">Please visit the Play Store to rate the app.</string>
 
 </resources>

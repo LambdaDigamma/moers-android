@@ -1,17 +1,24 @@
-# Mein Moers (Android)
+# Mein Moers
 
 Mein Moers für Android ist die App für die Stadt Moers.
 Alle Informationen stammen aus Open Data Angeboten der Stadt Moers und anderen Organisationen.
 
 ## Allgemeine Informationen
 
-### Warum native Apps?
-
-
 ### Konzept
 
 
 ## Technische Umsetzung
+
+Es gibt eine mobile App für iOS 
+
+### Warum native Apps?
+
+Das Ziel ist es, zwei native und gut im Betriebssystem eingebundene Apps zu entwickeln.
+
+
+Auf diese Weise können auch Systemfeatures, wie zum Beispiel Apple CarPlay (iOS) implementiert werden.
+
 
 ### Aufbau der App
 
@@ -23,7 +30,7 @@ Die App ist modular aufgebaut und in verschiedene Feature-Module aufgeteilt.
 - `EventsFeature`: 
 - `FuelFeature`:
 - `NewsFeature`:
-- `RubbishFeature`:
+- `RubbishFeature`: 
 - `ParkingFeature`: Alles rund um Parkplätze…
 
 > Alle Feature-Module werden in Zukunft auch in eigenen nativen Apps verwendet werden können. 

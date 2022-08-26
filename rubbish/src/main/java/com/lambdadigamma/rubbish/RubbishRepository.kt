@@ -106,22 +106,23 @@ class RubbishRepository @Inject constructor(
                 rubbishDao.deleteAllRubbishCollectionItems()
                 rubbishDao.insertRubbishCollectionItems(item)
                 removeAllRubbishNotifications()
-                
-                runBlocking {
-                    reminderTime.collect { time ->
-                        scheduleNotifications(
-                            collectionItems = item,
-                            hours = time?.hours ?: 20,
-                            minutes = time?.minutes ?: 0,
-                        )
+
+                appExecutors.diskIO().execute(Runnable {
+                    runBlocking {
+                        reminderTime.collect { time ->
+                            scheduleNotifications(
+                                collectionItems = item,
+                                hours = time?.hours ?: 20,
+                                minutes = time?.minutes ?: 0,
+                            )
+                        }
                     }
-                }
+                })
 
                 lastUpdateCollectionItems.set(lastUpdate = Date())
             }
 
             override fun shouldFetch(data: List<RubbishCollectionItem>?): Boolean {
-                return true
                 if (data == null || data.orEmpty().isEmpty()) {
                     return true
                 }
@@ -138,6 +139,7 @@ class RubbishRepository @Inject constructor(
                 return Transformations.switchMap(dataStore.data.asLiveData()) {
                     Log.d("Api", it.rubbishCollectionStreet.id.toString())
                     Transformations.map(remoteDataSource.getPickupItems(it.rubbishCollectionStreet.id)) { resource ->
+                        Log.d("Api", resource.toString())
                         Resource.success(resource.data?.data.orEmpty())
                     }
                 }

@@ -16,7 +16,6 @@ import com.lambdadigamma.core.ui.NavigationBackButton
 import com.lambdadigamma.core.ui.ResourcefulContent
 import com.lambdadigamma.rubbish.R
 import com.lambdadigamma.rubbish.RubbishScheduleViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -47,7 +46,7 @@ fun RubbishListScreen(onBack: () -> Unit) {
 
         ResourcefulContent(resource = rubbishSchedule, onLoad = {
             viewModel.viewModelScope.launch {
-                delay(2000)
+//                delay(2000)
                 viewModel.load()
             }
         }) { list ->

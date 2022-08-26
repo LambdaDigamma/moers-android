@@ -107,15 +107,13 @@ platform :android do
     increment_version()
     increment_version_code()
 
-    # version = UI.input("Enter the version number (x.y.z):")
-
     UI.header "Deploying a new version to Google Play"
 
     # version = options[:version]
 
-    gradle(
-      task: 'clean'
-    )
+    # gradle(
+    #   task: 'clean'
+    # )
     gradle(
       task: "bundle",
       build_type: "Release",

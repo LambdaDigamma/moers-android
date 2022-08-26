@@ -24,11 +24,6 @@ import com.lambdadigamma.moers.onboarding.OnboardingUserTypeViewModel
 @Composable
 fun SettingsScreen(onBack: () -> Unit) {
 
-//    rememberSystemUiController().setNavigationBarColor(
-//        MaterialTheme.colorScheme.background,
-//        navigationBarContrastEnforced = true
-//    )
-
     Scaffold(topBar = {
         LargeTopAppBar(
             title = { Text(text = stringResource(id = R.string.settings)) },
@@ -36,7 +31,6 @@ fun SettingsScreen(onBack: () -> Unit) {
                 NavigationBackButton(onBack = onBack)
             },
             colors = TopAppBarDefaults.largeTopAppBarColors()
-//            scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
         )
     }) {
         PrefsScreen(

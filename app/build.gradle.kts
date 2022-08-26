@@ -14,15 +14,14 @@ plugins {
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
+project.version = "1.0.1"
+
 /**
  * Accessing the defined global versions using a type safe delegate.
  */
 val minSdkVersion: Int by rootProject.extra
 val targetSdkVersion: Int by rootProject.extra
 val sdkVersion: Int by rootProject.extra
-
-val appVersion: String by rootProject.extra
-val appVersionCode: Int by rootProject.extra
 
 val hiltVersion: String by rootProject.extra
 val composeVersion: String by rootProject.extra
@@ -52,8 +51,8 @@ android {
         applicationId = "com.lambdadigamma.moers"
         minSdk = minSdkVersion
         targetSdk = targetSdkVersion
-        versionCode = appVersionCode
-        versionName = appVersion
+        versionCode = 15
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -181,6 +180,10 @@ dependencies {
     implementation("com.google.accompanist:accompanist-placeholder-material:0.24.13-rc")
     implementation("com.google.accompanist:accompanist-navigation-animation:0.26.0-alpha")
 
+    // Review
+    implementation("com.google.android.play:review:2.0.0")
+    implementation("com.google.android.play:review-ktx:2.0.0")
+
 
 }
 
@@ -237,13 +240,6 @@ tasks.create("incrementVersion") {
     }
 }
 
-secrets {
-    // To add your Maps API key to this project:
-    // 1. Add this line to your local.properties file, where YOUR_API_KEY is your API key:
-    //        MAPS_API_KEY=YOUR_API_KEY
-    defaultPropertiesFileName = "local.defaults.properties"
-}
-
 tasks.create("incrementVersionCode") {
     group = "versioning"
     description = "Increments the version code."
@@ -256,4 +252,11 @@ tasks.create("incrementVersionCode") {
             )
         buildFile.writeText(newBuild)
     }
+}
+
+secrets {
+    // To add your Maps API key to this project:
+    // 1. Add this line to your local.properties file, where YOUR_API_KEY is your API key:
+    //        MAPS_API_KEY=YOUR_API_KEY
+    defaultPropertiesFileName = "local.defaults.properties"
 }

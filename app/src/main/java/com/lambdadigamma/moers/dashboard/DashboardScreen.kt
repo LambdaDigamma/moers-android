@@ -19,7 +19,7 @@ import com.lambdadigamma.parking.dashboard.DashboardParkingOverview
 import com.lambdadigamma.rubbish.dashboard.DashboardRubbishComponent
 
 enum class DashboardAction {
-    Fuel, Rubbish, Parking
+    Fuel, Rubbish, Parking, About, Feedback
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,11 +48,15 @@ fun DashboardScreen(onAction: (DashboardAction) -> Unit, onOpenSettings: () -> U
                         )
                         DropdownMenuItem(
                             text = { Text(text = stringResource(R.string.feedback_navigation)) },
-                            onClick = { /*TODO*/ }
+                            onClick = {
+                                onAction(DashboardAction.Feedback)
+                            }
                         )
                         DropdownMenuItem(
                             text = { Text(text = stringResource(R.string.about_navigation)) },
-                            onClick = { /*TODO*/ }
+                            onClick = {
+                                onAction(DashboardAction.About)
+                            }
                         )
                     }
                 }

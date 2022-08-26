@@ -36,4 +36,6 @@ object Destinations {
     const val other = "other"
 
     const val settings = "settings"
+    const val about = "about"
+    const val feedback = "feedback"
 }

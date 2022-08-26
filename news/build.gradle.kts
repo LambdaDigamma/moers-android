@@ -11,9 +11,6 @@ val minSdkVersion: Int by rootProject.extra
 val targetSdkVersion: Int by rootProject.extra
 val sdkVersion: Int by rootProject.extra
 
-val appVersion: String by rootProject.extra
-val appVersionCode: Int by rootProject.extra
-
 val roomVersion: String by rootProject.extra
 val retrofitVersion: String by rootProject.extra
 val composeVersion: String by rootProject.extra
@@ -82,7 +79,7 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
     // Room
-    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")

@@ -7,9 +7,6 @@ extra["sdkVersion"] = 32
 extra["minSdkVersion"] = 21
 extra["targetSdkVersion"] = 32
 
-extra["appVersion"] = "0.0.1"
-extra["appVersionCode"] = 1
-
 var kotlinVersion = "1.7.0"
 var gradleVersion = "7.0.4"
 

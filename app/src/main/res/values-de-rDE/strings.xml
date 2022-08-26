@@ -73,4 +73,17 @@
     <string name="onboarding_location_granted_title">Berechtigung erteilt</string>
     <string name="onboarding_location_granted_description">Du hast der App die Berechtigung erteilt, auf den Standort zugreifen zu können.</string>
     <string name="onboarding_location_granted_undo">Du kannst diese Erlaubnis jederzeit in den Geräte-Einstellungen wieder zurücknehmen.</string>
+    <string name="about_title">Über die App</string>
+    <string name="feedback_title">Feedback</string>
+    <string name="send_feedback_action">Feedback senden</string>
+    <string name="rate_app_headline">Bewerte die App</string>
+    <string name="rate_app_line1">Falls Dir die App schon jetzt gefällt, freue ich mich sehr über eine positive Bewertung im Play Store.</string>
+    <string name="rate_app_line2">Andernfalls sei so nett und warte mit einer negativen Bewertung, bis die Entwicklung weiter fortgeschritten ist.</string>
+    <string name="rate_app_action">App bewerten</string>
+    <string name="feedback_card_title">Feedback geben</string>
+    <string name="feedback_card_line1">Diese App ist noch in der Entwicklung. Trotzdem freue ich mich jeder Zeit über Feedback und Rückmeldungen.</string>
+    <string name="feedback_card_line2">Habe aber bitte Verständnis dafür, dass noch nicht alles funktioniert bzw. der App noch einige Funktionen fehlen.</string>
+    <string name="feedback_card_line3">Ich freue mich über konstruktive Kritik, Fehlerberichte und Vorschläge.</string>
+    <string name="feedback_disclaimer_line1">Falls Du eine Bewertung abgegeben hast oder diese weg geklickt hast, kann es sein, dass der Knopf nicht mehr funktioniert.</string>
+    <string name="feedback_disclaimer_line2">Gehe bitte in den Play Store, um die App zu bewerten.</string>
 </resources>

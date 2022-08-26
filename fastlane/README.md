@@ -31,6 +31,22 @@ Get signing report
 
 Test the env setup
 
+### android increment_version_code
+
+```sh
+[bundle exec] fastlane android increment_version_code
+```
+
+Increment version code
+
+### android increment_version
+
+```sh
+[bundle exec] fastlane android increment_version
+```
+
+Increment version
+
 ### android load_metadata
 
 ```sh
@@ -46,6 +62,22 @@ Download metadata from Google Play
 ```
 
 Runs all the tests
+
+### android build_for_screengrab
+
+```sh
+[bundle exec] fastlane android build_for_screengrab
+```
+
+Build debug and test APK for screenshots
+
+### android screenshots
+
+```sh
+[bundle exec] fastlane android screenshots
+```
+
+Take screenshots
 
 ### android deploy
 

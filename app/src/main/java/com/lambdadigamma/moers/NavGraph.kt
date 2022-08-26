@@ -20,6 +20,8 @@ import com.lambdadigamma.fuel.list.FuelStationListScreen
 import com.lambdadigamma.moers.dashboard.DashboardAction
 import com.lambdadigamma.moers.dashboard.DashboardScreen
 import com.lambdadigamma.moers.explore.ExploreScreen
+import com.lambdadigamma.moers.misc.AboutScreen
+import com.lambdadigamma.moers.misc.FeedbackScreen
 import com.lambdadigamma.moers.search.SearchScreen
 import com.lambdadigamma.newsfeature.ui.NewsScreen
 import com.lambdadigamma.newsfeature.ui.NewsWebDetailScreen
@@ -72,6 +74,16 @@ fun NavGraph(
                             Destinations.parkingAreas
                         )
                     }
+                    DashboardAction.About -> {
+                        navController.navigate(
+                            Destinations.about
+                        )
+                    }
+                    DashboardAction.Feedback -> {
+                        navController.navigate(
+                            Destinations.feedback
+                        )
+                    }
                 }
             })
         }
@@ -115,6 +127,7 @@ fun NavGraph(
                 }
             )
         }
+
         composable(
             route = Destinations.parkingAreaDetail,
             arguments = listOf(navArgument("id") { type = NavType.IntType })
@@ -219,5 +232,18 @@ fun NavGraph(
             }
 
         }
+
+        composable(route = Destinations.about) {
+            AboutScreen(onBack = {
+                navController.popBackStack()
+            })
+        }
+
+        composable(route = Destinations.feedback) {
+            FeedbackScreen(onBack = {
+                navController.popBackStack()
+            })
+        }
+
     }
 }

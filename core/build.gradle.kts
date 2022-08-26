@@ -11,9 +11,6 @@ val sdkVersion: Int by rootProject.extra
 val minSdkVersion: Int by rootProject.extra
 val targetSdkVersion: Int by rootProject.extra
 
-val appVersion: String by rootProject.extra
-val appVersionCode: Int by rootProject.extra
-
 val gmsVersion: String by rootProject.extra
 val roomVersion: String by rootProject.extra
 val retrofitVersion: String by rootProject.extra
@@ -92,7 +89,7 @@ dependencies {
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     implementation("androidx.room:room-paging:$roomVersion")
-    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
     testImplementation("androidx.room:room-testing:$roomVersion")
 
     // Hilt

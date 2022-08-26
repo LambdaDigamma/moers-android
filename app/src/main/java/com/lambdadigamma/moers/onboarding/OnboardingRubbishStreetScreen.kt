@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -241,17 +240,17 @@ fun TopRubbishStreetSelection(
                 }
             )
 
-            Spacer(modifier = Modifier.width(8.dp))
-
-            IconButton(onClick = {
-                onLoadLocation()
-            }) {
-                Icon(
-                    Icons.Filled.LocationOn,
-                    contentDescription = "Search current location",
-                    tint = MaterialTheme.colorScheme.primary,
-                )
-            }
+//            Spacer(modifier = Modifier.width(8.dp))
+//
+//            IconButton(onClick = {
+//                onLoadLocation()
+//            }) {
+//                Icon(
+//                    Icons.Filled.LocationOn,
+//                    contentDescription = "Search current location",
+//                    tint = MaterialTheme.colorScheme.primary,
+//                )
+//            }
 
         }
     }
