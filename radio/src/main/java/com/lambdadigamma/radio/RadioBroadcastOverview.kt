@@ -16,28 +16,36 @@ import com.lambdadigamma.core.ui.NavigationBackButton
 import com.lambdadigamma.core.ui.ResourcefulContent
 
 @Composable
-fun BroadcastOverviewScreen() {
+fun BroadcastOverviewScreen(onOpenRadioBroadcast: (Int) -> Unit, onBack: () -> Unit) {
 
     val viewModel: RadioBroadcastOverviewViewModel = hiltViewModel()
 
     ResourcefulContent(resource = viewModel.load(), onLoad = { /*TODO*/ }) { broadcasts ->
-        BroadcastOverviewContent(radioBroadcasts = broadcasts)
+        BroadcastOverviewContent(
+            radioBroadcasts = broadcasts,
+            onOpenRadioBroadcast = onOpenRadioBroadcast,
+            onBack = onBack
+        )
     }
 
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BroadcastOverviewContent(radioBroadcasts: List<RadioBroadcastListUiState>) {
+fun BroadcastOverviewContent(
+    radioBroadcasts: List<RadioBroadcastListUiState>,
+    onOpenRadioBroadcast: (Int) -> Unit,
+    onBack: () -> Unit
+) {
 
     Scaffold(
         topBar = {
             SmallTopAppBar(
                 title = {
-                    Text(text = "Bürgerfunk")
+                    Text(text = stringResource(R.string.community_radio_title))
                 },
                 navigationIcon = {
-                    NavigationBackButton(onBack = {})
+                    NavigationBackButton(onBack = onBack)
                 }
             )
         }
@@ -51,11 +59,10 @@ fun BroadcastOverviewContent(radioBroadcasts: List<RadioBroadcastListUiState>) {
 
             Column(modifier = Modifier.padding(16.dp)) {
 
-                Column() {
-//                Text(text = "Bürgerfunk", style = MaterialTheme.typography.headlineMedium)
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
 
                     Text(
-                        text = "Täglich zwischen 20.00 und 21.00 Uhr auf Radio K.W. (sonntags und an Feiertagen ab 19:04 Uhr), gibt es eine etwas andere Art von Radio - das Bürgerradio. Menschen aus dem Kreis Wesel Wesel verbringen viele Stunden ihrer Freizeit in den Produktionsstudios, um täglich eine Stunde Radio Stunde Radioprogramm über den Äther zu schicken.",
+                        text = stringResource(R.string.community_radio_description),
                         style = MaterialTheme.typography.bodyMedium
                     )
 
@@ -69,12 +76,11 @@ fun BroadcastOverviewContent(radioBroadcasts: List<RadioBroadcastListUiState>) {
                 }
 
                 Text(
-                    text = "Nächste Sendungen",
+                    text = stringResource(R.string.next_shows_headline),
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier
                         .padding(top = 20.dp)
                         .padding(bottom = 0.dp)
-//                    .padding(bottom = 16.dp)
                 )
             }
 
@@ -86,7 +92,7 @@ fun BroadcastOverviewContent(radioBroadcasts: List<RadioBroadcastListUiState>) {
                     Column {
                         RadioBroadcastRow(
                             modifier = Modifier
-                                .clickable { }
+                                .clickable { onOpenRadioBroadcast(broadcast.id) }
                                 .padding(horizontal = 16.dp, vertical = 6.dp),
                             radioBroadcast = broadcast
                         )
@@ -103,6 +109,6 @@ fun BroadcastOverviewContent(radioBroadcasts: List<RadioBroadcastListUiState>) {
 @Composable
 private fun PreviewBroadcastOverviewScreen() {
     MeinMoersTheme {
-        BroadcastOverviewScreen()
+        BroadcastOverviewScreen(onOpenRadioBroadcast = {}, onBack = {})
     }
 }

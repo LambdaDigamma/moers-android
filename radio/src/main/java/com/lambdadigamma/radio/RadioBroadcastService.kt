@@ -12,11 +12,15 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface RadioBroadcastService : ApplicationServerService {
 
     @GET("radio-broadcasts")
     fun getUpcomingBroadcasts(): LiveData<Resource<DataResponse<List<RadioBroadcast>>>>
+
+    @GET("radio-broadcasts/{id}")
+    fun show(@Path("id") id: Int): LiveData<Resource<DataResponse<RadioBroadcast>>>
 
     companion object Factory {
 

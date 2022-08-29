@@ -28,6 +28,7 @@ import com.lambdadigamma.newsfeature.ui.NewsScreen
 import com.lambdadigamma.newsfeature.ui.NewsWebDetailScreen
 import com.lambdadigamma.parking.detail.ParkingAreaDetailScreen
 import com.lambdadigamma.parking.list.ParkingAreasScreen
+import com.lambdadigamma.radio.BroadcastDetailScreen
 import com.lambdadigamma.radio.BroadcastOverviewScreen
 import com.lambdadigamma.rubbish.ui.RubbishListScreen
 
@@ -51,6 +52,8 @@ fun NavGraph(
 
     ) {
 
+        // ------------------------------------------------------------
+        // Dashboard
         // ------------------------------------------------------------
 
         composable(route = Destinations.dashboard) {
@@ -90,28 +93,19 @@ fun NavGraph(
             })
         }
 
+        // ------------------------------------------------------------
+        // Rubbish
+        // ------------------------------------------------------------
+
         composable(route = Destinations.rubbishList) {
             RubbishListScreen(onBack = {
                 navController.popBackStack()
             })
         }
 
-        composable(route = Destinations.fuelList) {
-            FuelStationListScreen(
-                onBack = {
-                    navController.popBackStack()
-                },
-                onShowFuelStation = { id ->
-                    navController.navigate(
-                        Destinations.fuelStationDetail.replace(
-                            "{id}",
-                            id
-                        ),
-                        navOptions = NavOptions.Builder().build(),
-                    )
-                }
-            )
-        }
+        // ------------------------------------------------------------
+        // Parking areas
+        // ------------------------------------------------------------
 
         composable(route = Destinations.parkingAreas) {
             ParkingAreasScreen(
@@ -145,6 +139,27 @@ fun NavGraph(
 
         }
 
+        // ------------------------------------------------------------
+        // Fuel Stations
+        // ------------------------------------------------------------
+
+        composable(route = Destinations.fuelList) {
+            FuelStationListScreen(
+                onBack = {
+                    navController.popBackStack()
+                },
+                onShowFuelStation = { id ->
+                    navController.navigate(
+                        Destinations.fuelStationDetail.replace(
+                            "{id}",
+                            id
+                        ),
+                        navOptions = NavOptions.Builder().build(),
+                    )
+                }
+            )
+        }
+
         composable(
             route = Destinations.fuelStationDetail,
             arguments = listOf(navArgument("id") { type = NavType.StringType })
@@ -161,7 +176,8 @@ fun NavGraph(
         }
 
         // ------------------------------------------------------------
-
+        // News
+        // ------------------------------------------------------------
 
         composable(route = Destinations.news) {
             NewsScreen(onShowRssItem = {
@@ -191,9 +207,37 @@ fun NavGraph(
         }
 
         composable(route = Destinations.radioBroadcasts) {
-            BroadcastOverviewScreen()
+            BroadcastOverviewScreen(
+                onOpenRadioBroadcast = { id ->
+                    navController.navigate(
+                        Destinations.radioBroadcastDetail.replace(
+                            "{id}",
+                            id.toString()
+                        )
+                    )
+                },
+                onBack = {
+                    navController.popBackStack()
+                }
+            )
         }
 
+        composable(
+            route = Destinations.radioBroadcastDetail,
+            arguments = listOf(navArgument("id") { type = NavType.IntType })
+        ) { backStackEntry ->
+
+            val id = backStackEntry.arguments?.getInt("id")
+
+            id?.let {
+                BroadcastDetailScreen(
+                    id = it,
+                    onBack = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+        }
 
         composable(route = Destinations.search) {
             SearchScreen()
@@ -220,12 +264,6 @@ fun NavGraph(
                 EventDetailScreen(id = it, onBack = {
                     navController.popBackStack()
                 })
-//                NewsWebDetailScreen(
-//                    id = id,
-//                    onBack = {
-//
-//                    }
-//                )
             }
 
         }

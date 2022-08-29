@@ -33,6 +33,7 @@ object Destinations {
     const val parkingAreaDetail = "parking-areas/{id}"
 
     const val radioBroadcasts = "radio-broadcasts"
+    const val radioBroadcastDetail = "radio-broadcasts/{id}"
 
     const val search = "search"
     const val other = "other"
