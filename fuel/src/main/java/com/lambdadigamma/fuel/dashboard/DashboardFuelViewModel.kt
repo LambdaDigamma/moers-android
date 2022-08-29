@@ -7,6 +7,7 @@ import com.lambdadigamma.core.Resource
 import com.lambdadigamma.core.geo.GMSLocationService
 import com.lambdadigamma.core.geo.GeocodingService
 import com.lambdadigamma.core.geo.LocationUpdatesUseCase
+import com.lambdadigamma.fuel.R
 import com.lambdadigamma.fuel.data.FuelRepository
 import com.lambdadigamma.fuel.data.FuelService
 import com.lambdadigamma.fuel.data.FuelSorting
@@ -17,7 +18,7 @@ import kotlin.math.roundToInt
 
 @HiltViewModel
 class DashboardFuelViewModel @Inject constructor(
-    @ApplicationContext context: Context,
+    @ApplicationContext private val context: Context,
     private val locationUpdates: LocationUpdatesUseCase,
     private val geocodingService: GeocodingService,
     private val repository: FuelRepository,
@@ -49,7 +50,8 @@ class DashboardFuelViewModel @Inject constructor(
             return@switchMap Transformations.switchMap(location) { receivedLocation ->
 
                 val locationTitle = geocodingService.reverseGeocode(receivedLocation)
-                    .firstOrNull()?.place ?: "Ort unbekannt"
+                    .firstOrNull()?.place
+                    ?: this.context.getString(R.string.fuel_dashboard_location_unknown)
 
                 Transformations.map(
                     fuelService.getFuelStations(

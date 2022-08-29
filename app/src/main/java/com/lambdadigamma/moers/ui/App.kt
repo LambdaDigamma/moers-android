@@ -55,7 +55,7 @@ fun App(finishActivity: () -> Unit) {
             NavGraph(
                 finishActivity = finishActivity,
                 navController = navController,
-                startDestination = Destinations.dashboard,
+                startDestination = Destinations.radioBroadcasts,
                 modifier = Modifier.padding(padding)
             )
         }

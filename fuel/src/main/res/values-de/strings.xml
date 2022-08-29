@@ -8,4 +8,5 @@
     <string name="start_navigation">Navigation starten</string>
     <string name="fuel_datasource">Datenquelle: CC BY 4.0 - https://creativecommons.tankerkoenig.de</string>
     <string name="fuel_stations_title">Kraftstoff</string>
+    <string name="fuel_dashboard_location_unknown">Ort unbekannt</string>
 </resources>

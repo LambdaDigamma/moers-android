@@ -19,6 +19,7 @@ import com.lambdadigamma.fuel.detail.FuelStationDetailScreen
 import com.lambdadigamma.fuel.list.FuelStationListScreen
 import com.lambdadigamma.moers.dashboard.DashboardAction
 import com.lambdadigamma.moers.dashboard.DashboardScreen
+import com.lambdadigamma.moers.explore.ExploreNavigationAction
 import com.lambdadigamma.moers.explore.ExploreScreen
 import com.lambdadigamma.moers.misc.AboutScreen
 import com.lambdadigamma.moers.misc.FeedbackScreen
@@ -27,6 +28,7 @@ import com.lambdadigamma.newsfeature.ui.NewsScreen
 import com.lambdadigamma.newsfeature.ui.NewsWebDetailScreen
 import com.lambdadigamma.parking.detail.ParkingAreaDetailScreen
 import com.lambdadigamma.parking.list.ParkingAreasScreen
+import com.lambdadigamma.radio.BroadcastOverviewScreen
 import com.lambdadigamma.rubbish.ui.RubbishListScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -171,9 +173,28 @@ fun NavGraph(
                 )
             })
         }
+
+        // ------------------------------------------------------------
+        // Explore
+        // ------------------------------------------------------------
+
         composable(route = Destinations.explore) {
-            ExploreScreen()
+            ExploreScreen(onNavigate = { action ->
+                when (action) {
+                    ExploreNavigationAction.RadioBroadcasts -> {
+                        navController.navigate(
+                            Destinations.radioBroadcasts
+                        )
+                    }
+                }
+            })
         }
+
+        composable(route = Destinations.radioBroadcasts) {
+            BroadcastOverviewScreen()
+        }
+
+
         composable(route = Destinations.search) {
             SearchScreen()
         }

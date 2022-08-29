@@ -11,6 +11,7 @@ import com.lambdadigamma.moers.database.AppDatabase
 import com.lambdadigamma.moers.database.DatabaseCreator
 import com.lambdadigamma.newsfeature.data.NewsDao
 import com.lambdadigamma.parking.ParkingService
+import com.lambdadigamma.radio.RadioBroadcastService
 import com.lambdadigamma.rubbish.RubbishDao
 import com.lambdadigamma.rubbish.source.DefaultRubbishApiService
 import com.lambdadigamma.rubbish.source.RubbishApi
@@ -54,6 +55,11 @@ class DatabaseModule {
     @Provides
     fun provideMeinMoersService(): MeinMoersService {
         return MeinMoersService.getMeinMoersService()
+    }
+
+    @Provides
+    fun provideRadioService(): RadioBroadcastService {
+        return RadioBroadcastService.getService()
     }
 
     @Provides
