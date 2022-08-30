@@ -1,4 +1,4 @@
-package com.lambdadigamma.radio
+package com.lambdadigamma.radio.detail
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel

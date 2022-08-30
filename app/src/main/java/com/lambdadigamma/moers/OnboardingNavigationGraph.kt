@@ -22,7 +22,9 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.lambdadigamma.core.user.UserType
 import com.lambdadigamma.moers.onboarding.*
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 const val tweenTimeEnter = 500
@@ -73,6 +75,7 @@ fun OnboardingNavigationGraph(
     )
 
     val onboardingViewModel: OnboardingViewModel = hiltViewModel()
+    val userTypeViewModel: OnboardingUserTypeViewModel = hiltViewModel()
 
     Scaffold(topBar = { OnboardingTop(navController) }, modifier = Modifier.systemBarsPadding()) {
         AnimatedNavHost(
@@ -137,9 +140,12 @@ fun OnboardingNavigationGraph(
                     BackHandler {
                         navController.navigateUp()
                     }
-                    OnboardingUserTypeScreen(onContinue = {
-                        navController.navigate(Destinations.Onboarding.location)
-                    })
+                    OnboardingUserTypeScreen(
+                        viewModel = userTypeViewModel,
+                        onContinue = {
+                            navController.navigate(Destinations.Onboarding.location)
+                        }
+                    )
                 }
                 composable(
                     route = Destinations.Onboarding.location,
@@ -158,7 +164,15 @@ fun OnboardingNavigationGraph(
                     }
                     OnboardingLocationScreen(
                         onContinue = {
-                            navController.navigate(Destinations.Onboarding.rubbishStreet)
+                            userTypeViewModel.viewModelScope.launch {
+                                val userType = userTypeViewModel.userType.first()
+
+                                if (userType == UserType.VISITOR) {
+                                    navController.navigate(Destinations.Onboarding.fuel)
+                                } else {
+                                    navController.navigate(Destinations.Onboarding.rubbishStreet)
+                                }
+                            }
                         }
                     )
                 }

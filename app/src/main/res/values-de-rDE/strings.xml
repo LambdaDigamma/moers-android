@@ -86,4 +86,5 @@
     <string name="feedback_card_line3">Ich freue mich über konstruktive Kritik, Fehlerberichte und Vorschläge.</string>
     <string name="feedback_disclaimer_line1">Falls Du eine Bewertung abgegeben hast oder diese weg geklickt hast, kann es sein, dass der Knopf nicht mehr funktioniert.</string>
     <string name="feedback_disclaimer_line2">Gehe bitte in den Play Store, um die App zu bewerten.</string>
+    <string name="onboarding_soon_disclaimer">(Bald)</string>
 </resources>

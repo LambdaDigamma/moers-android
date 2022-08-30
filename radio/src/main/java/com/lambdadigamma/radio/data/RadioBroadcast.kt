@@ -1,4 +1,4 @@
-package com.lambdadigamma.radio.models
+package com.lambdadigamma.radio.data
 
 import com.google.gson.annotations.SerializedName
 import java.util.*

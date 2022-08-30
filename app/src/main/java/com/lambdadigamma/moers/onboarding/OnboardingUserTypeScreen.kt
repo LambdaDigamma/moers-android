@@ -18,8 +18,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.lambdadigamma.core.theme.MeinMoersTheme
+import com.lambdadigamma.core.user.UserRepository
 import com.lambdadigamma.core.user.UserType
 import com.lambdadigamma.moers.R
 import com.lambdadigamma.moers.onboarding.ui.OnboardingHost
@@ -27,14 +27,13 @@ import com.lambdadigamma.moers.onboarding.ui.OnboardingHost
 // Maybe later this could be become the hometown selection?
 @Composable
 @ExperimentalMaterial3Api
-fun OnboardingUserTypeScreen(onContinue: () -> Unit) {
+fun OnboardingUserTypeScreen(viewModel: OnboardingUserTypeViewModel, onContinue: () -> Unit) {
 
-    val viewModel: OnboardingUserTypeViewModel = hiltViewModel()
     val selectedUserType =
-        viewModel.userType.collectAsState(initial = OnboardingUserTypeViewModel.defaultUserType)
+        viewModel.userType.collectAsState(initial = UserRepository.defaultUserType)
 
     LaunchedEffect(key1 = "InitialOnboardingUserSetup", block = {
-        viewModel.updateUserType(OnboardingUserTypeViewModel.defaultUserType)
+        viewModel.updateUserType(UserRepository.defaultUserType)
     })
 
     OnboardingUserTypeContent(

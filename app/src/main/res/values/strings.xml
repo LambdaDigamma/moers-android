@@ -88,5 +88,6 @@
     <string name="feedback_card_mail_address" translatable="false">mailto:meinmoers@lambdadigamma.com</string>
     <string name="feedback_disclaimer_line1">If you submitted an app review or dismissed it, the button may no longer work.</string>
     <string name="feedback_disclaimer_line2">Please visit the Play Store to rate the app.</string>
+    <string name="onboarding_soon_disclaimer">(Soon)</string>
 
 </resources>

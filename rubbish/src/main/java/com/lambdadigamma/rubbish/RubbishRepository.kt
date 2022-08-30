@@ -20,6 +20,7 @@ import com.lambdadigamma.rubbish.settings.RubbishSettings
 import com.lambdadigamma.rubbish.source.RubbishApi
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import java.util.*
@@ -109,13 +110,12 @@ class RubbishRepository @Inject constructor(
 
                 appExecutors.diskIO().execute(Runnable {
                     runBlocking {
-                        reminderTime.collect { time ->
-                            scheduleNotifications(
-                                collectionItems = item,
-                                hours = time?.hours ?: 20,
-                                minutes = time?.minutes ?: 0,
-                            )
-                        }
+                        val time = reminderTime.first()
+                        scheduleNotifications(
+                            collectionItems = item,
+                            hours = time?.hours ?: 20,
+                            minutes = time?.minutes ?: 0,
+                        )
                     }
                 })
 

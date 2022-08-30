@@ -1,4 +1,4 @@
-package com.lambdadigamma.radio
+package com.lambdadigamma.radio.detail
 
 import android.text.format.DateUtils
 import androidx.compose.foundation.background

@@ -1,4 +1,4 @@
-package com.lambdadigamma.radio
+package com.lambdadigamma.radio.data
 
 import androidx.lifecycle.LiveData
 import com.google.gson.GsonBuilder
@@ -7,7 +7,6 @@ import com.lambdadigamma.core.DataResponse
 import com.lambdadigamma.core.LiveDataCallAdapterFactory
 import com.lambdadigamma.core.Resource
 import com.lambdadigamma.core.utils.AcceptLanguageHeaderInterceptor
-import com.lambdadigamma.radio.models.RadioBroadcast
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

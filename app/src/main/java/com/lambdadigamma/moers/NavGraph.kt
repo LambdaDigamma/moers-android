@@ -28,8 +28,8 @@ import com.lambdadigamma.newsfeature.ui.NewsScreen
 import com.lambdadigamma.newsfeature.ui.NewsWebDetailScreen
 import com.lambdadigamma.parking.detail.ParkingAreaDetailScreen
 import com.lambdadigamma.parking.list.ParkingAreasScreen
-import com.lambdadigamma.radio.BroadcastDetailScreen
-import com.lambdadigamma.radio.BroadcastOverviewScreen
+import com.lambdadigamma.radio.detail.BroadcastDetailScreen
+import com.lambdadigamma.radio.overview.BroadcastOverviewScreen
 import com.lambdadigamma.rubbish.ui.RubbishListScreen
 
 @OptIn(ExperimentalMaterial3Api::class)

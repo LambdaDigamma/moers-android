@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.lambdadigamma.core.ui.TopBar
 import com.lambdadigamma.fuel.dashboard.FuelDashboardCard
 import com.lambdadigamma.moers.R
@@ -26,7 +27,9 @@ enum class DashboardAction {
 @Composable
 fun DashboardScreen(onAction: (DashboardAction) -> Unit, onOpenSettings: () -> Unit) {
 
+    val viewModel: DashboardViewModel = hiltViewModel()
     var showMenu by remember { mutableStateOf(false) }
+    val isCitizen by viewModel.isCitizen.collectAsState(initial = false)
 
     Scaffold(
         topBar = {
@@ -73,8 +76,10 @@ fun DashboardScreen(onAction: (DashboardAction) -> Unit, onOpenSettings: () -> U
                 FuelDashboardCard {
                     onAction(DashboardAction.Fuel)
                 }
-                DashboardRubbishComponent {
-                    onAction(DashboardAction.Rubbish)
+                if (isCitizen) {
+                    DashboardRubbishComponent {
+                        onAction(DashboardAction.Rubbish)
+                    }
                 }
                 DashboardParkingOverview {
                     onAction(DashboardAction.Parking)

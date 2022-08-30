@@ -1,4 +1,4 @@
-package com.lambdadigamma.radio
+package com.lambdadigamma.radio.overview
 
 import android.text.format.DateUtils
 import androidx.compose.foundation.background
@@ -77,7 +77,12 @@ fun RadioBroadcastRow(
                             context,
                             startsAt.time,
                             endsAt.time,
-                            DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_SHOW_TIME or DateUtils.FORMAT_ABBREV_MONTH or DateUtils.FORMAT_ABBREV_RELATIVE
+                            DateUtils.FORMAT_SHOW_DATE
+                                    or DateUtils.FORMAT_SHOW_TIME
+                                    or DateUtils.FORMAT_ABBREV_MONTH
+                                    or DateUtils.FORMAT_ABBREV_RELATIVE
+                                    or DateUtils.FORMAT_SHOW_WEEKDAY
+                                    or DateUtils.FORMAT_ABBREV_WEEKDAY
                         )
                     }
 

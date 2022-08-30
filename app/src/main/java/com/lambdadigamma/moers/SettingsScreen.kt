@@ -14,11 +14,11 @@ import com.jamal.composeprefs3.ui.prefs.SwitchPref
 import com.jamal.composeprefs3.ui.prefs.TextPref
 import com.lambdadigamma.core.theme.MeinMoersTheme
 import com.lambdadigamma.core.ui.NavigationBackButton
+import com.lambdadigamma.core.user.UserRepository
 import com.lambdadigamma.core.user.UserType
 import com.lambdadigamma.core.utils.dataStore
 import com.lambdadigamma.fuel.data.FuelRepository
 import com.lambdadigamma.fuel.data.FuelType
-import com.lambdadigamma.moers.onboarding.OnboardingUserTypeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,14 +43,14 @@ fun SettingsScreen(onBack: () -> Unit) {
             ) {
                 prefsItem {
                     DropDownPref(
-                        key = OnboardingUserTypeViewModel.userTypeKey.name,
+                        key = UserRepository.userTypeKey.name,
                         title = stringResource(R.string.settings_user_type),
                         useSelectedAsSummary = true,
                         entries = mapOf(
                             UserType.CITIZEN.value to stringResource(R.string.settings_user_type_citizen),
                             UserType.VISITOR.value to stringResource(R.string.settings_user_type_guest),
                         ),
-                        defaultValue = OnboardingUserTypeViewModel.defaultUserType.value
+                        defaultValue = UserRepository.defaultUserType.value
                     )
                 }
             }
