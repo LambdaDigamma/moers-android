@@ -1,10 +1,8 @@
 package com.lambdadigamma.fuel.data
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import com.google.gson.GsonBuilder
 import com.lambdadigamma.core.LiveDataCallAdapterFactory
-import com.lambdadigamma.core.Resource
 import com.skydoves.retrofit.adapters.result.ResultCallAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -17,7 +15,7 @@ import retrofit2.http.Query
 interface FuelService {
 
     @GET("json/list.php")
-    suspend fun getFuelStationsSuspended(
+    suspend fun getFuelStations(
         @Query("lat") latitude: Double,
         @Query("lng") longitude: Double,
         @Query("rad") radius: Double,
@@ -25,19 +23,10 @@ interface FuelService {
         @Query("type") type: String
     ): Result<FuelRequestResponse>
 
-    @GET("json/list.php")
-    fun getFuelStations(
-        @Query("lat") latitude: Double,
-        @Query("lng") longitude: Double,
-        @Query("rad") radius: Double,
-        @Query("sort") sorting: String,
-        @Query("type") type: String
-    ): LiveData<Resource<FuelRequestResponse>>
-
     @GET("json/detail.php")
-    fun getFuelStation(
+    suspend fun getFuelStation(
         @Query("id") id: String
-    ): LiveData<Resource<FuelStationDetailRequestResponse>>
+    ): Result<FuelStationDetailRequestResponse>
 
     companion object Factory {
 

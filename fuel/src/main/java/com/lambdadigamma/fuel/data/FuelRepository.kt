@@ -6,9 +6,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import com.lambdadigamma.core.AppExecutors
 import com.lambdadigamma.core.Resource
 import com.lambdadigamma.core.geo.GeocodingService
 import com.lambdadigamma.core.geo.Point
@@ -34,7 +31,6 @@ data class FuelStationListResponse(
 
 class FuelRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val appExecutors: AppExecutors,
     private val fuelService: FuelService,
     private val fuelDao: FuelDao,
     private val geocodingService: GeocodingService
@@ -104,7 +100,7 @@ class FuelRepository @Inject constructor(
             emit(Resource.success(fuelDao.getFuelStations()))
             emit(Resource.loading())
 
-            val result = fuelService.getFuelStationsSuspended(
+            val result = fuelService.getFuelStations(
                 latitude = point.latitude,
                 longitude = point.longitude,
                 radius = 10.0,
@@ -146,30 +142,25 @@ class FuelRepository @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    fun load(point: Point, fuelType: FuelType): LiveData<Resource<List<FuelStationUiState>>> {
-        return Transformations.map(
-            fuelService.getFuelStations(
-                latitude = point.latitude,
-                longitude = point.longitude,
-                radius = 10.0,
-                FuelSorting.DISTANCE.value,
-                fuelType.apiValue()
-            )
-        ) {
-            it.transform { response ->
-                response.stations.orEmpty().map { station ->
-                    FuelStationUiState(
-                        id = station.id,
-                        brand = station.brand.trim(),
-                        name = station.name.trim(),
-                        point = station.coordinate,
-                        price = station.price ?: 0.0,
-                        distance = station.dist
-                    )
+    fun getFuelStation(id: String): Flow<Resource<FuelStation>> {
+        return flow<Resource<FuelStation>> {
+            emit(Resource.success(fuelDao.getFuelStation(id)))
+            emit(Resource.loading())
+
+            val result = fuelService.getFuelStation(id)
+
+            val resource = result.toResource()
+
+            if (resource.isSuccessful()) {
+                resource.data?.let { response ->
+                    fuelDao.insertFuelStations(listOf(response.station))
                 }
             }
-        }
 
+            emit(resource.transform { response ->
+                response.station
+            })
+        }.flowOn(Dispatchers.IO)
     }
 
     suspend fun updateFuelType(fuelType: FuelType) {

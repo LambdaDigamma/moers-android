@@ -15,7 +15,7 @@ interface FuelDao {
     suspend fun getFuelStations(): List<FuelStation>
 
     @Query("SELECT * FROM fuel_stations WHERE id = :id")
-    suspend fun getFuelStation(id: Long): FuelStation
+    suspend fun getFuelStation(id: String): FuelStation
 
     @Query("DELETE FROM fuel_stations")
     suspend fun deleteAllFuelStations()
