@@ -1,9 +1,11 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 import org.jetbrains.kotlin.util.capitalizeDecapitalize.toLowerCaseAsciiOnly
 
+val tankerkoenigApiKey: String = gradleLocalProperties(rootDir).getProperty("TANKERKOENIG_API_KEY")
 
 plugins {
     id("com.android.application")
@@ -51,7 +53,7 @@ android {
         applicationId = "com.lambdadigamma.moers"
         minSdk = minSdkVersion
         targetSdk = targetSdkVersion
-        versionCode = 15
+        versionCode = 16
         versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -63,6 +65,7 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            buildConfigField("String", "tankerkoenigApiKey", tankerkoenigApiKey)
         }
     }
     compileOptions {

@@ -8,7 +8,7 @@ extra["minSdkVersion"] = 21
 extra["targetSdkVersion"] = 32
 
 var kotlinVersion = "1.7.0"
-var gradleVersion = "7.0.4"
+var gradleVersion = "7.3.0"
 
 extra["kotlinVersion"] = kotlinVersion
 extra["gradleVersion"] = gradleVersion
@@ -67,7 +67,7 @@ buildscript {
      * version 7.0.4 as a classpath dependency.
      */
     dependencies {
-        classpath("com.android.tools.build:gradle:7.2.2")
+        classpath("com.android.tools.build:gradle:7.3.0-rc01")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.0")
         classpath("com.google.dagger:hilt-android-gradle-plugin:${hiltAndroid}")
         classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")

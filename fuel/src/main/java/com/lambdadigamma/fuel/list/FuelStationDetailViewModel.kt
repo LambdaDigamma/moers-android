@@ -19,11 +19,10 @@ import javax.inject.Inject
 @HiltViewModel
 class FuelStationDetailViewModel @Inject constructor(
     private val locationUpdates: LocationUpdatesUseCase,
+    private val fuelService: FuelService
 ) : ViewModel() {
 
     lateinit var id: String
-
-    private val fuelService: FuelService = FuelService.getFuelService()
 
     fun load(): LiveData<Resource<FuelStationDetailUiState>> {
         Log.d("Api", "Loading fuel station")
@@ -50,7 +49,7 @@ class FuelStationDetailViewModel @Inject constructor(
                         state = response.station.state ?: "",
                         zip = response.station.postCode ?: ""
                     ),
-                    openingHours = response.station.openingTimes.map {
+                    openingHours = response.station.openingTimes.orEmpty().map {
                         val time = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
                             val start = LocalTime.parse(it.start).format(timeFormat)

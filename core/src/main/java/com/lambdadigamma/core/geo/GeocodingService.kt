@@ -3,11 +3,14 @@ package com.lambdadigamma.core.geo
 import android.content.Context
 import android.location.Geocoder
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.IOException
 import javax.inject.Inject
 
 interface GeocodingService {
 
-    fun reverseGeocode(point: Point): List<GeocodedAddress>
+    suspend fun reverseGeocode(point: Point): List<GeocodedAddress>
 
     fun geocodeBestPosition(search: String): Point?
 
@@ -19,15 +22,18 @@ class DefaultGeocodingService @Inject constructor(
 
     private var geocoder: Geocoder = Geocoder(context)
 
-    override fun reverseGeocode(point: Point): List<GeocodedAddress> {
-
-        return geocoder
-            .getFromLocation(point.latitude, point.longitude, 1)
-            .map {
-                it.toGeocodedAddress()
+    override suspend fun reverseGeocode(point: Point): List<GeocodedAddress> =
+        withContext(Dispatchers.IO) {
+            try {
+                return@withContext geocoder
+                    .getFromLocation(point.latitude, point.longitude, 1)
+                    .map {
+                        it.toGeocodedAddress()
+                    }
+            } catch (e: IOException) {
+                return@withContext emptyList()
             }
-
-    }
+        }
 
     override fun geocodeBestPosition(search: String): Point? {
         return this

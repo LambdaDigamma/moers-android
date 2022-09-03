@@ -6,6 +6,9 @@ import androidx.room.TypeConverters
 import com.lambdadigamma.events.models.Event
 import com.lambdadigamma.events.models.EventDao
 import com.lambdadigamma.events.models.EventExtras
+import com.lambdadigamma.fuel.data.FuelDao
+import com.lambdadigamma.fuel.data.FuelStation
+import com.lambdadigamma.fuel.data.FuelStationConverters
 import com.lambdadigamma.newsfeature.data.NewsDao
 import com.lambdadigamma.newsfeature.data.RssItem
 import com.lambdadigamma.rubbish.RubbishCollectionItem
@@ -17,14 +20,16 @@ import com.lambdadigamma.rubbish.RubbishDao
 //    Entry::class,
 //    Camera::class,
 //    PetrolStation::class,
+        FuelStation::class,
         Event::class,
         EventExtras::class,
         RssItem::class,
         RubbishCollectionStreet::class,
         RubbishCollectionItem::class
-    ], version = 2, exportSchema = false
+    ], version = 3, exportSchema = false
 )
-@TypeConverters(Converters::class)
+
+@TypeConverters(Converters::class, FuelStationConverters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun newsDao(): NewsDao
@@ -32,5 +37,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun rubbishDao(): RubbishDao
 
     abstract fun eventDao(): EventDao
+
+    abstract fun fuelDao(): FuelDao
 
 }

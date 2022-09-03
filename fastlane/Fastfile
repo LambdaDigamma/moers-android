@@ -104,7 +104,7 @@ platform :android do
     # ensure_git_status_clean
     # ensure_git_branch(branch: 'main')
     
-    increment_version()
+    # increment_version()
     increment_version_code()
 
     UI.header "Deploying a new version to Google Play"

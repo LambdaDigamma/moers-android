@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import com.google.gson.GsonBuilder
 import com.lambdadigamma.core.LiveDataCallAdapterFactory
 import com.lambdadigamma.core.Resource
+import com.skydoves.retrofit.adapters.result.ResultCallAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -14,6 +15,15 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface FuelService {
+
+    @GET("json/list.php")
+    suspend fun getFuelStationsSuspended(
+        @Query("lat") latitude: Double,
+        @Query("lng") longitude: Double,
+        @Query("rad") radius: Double,
+        @Query("sort") sorting: String,
+        @Query("type") type: String
+    ): Result<FuelRequestResponse>
 
     @GET("json/list.php")
     fun getFuelStations(
@@ -33,9 +43,14 @@ interface FuelService {
 
         private const val BASE_URL = "https://creativecommons.tankerkoenig.de/"
 
-        fun getFuelService(): FuelService {
+        fun getFuelService(apiKey: String): FuelService {
             val client = OkHttpClient.Builder()
-                .addInterceptor { chain -> return@addInterceptor addApiKeyToRequests(chain) }
+                .addInterceptor { chain ->
+                    return@addInterceptor addApiKeyToRequests(
+                        chain,
+                        apiKey
+                    )
+                }
                 .build()
 
             return Retrofit.Builder()
@@ -46,16 +61,17 @@ interface FuelService {
                         GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create()
                     )
                 )
+                .addCallAdapterFactory(ResultCallAdapterFactory.create())
                 .addCallAdapterFactory(LiveDataCallAdapterFactory())
                 .build()
                 .create(FuelService::class.java)
         }
 
-        private fun addApiKeyToRequests(chain: Interceptor.Chain): Response {
+        private fun addApiKeyToRequests(chain: Interceptor.Chain, key: String): Response {
             val request = chain.request().newBuilder()
-            val originalHttpUrl = chain.request().url()
+            val originalHttpUrl = chain.request().url
             val newUrl = originalHttpUrl.newBuilder()
-                .addQueryParameter("apikey", "0dfdfad3-7385-ef47-2ff6-ec0477872677")
+                .addQueryParameter("apikey", key)
                 .build()
             request.url(newUrl)
             Log.d("Api", newUrl.toString())

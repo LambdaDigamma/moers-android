@@ -21,6 +21,8 @@ data class Resource<ResultType>(
 
     fun shouldBeRedacted(): Boolean = status == Status.LOADING || status == Status.ERROR
 
+    fun isSuccessful(): Boolean = status == Status.SUCCESS
+
     fun <Other> transform(transformation: (ResultType) -> Other): Resource<Other> {
         return when (status) {
             Status.SUCCESS -> Resource.success(transformation(data!!))
@@ -29,4 +31,12 @@ data class Resource<ResultType>(
         }
     }
 
+}
+
+fun <T> Result<T>.toResource(): Resource<T> {
+    return if (this.isSuccess) {
+        Resource.success(this.getOrNull()!!)
+    } else {
+        Resource.error(this.exceptionOrNull()?.message ?: "")
+    }
 }

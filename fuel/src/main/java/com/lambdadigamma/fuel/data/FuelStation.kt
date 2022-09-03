@@ -23,7 +23,7 @@ data class FuelStation(
     @ColumnInfo(name = "requested_price") val price: Double?,
     @ColumnInfo(name = "is_open") val isOpen: Boolean,
     @ColumnInfo(name = "whole_day") val wholeDay: Boolean?,
-    @ColumnInfo(name = "opening_times") val openingTimes: ArrayList<FuelStationTimeEntry>,
+    @ColumnInfo(name = "opening_times") val openingTimes: ArrayList<FuelStationTimeEntry>?,
     @ColumnInfo(name = "override_opening_times") val overrides: ArrayList<String>?,
     @ColumnInfo(name = "state") val state: String?
 ) {

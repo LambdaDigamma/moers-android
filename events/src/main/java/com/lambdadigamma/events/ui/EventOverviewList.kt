@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -55,7 +56,9 @@ fun EventOverviewList(
     onSelectEvent: (Int) -> Unit
 ) {
 
-    val today = todayEvents.filter { it.isToday }
+    val today = remember {
+        todayEvents.filter { it.isToday }
+    }
 
     Column(
         modifier = Modifier
@@ -83,7 +86,8 @@ fun EventOverviewList(
 
         SectionHeader(
             text = "Längere Zeit in Moers",
-            onClick = {}
+            onClick = {},
+            showMore = false
         )
 
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -148,7 +152,7 @@ private fun BigEventCard() {
 }
 
 @Composable
-private fun SectionHeader(text: String, onClick: () -> Unit) {
+private fun SectionHeader(text: String, onClick: () -> Unit, showMore: Boolean = true) {
     Row(
         modifier = Modifier
             .clickable { onClick() }
@@ -163,8 +167,10 @@ private fun SectionHeader(text: String, onClick: () -> Unit) {
             fontWeight = FontWeight.Medium
         )
 
-        IconButton(onClick = onClick) {
-            Icon(imageVector = Icons.Filled.ArrowForward, contentDescription = "Alle ansehen")
+        if (showMore) {
+            IconButton(onClick = onClick) {
+                Icon(imageVector = Icons.Filled.ArrowForward, contentDescription = "Alle ansehen")
+            }
         }
     }
 }

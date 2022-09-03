@@ -1,10 +1,12 @@
 package com.lambdadigamma.fuel.list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -25,8 +27,12 @@ import com.lambdadigamma.fuel.data.FuelType
 fun FuelStationListScreen(onBack: () -> Unit, onShowFuelStation: (String) -> Unit) {
 
     val viewModel: FuelStationListViewModel = hiltViewModel()
-    val stations by viewModel.load().observeAsState()
+    val stations by viewModel.fuelStations.observeAsState()
     val fuelType by viewModel.fuelType.observeAsState()
+
+    LaunchedEffect(key1 = "load_fuel_stations", block = {
+        viewModel.reload()
+    })
 
     Column(
         modifier = Modifier
@@ -57,7 +63,28 @@ fun FuelStationListScreen(onBack: () -> Unit, onShowFuelStation: (String) -> Uni
                 }
             }
             Status.LOADING -> {
-//                RubbishScheduleLoadingScreen()
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.background),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            CircularProgressIndicator()
+                            Text(text = "Lädt Tankstellen…")
+                        }
+                    }
+                }
             }
             Status.ERROR -> {
                 FuelStationsErrorScreen(stations?.errorMessage ?: "Error")

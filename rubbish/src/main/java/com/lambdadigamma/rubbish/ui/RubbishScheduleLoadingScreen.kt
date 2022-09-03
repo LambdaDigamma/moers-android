@@ -31,7 +31,6 @@ fun RubbishScheduleLoadingScreen() {
             Text(text = "Lädt Abfallkalender…")
         }
     }
-
 }
 
 @Preview

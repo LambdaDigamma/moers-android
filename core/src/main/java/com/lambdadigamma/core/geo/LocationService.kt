@@ -13,6 +13,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -23,6 +24,8 @@ interface LocationService {
 
     @Throws(LocationPermissionException::class)
     fun getCurrentLocation(): MutableSharedFlow<Location>
+
+    suspend fun awaitLastLocation(): Location
 
 }
 
@@ -181,4 +184,20 @@ class GMSLocationService(
         }
 
     }
+
+    override suspend fun awaitLastLocation(): Location {
+        return fusedLocationProvider.awaitLastLocation()
+    }
 }
+
+suspend fun FusedLocationProviderClient.awaitLastLocation(): Location =
+    suspendCancellableCoroutine<Location> { continuation ->
+        // Add listeners that will resume the execution of this coroutine
+        lastLocation.addOnSuccessListener { location ->
+            // Resume coroutine and return location
+            continuation.resume(location)
+        }.addOnFailureListener { e ->
+            // Resume the coroutine by throwing an exception
+            continuation.resumeWithException(e)
+        }
+    }

@@ -3,10 +3,14 @@ package com.lambdadigamma.moers.modules
 import android.content.Context
 import com.lambdadigamma.core.AppExecutors
 import com.lambdadigamma.core.geo.DefaultGeocodingService
+import com.lambdadigamma.core.geo.GMSLocationService
 import com.lambdadigamma.core.geo.GeocodingService
+import com.lambdadigamma.core.geo.LocationService
 import com.lambdadigamma.events.models.EventDao
 import com.lambdadigamma.events.models.MeinMoersService
+import com.lambdadigamma.fuel.data.FuelDao
 import com.lambdadigamma.fuel.data.FuelService
+import com.lambdadigamma.moers.BuildConfig
 import com.lambdadigamma.moers.database.AppDatabase
 import com.lambdadigamma.moers.database.DatabaseCreator
 import com.lambdadigamma.newsfeature.data.NewsDao
@@ -48,8 +52,18 @@ class DatabaseModule {
     }
 
     @Provides
+    fun provideFuelDao(appDatabase: AppDatabase): FuelDao {
+        return appDatabase.fuelDao()
+    }
+
+    @Provides
     fun provideRubbishApi(): RubbishApi {
         return DefaultRubbishApiService.getRubbishService()
+    }
+
+    @Provides
+    fun provideLocationService(@ApplicationContext appContext: Context): LocationService {
+        return GMSLocationService(appContext)
     }
 
     @Provides
@@ -79,17 +93,7 @@ class DatabaseModule {
 
     @Provides
     fun provideFuelService(): FuelService {
-        return FuelService.getFuelService()
+        return FuelService.getFuelService(BuildConfig.TANKERKOENIG_API_KEY)
     }
-
-//    @Provides
-//    fun provideRubbishRepository(): RubbishRepository {
-//        return RubbishRepository(
-//            context = com.lambdadigamma.moers.Application.instance,
-//            remoteDataSource = DefaultRubbishApiService.getRubbishService(),
-//            appExecutors = AppExecutors(),
-//            rubbishDao = provideRubbishDao(provideAppDatabase(com.lambdadigamma.moers.Application.instance))
-//        )
-//    }
 
 }

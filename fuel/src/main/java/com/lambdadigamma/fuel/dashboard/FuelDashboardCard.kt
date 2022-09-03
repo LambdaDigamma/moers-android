@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -28,12 +29,16 @@ fun FuelDashboardCard(modifier: Modifier = Modifier, onClick: () -> Unit) {
 
     val placeholderData = FuelDashboardData(
         type = "L DIESEL",
-        location = "Aachen",
+        location = "Moers",
         price = 2.109,
         numberOfStations = 12
     )
 
-    val dashboardResource by viewModel.load().observeAsState()
+    val dashboardResource by viewModel.dashboardData.observeAsState()
+
+    LaunchedEffect(key1 = "dashboard_fuel_load", block = {
+        viewModel.load()
+    })
 
     ElevatedCard(
         onClick = onClick,
