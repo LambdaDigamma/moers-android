@@ -16,7 +16,7 @@ plugins {
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
-project.version = "1.0.1"
+project.version = "1.0.2"
 
 /**
  * Accessing the defined global versions using a type safe delegate.
@@ -53,8 +53,8 @@ android {
         applicationId = "com.lambdadigamma.moers"
         minSdk = minSdkVersion
         targetSdk = targetSdkVersion
-        versionCode = 16
-        versionName = "1.0.1"
+        versionCode = 18
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
