@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 fun RubbishListScreen(onBack: () -> Unit) {
 
     val viewModel: RubbishScheduleViewModel = hiltViewModel()
-    val rubbishSchedule = viewModel.rubbishSchedule
+    val rubbishSchedule = viewModel.rubbishCollectionItems
 
     LaunchedEffect(key1 = "load_rubbish_schedule") {
         viewModel.load()

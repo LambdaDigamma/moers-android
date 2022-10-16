@@ -6,23 +6,25 @@ import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.asLiveData
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.lambdadigamma.core.AppExecutors
 import com.lambdadigamma.core.NetworkBoundResource
 import com.lambdadigamma.core.Resource
 import com.lambdadigamma.core.notifications.milliInterval
+import com.lambdadigamma.core.toResource
 import com.lambdadigamma.core.utils.LastUpdate
 import com.lambdadigamma.core.utils.minuteInterval
 import com.lambdadigamma.rubbish.notifications.RubbishScheduleNotificationWorker
 import com.lambdadigamma.rubbish.settings.RubbishSettings
 import com.lambdadigamma.rubbish.source.RubbishApi
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -96,64 +98,119 @@ class RubbishRepository @Inject constructor(
         }.asLiveData()
     }
 
-    fun loadRubbishCollectionItems(): LiveData<Resource<List<RubbishCollectionItem>?>> {
+    suspend fun loadRubbishCollectionItemsSuspended(): Flow<Resource<List<RubbishCollectionItem>>> {
 
-        return object :
-            NetworkBoundResource<List<RubbishCollectionItem>, List<RubbishCollectionItem>>(
-                appExecutors
-            ) {
+        return flow {
+            emit(Resource.loading())
 
-            override fun saveCallResult(item: List<RubbishCollectionItem>) {
-                rubbishDao.deleteAllRubbishCollectionItems()
-                rubbishDao.insertRubbishCollectionItems(item)
-                removeAllRubbishNotifications()
+            dataStore.data.map { it.rubbishCollectionStreet.id }
+                .first()
+                .let { streetId ->
+                    val fetchedItems =
+                        remoteDataSource.getPickupItems(streetId = streetId)
+                            .toResource()
+                            .transform { response ->
+                                response.data
+                            }
 
-                appExecutors.diskIO().execute(Runnable {
-                    runBlocking {
-                        val time = reminderTime.first()
-                        scheduleNotifications(
-                            collectionItems = item,
-                            hours = time?.hours ?: 20,
-                            minutes = time?.minutes ?: 0,
-                        )
-                    }
-                })
+                    updateLocalStore(fetchedItems)
 
-                lastUpdateCollectionItems.set(lastUpdate = Date())
-            }
-
-            override fun shouldFetch(data: List<RubbishCollectionItem>?): Boolean {
-                if (data == null || data.orEmpty().isEmpty()) {
-                    return true
+                    emit(fetchedItems)
                 }
 
-                return (lastUpdateCollectionItems.get()?.minuteInterval() ?: 120) > 60
-            }
-
-            override fun loadFromDb(): LiveData<List<RubbishCollectionItem>> {
-                Log.d("Api", "Loading items from db")
-                return rubbishDao.loadAllRubbishCollectionItems()
-            }
-
-            override fun createCall(): LiveData<Resource<List<RubbishCollectionItem>>> {
-                return Transformations.switchMap(dataStore.data.asLiveData()) {
-                    Log.d("Api", it.rubbishCollectionStreet.id.toString())
-                    Transformations.map(remoteDataSource.getPickupItems(it.rubbishCollectionStreet.id)) { resource ->
-                        Log.d("Api", resource.toString())
-                        Resource.success(resource.data?.data.orEmpty())
-                    }
-                }
-            }
-        }.asLiveData()
+        }
 
     }
 
-    private fun loadRubbishCollectionItemsFromNetwork(): LiveData<Resource<List<RubbishCollectionItem>>> {
-        return Transformations.switchMap(dataStore.data.asLiveData()) {
-            return@switchMap Transformations.map(remoteDataSource.getPickupItems(it.rubbishCollectionStreet.id)) { resource ->
-                Resource.success(resource.data?.data.orEmpty())
-            }
+//    fun loadRubbishCollectionItems(): LiveData<Resource<List<RubbishCollectionItem>?>> {
+//
+//        return object :
+//            NetworkBoundResource<List<RubbishCollectionItem>, List<RubbishCollectionItem>>(
+//                appExecutors
+//            ) {
+//
+//            override fun saveCallResult(item: List<RubbishCollectionItem>) {
+//                rubbishDao.deleteAllRubbishCollectionItems()
+//                rubbishDao.insertRubbishCollectionItems(item)
+//                removeAllRubbishNotifications()
+//
+//                appExecutors.diskIO().execute(Runnable {
+//                    runBlocking {
+//                        val time = reminderTime.first()
+//                        scheduleNotifications(
+//                            collectionItems = item,
+//                            hours = time?.hours ?: 20,
+//                            minutes = time?.minutes ?: 0,
+//                        )
+//                    }
+//                })
+//
+//                lastUpdateCollectionItems.set(lastUpdate = Date())
+//            }
+//
+//            override fun shouldFetch(data: List<RubbishCollectionItem>?): Boolean {
+//                if (data == null || data.orEmpty().isEmpty()) {
+//                    return true
+//                }
+//
+//                return (lastUpdateCollectionItems.get()?.minuteInterval() ?: 120) > 60
+//            }
+//
+//            override fun loadFromDb(): LiveData<List<RubbishCollectionItem>> {
+//                Log.d("Api", "Loading items from db")
+//                return rubbishDao.loadAllRubbishCollectionItems()
+//            }
+//
+//            override fun createCall(): LiveData<Resource<List<RubbishCollectionItem>>> {
+//
+//                return Transformations.switchMap(dataStore.data.asLiveData()) {
+//                    Log.d("Api", it.rubbishCollectionStreet.id.toString())
+//                    Transformations.map(remoteDataSource.getPickupItems(it.rubbishCollectionStreet.id)) { resource ->
+//                        Log.d("Api", resource.toString())
+//                        Resource.success(resource.data?.data.orEmpty())
+//                    }
+//                }
+//            }
+//        }.asLiveData()
+//
+//    }
+
+    private suspend fun updateLocalStore(resource: Resource<List<RubbishCollectionItem>>) {
+
+        if (!resource.isSuccessful()) {
+            return
         }
+
+        val items = resource.data.orEmpty()
+
+        withContext(Dispatchers.IO) {
+            rubbishDao.deleteAllRubbishCollectionItems()
+            rubbishDao.insertRubbishCollectionItems(items)
+            removeAllRubbishNotifications()
+        }
+
+        withContext(Dispatchers.IO) {
+            val time = reminderTime.first()
+            scheduleNotifications(
+                collectionItems = items,
+                hours = time?.hours ?: 20,
+                minutes = time?.minutes ?: 0,
+            )
+        }
+
+//        appExecutors.diskIO().execute(Runnable {
+//            runBlocking {
+//                val time = reminderTime.first()
+//                scheduleNotifications(
+//                    collectionItems = item,
+//                    hours = time?.hours ?: 20,
+//                    minutes = time?.minutes ?: 0,
+//                )
+//            }
+//        })
+
+        lastUpdateCollectionItems.set(lastUpdate = Date())
+
     }
 
     // --- Reminder

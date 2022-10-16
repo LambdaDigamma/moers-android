@@ -26,7 +26,7 @@ import com.lambdadigamma.rubbish.RubbishDao
         RssItem::class,
         RubbishCollectionStreet::class,
         RubbishCollectionItem::class
-    ], version = 3, exportSchema = false
+    ], version = 4, exportSchema = false
 )
 
 @TypeConverters(Converters::class, FuelStationConverters::class)

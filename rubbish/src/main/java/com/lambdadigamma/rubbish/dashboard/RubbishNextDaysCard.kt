@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -27,7 +28,11 @@ import com.lambdadigamma.rubbish.ui.RubbishRow
 fun DashboardRubbishComponent(modifier: Modifier = Modifier, onClick: () -> Unit) {
 
     val viewModel: DashboardRubbishViewModel = hiltViewModel()
-    val items by viewModel.list().observeAsState()
+    val items by viewModel.rubbishCollectionItems.observeAsState()
+
+    LaunchedEffect(key1 = "dashboard_load_rubbish", block = {
+        viewModel.list()
+    })
 
     ElevatedCard(
         onClick = onClick,

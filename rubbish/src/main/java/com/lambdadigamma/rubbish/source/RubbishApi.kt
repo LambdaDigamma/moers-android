@@ -15,6 +15,6 @@ interface RubbishApi {
     fun fetchStreets(@Query("q") streetName: String? = null): LiveData<Resource<DataResponse<List<RubbishCollectionStreet>>>>
 
     @GET("rubbish/streets/{id}/pickups")
-    fun getPickupItems(@Path("id") streetId: Long): LiveData<Resource<DataResponse<List<RubbishCollectionItem>>>>
+    suspend fun getPickupItems(@Path("id") streetId: Long): Result<DataResponse<List<RubbishCollectionItem>>>
 
 }

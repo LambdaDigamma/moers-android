@@ -51,7 +51,7 @@ fun RubbishScheduleList(items: List<RubbishCollectionItem>, modifier: Modifier =
                     )
                 }
             }
-            items(items, key = { it.id }) { item ->
+            items(items) { item ->
                 RubbishRow(item = item, modifier = Modifier.padding(horizontal = 16.dp))
             }
         }

@@ -1,36 +1,29 @@
 package com.lambdadigamma.rubbish.dashboard
 
-import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.lambdadigamma.core.Resource
 import com.lambdadigamma.rubbish.RubbishCollectionItem
 import com.lambdadigamma.rubbish.RubbishRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class DashboardRubbishViewModel @Inject constructor(
-    private val rubbishRepository: RubbishRepository,
-    @ApplicationContext val context: Context
+    private val rubbishRepository: RubbishRepository
 ) : ViewModel() {
 
-    fun load(): LiveData<Resource<List<List<RubbishCollectionItem>>>> {
+    private val _rubbishCollectionItems = MutableLiveData<Resource<List<RubbishCollectionItem>>>()
+    val rubbishCollectionItems: LiveData<Resource<List<RubbishCollectionItem>>> get() = _rubbishCollectionItems
 
-        return Transformations.map(rubbishRepository.loadRubbishCollectionItems()) { resource ->
-            resource.transform { collectionItems ->
-                collectionItems.orEmpty().groupBy { it.parsedDate }.values.take(3)
+    fun list() = viewModelScope.launch {
+        rubbishRepository.loadRubbishCollectionItemsSuspended()
+            .collect {
+                _rubbishCollectionItems.value = it
             }
-        }
-
-    }
-
-    fun list(): LiveData<Resource<List<RubbishCollectionItem>>> {
-        return Transformations.map(rubbishRepository.loadRubbishCollectionItems()) { resource ->
-            resource.transform { it.orEmpty() }
-        }
     }
 
 }

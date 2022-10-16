@@ -2,15 +2,13 @@ package com.lambdadigamma.rubbish
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import com.lambdadigamma.core.Resource
 import com.lambdadigamma.rubbish.settings.RubbishSettings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,6 +16,9 @@ class RubbishScheduleViewModel @Inject constructor(
     private val rubbishRepository: RubbishRepository,
     @ApplicationContext val context: Context
 ) : ViewModel() {
+
+    private val _rubbishCollectionItems = MutableLiveData<Resource<List<RubbishCollectionItem>>>()
+    val rubbishCollectionItems: LiveData<Resource<List<RubbishCollectionItem>>> get() = _rubbishCollectionItems
 
     var rubbishSchedule: MutableLiveData<Resource<List<RubbishCollectionItem>?>> =
         MutableLiveData(Resource.loading())
@@ -43,10 +44,19 @@ class RubbishScheduleViewModel @Inject constructor(
             .map { Resource.success(it) }
             .asLiveData()
 
-        rubbishRepository.loadRubbishCollectionItems()
-            .observeForever {
-                rubbishSchedule.postValue(Resource.success(it.data.orEmpty()))
-            }
+        viewModelScope.launch {
+            rubbishRepository.loadRubbishCollectionItemsSuspended()
+                .collect {
+                    _rubbishCollectionItems.value = it
+                }
+        }
+
+
+//        rubbishRepository.loadRubbishCollectionItems()
+//            .observeForever {
+//                rubbishSchedule.postValue(Resource.success(it.data.orEmpty()))
+//            }
+
 
 //        rubbishSchedule =
 //            Transformations.map(rubbishRepository.remoteDataSource.getPickupItems(1)) {

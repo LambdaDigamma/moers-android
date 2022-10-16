@@ -24,11 +24,15 @@ class DashboardFuelViewModel @Inject constructor(
     fun load() {
         viewModelScope.launch {
 
-            val point = locationService.awaitLastLocation().toPoint()
+            val location = locationService.awaitLastLocation()
 
-            fuelRepository
-                .getDashboardData(point)
-                .collect { _dashboardData.value = it }
+            if (location != null) {
+                val point = locationService.awaitLastLocation().toPoint()
+
+                fuelRepository
+                    .getDashboardData(point)
+                    .collect { _dashboardData.value = it }
+            }
 
         }
     }
