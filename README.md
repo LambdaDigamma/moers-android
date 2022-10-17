@@ -14,8 +14,8 @@
 
 The official [Mein Moers](https://moers.app) app for iOS.
 
-> Du möchtest lieber eine Beschreibung auf Deutsch lesen?
-> Dann geht's hier entlang!
+<!-- > Du möchtest lieber eine Beschreibung auf Deutsch lesen? -->
+<!-- > Dann geht's hier entlang! -->
 
 ## Run locally during development
 
